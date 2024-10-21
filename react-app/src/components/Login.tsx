@@ -13,14 +13,20 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      await axios.post('http://localhost:3000/api/usuario/login', {
-        email,
-        contraseniaUser,
-      });
+      const response = await axios.post(
+        'http://localhost:3000/api/usuario/login',
+        {
+          email,
+          contraseniaUser,
+        }
+      );
 
-      // Redirigir al dashboard
+      // Guardar el token JWT en localStorage
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('email', response.data.email); // Guarda el email en lugar de username
+
       setSuccess('Login exitoso');
-      navigate('/dashboard');
+      navigate('/');
     } catch (err) {
       setError('Email o contraseña incorrectos');
     }
