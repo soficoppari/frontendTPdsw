@@ -26,7 +26,11 @@ const HomePage: React.FC = () => {
 
   const handleMenuClick = (option: string) => {
     setIsMenuOpen(false);
-    alert(`Seleccionaste: ${option}`);
+    if (option === 'Mis Mascotas') {
+      navigate('/MascotasList'); // Navega a la lista de mascotas
+    } else {
+      alert(`Seleccionaste: ${option}`);
+    }
   };
 
   const handleLogoutClick = () => {
