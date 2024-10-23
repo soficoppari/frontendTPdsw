@@ -33,6 +33,11 @@ const Login: React.FC = () => {
     }
   };
 
+  // Redirigir a la página de registro
+  const handleRegister = () => {
+    navigate('/register'); // Cambia la ruta según tu configuración
+  };
+
   return (
     <div>
       <h2>Login</h2>
@@ -57,6 +62,12 @@ const Login: React.FC = () => {
         </div>
         <button type="submit">Login</button>
       </form>
+
+      {/* Sección de registro */}
+      <div>
+        <p>¿Primera vez aquí? Regístrate</p>
+        <button onClick={handleRegister}>Registrarse</button>
+      </div>
     </div>
   );
 };

@@ -17,7 +17,7 @@ const Register: React.FC = () => {
 
     // Validar si las contraseñas coinciden
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError('Las contraseñas no coinciden');
       return;
     }
 
@@ -39,7 +39,7 @@ const Register: React.FC = () => {
 
       if (!response.ok) {
         const data = await response.json();
-        setError(data.message || 'Error registering');
+        setError(data.message || 'Error al registrarse');
         return;
       }
 
@@ -47,15 +47,24 @@ const Register: React.FC = () => {
       setSuccess(true);
       navigate('/login');
     } catch (err) {
-      setError('Failed to register');
+      setError('Error al registrarse');
     }
+  };
+
+  // Manejador para redirigir al login
+  const handleNavigateToLogin = () => {
+    navigate('/login');
   };
 
   return (
     <div>
       <h2>Register</h2>
-      {error && <p>{error}</p>}
-      {success && <p>Registration successful! Redirecting to login...</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {success && (
+        <p style={{ color: 'green' }}>
+          ¡Registro exitoso! Redirigiendo al login...
+        </p>
+      )}
       <form onSubmit={handleRegister}>
         <div>
           <label>Nombre</label>
@@ -105,8 +114,14 @@ const Register: React.FC = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit">Registrarse</button>
       </form>
+
+      {/* Sección de Login */}
+      <div>
+        <p>¿Ya tienes una cuenta? Inicia sesión</p>
+        <button onClick={handleNavigateToLogin}>Login</button>
+      </div>
     </div>
   );
 };

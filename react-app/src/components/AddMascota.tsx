@@ -1,20 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const AddMascota: React.FC = () => {
   const [nombre, setNombre] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
+  const [tipoId, setTipoId] = useState<number | null>(null); // Para el tipo de mascota
+  const [tipos, setTipos] = useState<{ id: number; nombre: string }[]>([]); // Lista de tipos
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTipos = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/tipo'); // Cambia esta URL según tu API
+        setTipos(response.data.data);
+      } catch (err) {
+        setError('Error al cargar los tipos de mascotas');
+      }
+    };
+
+    fetchTipos();
+  }, []);
 
   const handleAddMascota = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('token'); // Asume que tienes el token guardado en localStorage
-      const usuarioId = localStorage.getItem('usuarioId'); // Asume que tienes el ID de usuario guardado
+      const token = localStorage.getItem('token');
+      const usuarioId = localStorage.getItem('usuarioId');
 
       if (!token || !usuarioId) {
         setError('No se encontró un usuario autenticado.');
@@ -24,12 +39,12 @@ const AddMascota: React.FC = () => {
       // Hacer la petición al backend para agregar la mascota
       await axios.post(
         'http://localhost:3000/api/mascota',
-        { nombre, fechaNacimiento, usuarioId }, // Aquí agregamos el usuarioId
+        { nombre, fechaNacimiento, usuarioId, tipoId }, // Aquí agregamos el tipoId
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       // Mascota agregada con éxito, redirige a la lista de mascotas
-      setSuccess('mascota agregada');
+      setSuccess('Mascota agregada');
       navigate('/MascotasList');
     } catch (err) {
       setError('Error al conectar con el servidor');
@@ -60,6 +75,23 @@ const AddMascota: React.FC = () => {
             required
           />
         </div>
+        <div>
+          <label>Tipo:</label>
+          <select
+            value={tipoId ?? ''}
+            onChange={(e) => setTipoId(Number(e.target.value))}
+            required
+          >
+            <option value="" disabled>
+              Selecciona un tipo
+            </option>
+            {tipos.map((tipo) => (
+              <option key={tipo.id} value={tipo.id}>
+                {tipo.nombre}
+              </option>
+            ))}
+          </select>
+        </div>
         <button type="submit">Agregar Mascota</button>
       </form>
     </div>
@@ -67,4 +99,3 @@ const AddMascota: React.FC = () => {
 };
 
 export default AddMascota;
-//usuarioId

@@ -7,11 +7,17 @@ type Usuario = {
   nombre: string;
 };
 
+type Tipo = {
+  id: number;
+  nombre: string;
+};
+
 type Mascota = {
   id: number;
   nombre: string;
   fechaNacimiento: string;
   usuario: Usuario;
+  tipo: Tipo; // Asegúrate de que el tipo esté incluido
 };
 
 const MascotasList: React.FC = () => {
@@ -24,12 +30,11 @@ const MascotasList: React.FC = () => {
       const token = localStorage.getItem('token');
 
       try {
-        const response = await axios.get(
-          'http://localhost:3000/api/mascota', // Cambiar POST por GET
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const response = await axios.get('http://localhost:3000/api/mascota', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-        setMascotas(response.data.data); // Guardamos las mascotas en el estado
+        setMascotas(response.data.data);
       } catch (err) {
         setError('Error al obtener las mascotas');
       }
@@ -44,18 +49,41 @@ const MascotasList: React.FC = () => {
 
   return (
     <div>
-      <h2>Listado de Mascotas</h2>
+      <h2>Tus Mascotas</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {mascotas.length === 0 ? (
         <p>No has ingresado ninguna mascota aún.</p>
       ) : (
-        <ul>
-          {mascotas.map((mascota) => (
-            <li key={mascota.id}>
-              {mascota.nombre} - {mascota.fechaNacimiento}
-            </li>
-          ))}
-        </ul>
+        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <thead>
+            <tr>
+              <th style={{ border: '1px solid #ccc', padding: '8px' }}>
+                Nombre
+              </th>
+              <th style={{ border: '1px solid #ccc', padding: '8px' }}>
+                Fecha de Nacimiento
+              </th>
+              <th style={{ border: '1px solid #ccc', padding: '8px' }}>Tipo</th>{' '}
+              {/* Columna para Tipo */}
+            </tr>
+          </thead>
+          <tbody>
+            {mascotas.map((mascota) => (
+              <tr key={mascota.id}>
+                <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                  {mascota.nombre}
+                </td>
+                <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                  {mascota.fechaNacimiento}
+                </td>
+                <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                  {mascota.tipo.nombre}
+                </td>{' '}
+                {/* Mostrar el tipo */}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
       <button onClick={handleAddMascota}>Agregar nueva mascota</button>
     </div>
