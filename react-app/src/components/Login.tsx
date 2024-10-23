@@ -22,8 +22,9 @@ const Login: React.FC = () => {
       );
 
       // Guardar el token JWT en localStorage
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('email', response.data.email); // Guarda el email en lugar de username
+      localStorage.setItem('token', response.data.data.token);
+      localStorage.setItem('email', response.data.data.email); // Guarda el email en lugar de username
+      localStorage.setItem('usuarioId', response.data.data.usuarioId); // Guardar el ID del usuario
 
       setSuccess('Login exitoso');
       navigate('/');

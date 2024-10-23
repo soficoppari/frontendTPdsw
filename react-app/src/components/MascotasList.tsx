@@ -24,18 +24,14 @@ const MascotasList: React.FC = () => {
       const token = localStorage.getItem('token');
 
       try {
-        const response = await axios.get('http://localhost:3000/api/mascota', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          'http://localhost:3000/api/mascota', // Cambiar POST por GET
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-        // Verificar que la respuesta es un array
-        if (Array.isArray(response.data)) {
-          setMascotas(response.data);
-        } else {
-          setError('Datos de mascotas no válidos.');
-        }
+        setMascotas(response.data.data); // Guardamos las mascotas en el estado
       } catch (err) {
-        setError('No se pudieron cargar las mascotas.');
+        setError('Error al obtener las mascotas');
       }
     };
 

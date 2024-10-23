@@ -11,19 +11,28 @@ const AddMascota: React.FC = () => {
 
   const handleAddMascota = async (e: React.FormEvent) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
 
     try {
+      const token = localStorage.getItem('token'); // Asume que tienes el token guardado en localStorage
+      const usuarioId = localStorage.getItem('usuarioId'); // Asume que tienes el ID de usuario guardado
+
+      if (!token || !usuarioId) {
+        setError('No se encontró un usuario autenticado.');
+        return;
+      }
+
+      // Hacer la petición al backend para agregar la mascota
       await axios.post(
         'http://localhost:3000/api/mascota',
-        { nombre, fechaNacimiento },
+        { nombre, fechaNacimiento, usuarioId }, // Aquí agregamos el usuarioId
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setSuccess('Mascota agregada con éxito.');
-      navigate('/mascotas');
+      // Mascota agregada con éxito, redirige a la lista de mascotas
+      setSuccess('mascota agregada');
+      navigate('/MascotasList');
     } catch (err) {
-      setError('Error al agregar la mascota.');
+      setError('Error al conectar con el servidor');
     }
   };
 
@@ -58,3 +67,4 @@ const AddMascota: React.FC = () => {
 };
 
 export default AddMascota;
+//usuarioId
