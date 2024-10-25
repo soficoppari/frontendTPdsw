@@ -17,7 +17,7 @@ type Mascota = {
   nombre: string;
   fechaNacimiento: string;
   usuario: Usuario;
-  tipo: Tipo; // Asegúrate de que el tipo esté incluido
+  tipo: Tipo;
 };
 
 const MascotasList: React.FC = () => {
@@ -47,6 +47,10 @@ const MascotasList: React.FC = () => {
     navigate('/AddMascota');
   };
 
+  const handleAgendarTurno = () => {
+    navigate('/VeterinariasList');
+  };
+
   return (
     <div>
       <h2>Tus Mascotas</h2>
@@ -63,8 +67,10 @@ const MascotasList: React.FC = () => {
               <th style={{ border: '1px solid #ccc', padding: '8px' }}>
                 Fecha de Nacimiento
               </th>
-              <th style={{ border: '1px solid #ccc', padding: '8px' }}>Tipo</th>{' '}
-              {/* Columna para Tipo */}
+              <th style={{ border: '1px solid #ccc', padding: '8px' }}>Tipo</th>
+              <th style={{ border: '1px solid #ccc', padding: '8px' }}>
+                Acciones
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -78,8 +84,10 @@ const MascotasList: React.FC = () => {
                 </td>
                 <td style={{ border: '1px solid #ccc', padding: '8px' }}>
                   {mascota.tipo.nombre}
-                </td>{' '}
-                {/* Mostrar el tipo */}
+                </td>
+                <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                  <button onClick={handleAgendarTurno}>Agendar Turno</button>
+                </td>
               </tr>
             ))}
           </tbody>
