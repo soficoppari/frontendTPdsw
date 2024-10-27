@@ -24,9 +24,9 @@ type Veterinaria = {
   nombre: string;
   direccion: string;
   nroTelefono: number;
-  horarios: Horario[]; //array para reflejar que una veterinaria puede tener múltiples horarios
-  turnos: Turno[]; //array para reflejar que una veterinaria puede tener múltiples turnos
-  tipos: Tipo[]; //array para reflejar que una veterinaria puede tener múltiples tipos
+  horarios: Horario[];
+  turnos: Turno[];
+  tipos: Tipo[];
 };
 
 const VeterinariasList: React.FC = () => {
@@ -35,12 +35,20 @@ const VeterinariasList: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const tipoMascota = localStorage.getItem('tipoMascota');
+
     const fetchVeterinarias = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:3000/api/veterinaria'
+          'http://localhost:3000/api/veterinaria',
+          {
+            params: { tipoMascota },
+          }
         );
-        setVeterinarias(response.data.data);
+
+        // Verificar si la respuesta contiene los datos esperados
+        const data = response.data?.data;
+        setVeterinarias(Array.isArray(data) ? data : []);
       } catch (err) {
         setError('Error al obtener las Veterinarias');
       }
@@ -50,7 +58,6 @@ const VeterinariasList: React.FC = () => {
   }, []);
 
   const handleVeterinariaClick = (id: number) => {
-    // Navegar a la página de detalles de la veterinaria seleccionada
     navigate(`/veterinaria/${id}`);
   };
 

@@ -47,7 +47,8 @@ const MascotasList: React.FC = () => {
     navigate('/AddMascota');
   };
 
-  const handleAgendarTurno = () => {
+  const handleAgendarTurno = (tipoId: number) => {
+    localStorage.setItem('tipoMascota', tipoId.toString()); // Guarda el tipo de la mascota
     navigate('/VeterinariasList');
   };
 
@@ -86,7 +87,9 @@ const MascotasList: React.FC = () => {
                   {mascota.tipo.nombre}
                 </td>
                 <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  <button onClick={handleAgendarTurno}>Agendar Turno</button>
+                  <button onClick={() => handleAgendarTurno(mascota.tipo.id)}>
+                    Agendar Turno
+                  </button>
                 </td>
               </tr>
             ))}
