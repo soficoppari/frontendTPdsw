@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Register: React.FC = () => {
+const RegisterUsuario: React.FC = () => {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [email, setEmail] = useState('');
@@ -15,14 +15,12 @@ const Register: React.FC = () => {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validar si las contraseñas coinciden
     if (password !== confirmPassword) {
       setError('Las contraseñas no coinciden');
       return;
     }
 
     try {
-      // Hacer la petición al backend para registrar el usuario
       const response = await fetch('http://localhost:3000/api/usuario', {
         method: 'POST',
         headers: {
@@ -43,7 +41,6 @@ const Register: React.FC = () => {
         return;
       }
 
-      // Registro exitoso, redirige al login
       setSuccess(true);
       navigate('/login');
     } catch (err) {
@@ -51,14 +48,13 @@ const Register: React.FC = () => {
     }
   };
 
-  // Manejador para redirigir al login
   const handleNavigateToLogin = () => {
     navigate('/login');
   };
 
   return (
     <div>
-      <h2>Register</h2>
+      <h2>Register Usuario</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {success && (
         <p style={{ color: 'green' }}>
@@ -116,8 +112,6 @@ const Register: React.FC = () => {
         </div>
         <button type="submit">Registrarse</button>
       </form>
-
-      {/* Sección de Login */}
       <div>
         <p>¿Ya tienes una cuenta? Inicia sesión</p>
         <button onClick={handleNavigateToLogin}>Login</button>
@@ -126,4 +120,4 @@ const Register: React.FC = () => {
   );
 };
 
-export default Register;
+export default RegisterUsuario;

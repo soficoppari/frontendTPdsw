@@ -19,7 +19,7 @@ type Tipo = {
   nombre: string;
 };
 
-type Veterinaria = {
+type Veterinario = {
   id: number;
   nombre: string;
   direccion: string;
@@ -29,18 +29,18 @@ type Veterinaria = {
   tipos: Tipo[];
 };
 
-const VeterinariasList: React.FC = () => {
-  const [veterinarias, setVeterinarias] = useState<Veterinaria[]>([]);
+const VeterinariosList: React.FC = () => {
+  const [veterinarios, setVeterinarios] = useState<Veterinario[]>([]);
   const [error, setError] = useState<string>('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const tipoMascota = localStorage.getItem('tipoMascota');
 
-    const fetchVeterinarias = async () => {
+    const fetchVeterinarios = async () => {
       try {
         const response = await axios.get(
-          'http://localhost:3000/api/veterinaria',
+          'http://localhost:3000/api/veterinario',
           {
             params: { tipoMascota },
           }
@@ -48,38 +48,38 @@ const VeterinariasList: React.FC = () => {
 
         // Verificar si la respuesta contiene los datos esperados
         const data = response.data?.data;
-        setVeterinarias(Array.isArray(data) ? data : []);
+        setVeterinarios(Array.isArray(data) ? data : []);
       } catch (err) {
-        setError('Error al obtener las Veterinarias');
+        setError('Error al obtener las Veterinarios');
       }
     };
 
-    fetchVeterinarias();
+    fetchVeterinarios();
   }, []);
 
-  const handleVeterinariaClick = (id: number) => {
-    navigate(`/veterinaria/${id}`);
+  const handleVeterinarioClick = (id: number) => {
+    navigate(`/veterinario/${id}`);
   };
 
   return (
     <div>
-      <h1>Lista de Veterinarias</h1>
+      <h1>Lista de Veterinarios</h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {veterinarias.length === 0 ? (
-        <p>No hay veterinarias disponibles.</p>
+      {veterinarios.length === 0 ? (
+        <p>No hay veterinarios disponibles.</p>
       ) : (
         <ul>
-          {veterinarias.map((veterinaria) => (
+          {veterinarios.map((veterinario) => (
             <li
-              key={veterinaria.id}
-              onClick={() => handleVeterinariaClick(veterinaria.id)}
+              key={veterinario.id}
+              onClick={() => handleVeterinarioClick(veterinario.id)}
             >
-              <h2>{veterinaria.nombre}</h2>
-              <p>Dirección: {veterinaria.direccion}</p>
-              <p>Número de Teléfono: {veterinaria.nroTelefono}</p>
+              <h2>{veterinario.nombre}</h2>
+              <p>Dirección: {veterinario.direccion}</p>
+              <p>Número de Teléfono: {veterinario.nroTelefono}</p>
               <p>
                 Tipos de servicio:{' '}
-                {veterinaria.tipos.map((tipo) => tipo.nombre).join(', ')}
+                {veterinario.tipos.map((tipo) => tipo.nombre).join(', ')}
               </p>
             </li>
           ))}
@@ -89,4 +89,4 @@ const VeterinariasList: React.FC = () => {
   );
 };
 
-export default VeterinariasList;
+export default VeterinariosList;

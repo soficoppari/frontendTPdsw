@@ -7,7 +7,7 @@ type Usuario = {
   nombre: string;
 };
 
-type Tipo = {
+type Especie = {
   id: number;
   nombre: string;
 };
@@ -17,10 +17,10 @@ type Mascota = {
   nombre: string;
   fechaNacimiento: string;
   usuario: Usuario;
-  tipo: Tipo;
+  especie: Especie;
 };
 
-const MascotasList: React.FC = () => {
+const Mascotas: React.FC = () => {
   const [mascotas, setMascotas] = useState<Mascota[]>([]);
   const [error, setError] = useState<string>('');
   const navigate = useNavigate();
@@ -47,8 +47,8 @@ const MascotasList: React.FC = () => {
     navigate('/AddMascota');
   };
 
-  const handleAgendarTurno = (tipoId: number) => {
-    localStorage.setItem('tipoMascota', tipoId.toString()); // Guarda el tipo de la mascota
+  const handleAgendarTurno = (especieId: number) => {
+    localStorage.setItem('especieMascota', especieId.toString()); // Guarda el especie de la mascota
     navigate('/VeterinariasList');
   };
 
@@ -68,7 +68,9 @@ const MascotasList: React.FC = () => {
               <th style={{ border: '1px solid #ccc', padding: '8px' }}>
                 Fecha de Nacimiento
               </th>
-              <th style={{ border: '1px solid #ccc', padding: '8px' }}>Tipo</th>
+              <th style={{ border: '1px solid #ccc', padding: '8px' }}>
+                Especie
+              </th>
               <th style={{ border: '1px solid #ccc', padding: '8px' }}>
                 Acciones
               </th>
@@ -84,10 +86,12 @@ const MascotasList: React.FC = () => {
                   {mascota.fechaNacimiento}
                 </td>
                 <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  {mascota.tipo.nombre}
+                  {mascota.especie.nombre}
                 </td>
                 <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  <button onClick={() => handleAgendarTurno(mascota.tipo.id)}>
+                  <button
+                    onClick={() => handleAgendarTurno(mascota.especie.id)}
+                  >
                     Agendar Turno
                   </button>
                 </td>
@@ -101,4 +105,4 @@ const MascotasList: React.FC = () => {
   );
 };
 
-export default MascotasList;
+export default Mascotas;

@@ -5,23 +5,25 @@ import { useNavigate } from 'react-router-dom';
 const AddMascota: React.FC = () => {
   const [nombre, setNombre] = useState('');
   const [fechaNacimiento, setFechaNacimiento] = useState('');
-  const [tipoId, setTipoId] = useState<number | null>(null); // Para el tipo de mascota
-  const [tipos, setTipos] = useState<{ id: number; nombre: string }[]>([]); // Lista de tipos
+  const [especieId, setEspecieId] = useState<number | null>(null); // Para el especie de mascota
+  const [especies, setEspecies] = useState<{ id: number; nombre: string }[]>(
+    []
+  ); // Lista de especies
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchTipos = async () => {
+    const fetchespecies = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/tipo'); // Cambia esta URL según tu API
-        setTipos(response.data.data);
+        const response = await axios.get('http://localhost:3000/api/especie'); // Cambia esta URL según tu API
+        setEspecies(response.data.data);
       } catch (err) {
-        setError('Error al cargar los tipos de mascotas');
+        setError('Error al cargar los especies de mascotas');
       }
     };
 
-    fetchTipos();
+    fetchespecies();
   }, []);
 
   const handleAddMascota = async (e: React.FormEvent) => {
@@ -39,7 +41,7 @@ const AddMascota: React.FC = () => {
       // Hacer la petición al backend para agregar la mascota
       await axios.post(
         'http://localhost:3000/api/mascota',
-        { nombre, fechaNacimiento, usuarioId, tipoId }, // Aquí agregamos el tipoId
+        { nombre, fechaNacimiento, usuarioId, especieId }, // Aquí agregamos el especieId
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -76,18 +78,18 @@ const AddMascota: React.FC = () => {
           />
         </div>
         <div>
-          <label>Tipo:</label>
+          <label>Especie:</label>
           <select
-            value={tipoId ?? ''}
-            onChange={(e) => setTipoId(Number(e.target.value))}
+            value={especieId ?? ''}
+            onChange={(e) => setEspecieId(Number(e.target.value))}
             required
           >
             <option value="" disabled>
-              Selecciona un tipo
+              Selecciona una Especie
             </option>
-            {tipos.map((tipo) => (
-              <option key={tipo.id} value={tipo.id}>
-                {tipo.nombre}
+            {especies.map((especie) => (
+              <option key={especie.id} value={especie.id}>
+                {especie.nombre}
               </option>
             ))}
           </select>

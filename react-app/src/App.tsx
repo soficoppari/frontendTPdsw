@@ -1,25 +1,30 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import Login from './components/Login';
-import Dashboard from './components/Dashboard.tsx';
-import Register from './components/Register';
-import MascotasList from './components/MascotasList.tsx';
-import AddMascota from './components/AddMascota.tsx';
-import VeterinariasList from './components/VeterinariasList.tsx';
+import RegisterUsuario from './components/RegisterUsuario';
+import MascotasList from './components/Mascotas';
+import AddMascota from './components/AddMascota';
+import VeterinariosList from './components/Veterinarios';
+import RegisterVeterinario from './components/RegisterVeterinario';
+import Layout from './components/Layout'; // Asegúrate de que la ruta sea correcta
 
 const App: React.FC = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/MascotasList" element={<MascotasList />} />
-        <Route path="/Addmascota" element={<AddMascota />} />
-        <Route path="/VeterinariasList" element={<VeterinariasList />} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registerUsuario" element={<RegisterUsuario />} />
+          <Route
+            path="/registerVeterinario"
+            element={<RegisterVeterinario />}
+          />
+          <Route path="/Mascotas" element={<MascotasList />} />
+          <Route path="/Addmascota" element={<AddMascota />} />
+          <Route path="/Veterinarios" element={<VeterinariosList />} />
+        </Routes>
+      </Layout>
     </Router>
   );
 };
