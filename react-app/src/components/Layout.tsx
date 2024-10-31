@@ -12,10 +12,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 const styles = {
   content: {
-    marginTop: '80px', // Deja espacio para el menú
+    marginTop: '1px', // Deja espacio para el menú
     width: '100%',
-    height: 'calc(100vh - 80px)', // Ajusta la altura para el contenido
-    backgroundColor: '#f0f0f0', // Color de fondo para el contenido
+    height: '1vh', // Ajusta la altura para el contenido
   },
 };
 

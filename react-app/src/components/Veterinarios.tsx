@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Menu from './Menu';
 
 type Horario = {
   id: number;
@@ -62,30 +63,33 @@ const VeterinariosList: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Lista de Veterinarios</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {veterinarios.length === 0 ? (
-        <p>No hay veterinarios disponibles.</p>
-      ) : (
-        <ul>
-          {veterinarios.map((veterinario) => (
-            <li
-              key={veterinario.id}
-              onClick={() => handleVeterinarioClick(veterinario.id)}
-            >
-              <h2>{veterinario.nombre}</h2>
-              <p>Dirección: {veterinario.direccion}</p>
-              <p>Número de Teléfono: {veterinario.nroTelefono}</p>
-              <p>
-                Tipos de servicio:{' '}
-                {veterinario.tipos.map((tipo) => tipo.nombre).join(', ')}
-              </p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <>
+      <Menu />
+      <div>
+        <h1>Lista de Veterinarios</h1>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {veterinarios.length === 0 ? (
+          <p>No hay veterinarios disponibles.</p>
+        ) : (
+          <ul>
+            {veterinarios.map((veterinario) => (
+              <li
+                key={veterinario.id}
+                onClick={() => handleVeterinarioClick(veterinario.id)}
+              >
+                <h2>{veterinario.nombre}</h2>
+                <p>Dirección: {veterinario.direccion}</p>
+                <p>Número de Teléfono: {veterinario.nroTelefono}</p>
+                <p>
+                  Tipos de servicio:{' '}
+                  {veterinario.tipos.map((tipo) => tipo.nombre).join(', ')}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </>
   );
 };
 

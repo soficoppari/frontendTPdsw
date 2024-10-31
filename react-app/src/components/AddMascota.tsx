@@ -47,7 +47,7 @@ const AddMascota: React.FC = () => {
 
       // Mascota agregada con éxito, redirige a la lista de mascotas
       setSuccess('Mascota agregada');
-      navigate('/MascotasList');
+      navigate('/Mascotas');
     } catch (err) {
       setError('Error al conectar con el servidor');
     }

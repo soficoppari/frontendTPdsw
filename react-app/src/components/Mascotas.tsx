@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Menu from './Menu';
 
 type Usuario = {
   id: number;
@@ -49,59 +50,62 @@ const Mascotas: React.FC = () => {
 
   const handleAgendarTurno = (especieId: number) => {
     localStorage.setItem('especieMascota', especieId.toString()); // Guarda el especie de la mascota
-    navigate('/VeterinariasList');
+    navigate('/Veterinarios');
   };
 
   return (
-    <div>
-      <h2>Tus Mascotas</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {mascotas.length === 0 ? (
-        <p>No has ingresado ninguna mascota aún.</p>
-      ) : (
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr>
-              <th style={{ border: '1px solid #ccc', padding: '8px' }}>
-                Nombre
-              </th>
-              <th style={{ border: '1px solid #ccc', padding: '8px' }}>
-                Fecha de Nacimiento
-              </th>
-              <th style={{ border: '1px solid #ccc', padding: '8px' }}>
-                Especie
-              </th>
-              <th style={{ border: '1px solid #ccc', padding: '8px' }}>
-                Acciones
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {mascotas.map((mascota) => (
-              <tr key={mascota.id}>
-                <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  {mascota.nombre}
-                </td>
-                <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  {mascota.fechaNacimiento}
-                </td>
-                <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  {mascota.especie.nombre}
-                </td>
-                <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  <button
-                    onClick={() => handleAgendarTurno(mascota.especie.id)}
-                  >
-                    Agendar Turno
-                  </button>
-                </td>
+    <>
+      <Menu />
+      <div>
+        <h2>Tus Mascotas</h2>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {mascotas.length === 0 ? (
+          <p>No has ingresado ninguna mascota aún.</p>
+        ) : (
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>
+                  Nombre
+                </th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>
+                  Fecha de Nacimiento
+                </th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>
+                  Especie
+                </th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>
+                  Acciones
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-      <button onClick={handleAddMascota}>Agregar nueva mascota</button>
-    </div>
+            </thead>
+            <tbody>
+              {mascotas.map((mascota) => (
+                <tr key={mascota.id}>
+                  <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                    {mascota.nombre}
+                  </td>
+                  <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                    {mascota.fechaNacimiento}
+                  </td>
+                  <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                    {mascota.especie.nombre}
+                  </td>
+                  <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                    <button
+                      onClick={() => handleAgendarTurno(mascota.especie.id)}
+                    >
+                      Agendar Turno
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        <button onClick={handleAddMascota}>Agregar nueva mascota</button>
+      </div>
+    </>
   );
 };
 

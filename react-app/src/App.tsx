@@ -7,6 +7,8 @@ import AddMascota from './components/AddMascota';
 import VeterinariosList from './components/Veterinarios';
 import RegisterVeterinario from './components/RegisterVeterinario';
 import Layout from './components/Layout'; // Asegúrate de que la ruta sea correcta
+import Perfil from './components/Perfil';
+import Register from './components/Register';
 
 const App: React.FC = () => {
   return (
@@ -21,6 +23,8 @@ const App: React.FC = () => {
             element={<RegisterVeterinario />}
           />
           <Route path="/Mascotas" element={<MascotasList />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/Addmascota" element={<AddMascota />} />
           <Route path="/Veterinarios" element={<VeterinariosList />} />
         </Routes>

@@ -1,0 +1,8 @@
+{
+	"dependencies": {
+		"react-color": "^2.19.3"
+	},
+	"devDependencies": {
+		"@types/jsonwebtoken": "^9.0.7"
+	}
+}
