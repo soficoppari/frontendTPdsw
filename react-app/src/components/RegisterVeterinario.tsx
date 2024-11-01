@@ -9,8 +9,8 @@ interface Especie {
 
 interface Horario {
   dia: string;
-  inicio: string;
-  fin: string;
+  inicio: Date;
+  fin: Date;
 }
 
 const RegisterVeterinario: React.FC = () => {
@@ -20,7 +20,7 @@ const RegisterVeterinario: React.FC = () => {
   const [matricula, setMatricula] = useState<number | null>(null);
   const [nroTelefono, setNroTelefono] = useState('');
   const [horarios, setHorarios] = useState<Horario[]>([
-    { dia: '', inicio: '', fin: '' },
+    { dia: '', inicio: new Date(), fin: new Date() },
   ]);
   const [especiesSeleccionadas, setEspeciesSeleccionadas] = useState<number[]>(
     []
@@ -47,24 +47,33 @@ const RegisterVeterinario: React.FC = () => {
         console.error('Error al cargar especies:', error);
       }
     };
-
     fetchEspecies();
   }, []);
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const formattedHorarios = horarios.map((horario) => ({
+      dia: horario.dia,
+      horaInicio:
+        horario.inicio instanceof Date
+          ? horario.inicio.toISOString()
+          : horario.inicio,
+      horaFin:
+        horario.fin instanceof Date ? horario.fin.toISOString() : horario.fin,
+    }));
+
     try {
       const response = await fetch('http://localhost:3000/api/veterinario', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          matricula,
           nombre,
           apellido,
           direccion,
-          matricula,
           nroTelefono,
-          horarios,
+          horarios: formattedHorarios,
           especies: especiesSeleccionadas,
         }),
       });
@@ -95,6 +104,16 @@ const RegisterVeterinario: React.FC = () => {
         )}
         <form onSubmit={handleRegister} style={styles.form}>
           <div style={styles.formGroup}>
+            <label style={styles.label}>Matrícula</label>
+            <input
+              type="number"
+              value={matricula || ''}
+              onChange={(e) => setMatricula(Number(e.target.value))}
+              style={styles.input}
+              required
+            />
+          </div>
+          <div style={styles.formGroup}>
             <label style={styles.label}>Nombre</label>
             <input
               type="text"
@@ -120,16 +139,6 @@ const RegisterVeterinario: React.FC = () => {
               type="text"
               value={direccion}
               onChange={(e) => setDireccion(e.target.value)}
-              style={styles.input}
-              required
-            />
-          </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Matrícula</label>
-            <input
-              type="number"
-              value={matricula || ''}
-              onChange={(e) => setMatricula(Number(e.target.value))}
               style={styles.input}
               required
             />
@@ -195,20 +204,26 @@ const RegisterVeterinario: React.FC = () => {
                 </select>
                 <input
                   type="time"
-                  value={horario.inicio}
+                  value={horario.inicio.toISOString().substring(11, 16)}
                   onChange={(e) => {
                     const newHorarios = [...horarios];
-                    newHorarios[index].inicio = e.target.value;
+                    const [hours, minutes] = e.target.value.split(':');
+                    const newDate = new Date(horario.inicio);
+                    newDate.setHours(Number(hours), Number(minutes));
+                    newHorarios[index].inicio = newDate;
                     setHorarios(newHorarios);
                   }}
                   style={styles.timeInput}
                 />
                 <input
                   type="time"
-                  value={horario.fin}
+                  value={horario.fin.toISOString().substring(11, 16)}
                   onChange={(e) => {
                     const newHorarios = [...horarios];
-                    newHorarios[index].fin = e.target.value;
+                    const [hours, minutes] = e.target.value.split(':');
+                    const newDate = new Date(horario.fin);
+                    newDate.setHours(Number(hours), Number(minutes));
+                    newHorarios[index].fin = newDate;
                     setHorarios(newHorarios);
                   }}
                   style={styles.timeInput}
@@ -227,7 +242,10 @@ const RegisterVeterinario: React.FC = () => {
             <button
               type="button"
               onClick={() =>
-                setHorarios([...horarios, { dia: '', inicio: '', fin: '' }])
+                setHorarios([
+                  ...horarios,
+                  { dia: '', inicio: new Date(), fin: new Date() },
+                ])
               }
               style={styles.button}
             >
@@ -249,7 +267,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '160vh',
+    height: '200vh',
     padding: '20px',
   },
   title: {
@@ -291,30 +309,33 @@ const styles: { [key: string]: React.CSSProperties } = {
     borderRadius: '4px',
     width: '100%',
   },
-  timeInput: {
-    padding: '10px',
-    marginRight: '5px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-  },
   horarioGroup: {
     display: 'flex',
     alignItems: 'center',
     marginBottom: '10px',
   },
-  deleteButton: {
+  timeInput: {
     padding: '5px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    marginLeft: '10px',
+  },
+  deleteButton: {
+    marginLeft: '10px',
+    padding: '5px 10px',
     backgroundColor: 'red',
-    color: '#fff',
+    color: 'white',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-    marginLeft: '5px',
   },
   button: {
     padding: '10px',
-    backgroundColor: '#007bff',
+    backgroundColor: '#4CAF50',
+    color: 'white',
     border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
   },
 };
 

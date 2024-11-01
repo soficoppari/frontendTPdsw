@@ -5,8 +5,9 @@ import Menu from './Menu';
 
 type Horario = {
   id: number;
-  fechaHoraInicio: string;
-  fechaHoraFin: string;
+  dia: string;
+  horaFin: Date;
+  horaInicio: Date;
 };
 
 type Turno = {
@@ -15,7 +16,7 @@ type Turno = {
   estado: boolean;
 };
 
-type Tipo = {
+type Especie = {
   id: number;
   nombre: string;
 };
@@ -27,7 +28,7 @@ type Veterinario = {
   nroTelefono: number;
   horarios: Horario[];
   turnos: Turno[];
-  tipos: Tipo[];
+  especies: Especie[];
 };
 
 const VeterinariosList: React.FC = () => {
@@ -36,14 +37,15 @@ const VeterinariosList: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const tipoMascota = localStorage.getItem('tipoMascota');
+    const especieMascota = localStorage.getItem('especieMascota');
+    const especieMascotaId = especieMascota ? Number(especieMascota) : NaN;
 
     const fetchVeterinarios = async () => {
       try {
         const response = await axios.get(
           'http://localhost:3000/api/veterinario',
           {
-            params: { tipoMascota },
+            params: { especieMascota: especieMascotaId },
           }
         );
 
@@ -81,8 +83,10 @@ const VeterinariosList: React.FC = () => {
                 <p>Dirección: {veterinario.direccion}</p>
                 <p>Número de Teléfono: {veterinario.nroTelefono}</p>
                 <p>
-                  Tipos de servicio:{' '}
-                  {veterinario.tipos.map((tipo) => tipo.nombre).join(', ')}
+                  Especies de servicio:{' '}
+                  {veterinario.especies
+                    .map((especie) => especie.nombre)
+                    .join(', ')}
                 </p>
               </li>
             ))}
