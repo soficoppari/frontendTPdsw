@@ -9,6 +9,7 @@ import RegisterVeterinario from './components/RegisterVeterinario';
 import Layout from './components/Layout'; // Asegúrate de que la ruta sea correcta
 import Perfil from './components/Perfil';
 import Register from './components/Register';
+import AddTurno from './components/AddTurno';
 
 const App: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const App: React.FC = () => {
           />
           <Route path="/Mascotas" element={<MascotasList />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/AddTurno/:id" element={<AddTurno />} />
           <Route path="/register" element={<Register />} />
           <Route path="/Addmascota" element={<AddMascota />} />
           <Route path="/Veterinarios" element={<VeterinariosList />} />

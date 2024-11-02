@@ -48,8 +48,12 @@ const Mascotas: React.FC = () => {
     navigate('/AddMascota');
   };
 
-  const handleAgendarTurno = (especieId: number) => {
-    localStorage.setItem('especieMascota', especieId.toString()); // Guarda el especie de la mascota
+  const handleAgendarTurno = (mascotaId: number, especieId: number) => {
+    // Guardar el ID de la mascota en el localStorage
+    localStorage.setItem('mascotaId', mascotaId.toString());
+    // Guardar el ID de la especie de la mascota en el localStorage
+    localStorage.setItem('especieMascota', especieId.toString());
+    // Navegar a la página de veterinarios
     navigate('/Veterinarios');
   };
 
@@ -93,7 +97,9 @@ const Mascotas: React.FC = () => {
                   </td>
                   <td style={{ border: '1px solid #ccc', padding: '8px' }}>
                     <button
-                      onClick={() => handleAgendarTurno(mascota.especie.id)}
+                      onClick={() =>
+                        handleAgendarTurno(mascota.id, mascota.especie.id)
+                      }
                     >
                       Agendar Turno
                     </button>

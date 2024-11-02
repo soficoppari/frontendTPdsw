@@ -9,8 +9,8 @@ interface Especie {
 
 interface Horario {
   dia: string;
-  inicio: Date;
-  fin: Date;
+  inicio: string; // Cambiado a string para manejar el formato de tiempo
+  fin: string; // Cambiado a string para manejar el formato de tiempo
 }
 
 const RegisterVeterinario: React.FC = () => {
@@ -20,14 +20,16 @@ const RegisterVeterinario: React.FC = () => {
   const [matricula, setMatricula] = useState<number | null>(null);
   const [nroTelefono, setNroTelefono] = useState('');
   const [horarios, setHorarios] = useState<Horario[]>([
-    { dia: '', inicio: new Date(), fin: new Date() },
+    { dia: '', inicio: '08:00', fin: '17:00' }, // Horarios iniciales
   ]);
-  const [especiesSeleccionadas, setEspeciesSeleccionadas] = useState<number[]>(
+  const [especiesSeleccionadas, setEspeciesSeleccionadas] = useState<Especie[]>(
     []
   );
   const [especies, setEspecies] = useState<Especie[]>([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,17 +52,27 @@ const RegisterVeterinario: React.FC = () => {
     fetchEspecies();
   }, []);
 
+  const toggleDropdown = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
+  const handleSelectEspecie = (especie: Especie) => {
+    if (!especiesSeleccionadas.some((e) => e.id === especie.id)) {
+      setEspeciesSeleccionadas([...especiesSeleccionadas, especie]);
+    }
+  };
+
+  const handleDeselectEspecie = (id: number) => {
+    setEspeciesSeleccionadas(especiesSeleccionadas.filter((e) => e.id !== id));
+  };
+
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const formattedHorarios = horarios.map((horario) => ({
       dia: horario.dia,
-      horaInicio:
-        horario.inicio instanceof Date
-          ? horario.inicio.toISOString()
-          : horario.inicio,
-      horaFin:
-        horario.fin instanceof Date ? horario.fin.toISOString() : horario.fin,
+      horaInicio: horario.inicio,
+      horaFin: horario.fin,
     }));
 
     try {
@@ -74,7 +86,7 @@ const RegisterVeterinario: React.FC = () => {
           direccion,
           nroTelefono,
           horarios: formattedHorarios,
-          especies: especiesSeleccionadas,
+          especies: especiesSeleccionadas.map((e) => e.id),
         }),
       });
 
@@ -89,6 +101,24 @@ const RegisterVeterinario: React.FC = () => {
     } catch (err) {
       setError('Error al registrarse');
     }
+  };
+
+  const handleAddHorario = () => {
+    setHorarios([...horarios, { dia: '', inicio: '08:00', fin: '17:00' }]);
+  };
+
+  const handleHorarioChange = (
+    index: number,
+    field: 'dia' | 'inicio' | 'fin',
+    value: string
+  ) => {
+    const newHorarios = [...horarios];
+    newHorarios[index][field] = value;
+    setHorarios(newHorarios);
+  };
+
+  const handleRemoveHorario = (index: number) => {
+    setHorarios(horarios.filter((_, i) => i !== index));
   };
 
   return (
@@ -155,24 +185,36 @@ const RegisterVeterinario: React.FC = () => {
           </div>
           <div style={styles.formGroup}>
             <label style={styles.label}>Especies</label>
-            <select
-              multiple
-              value={especiesSeleccionadas.map((id) => id.toString())}
-              onChange={(e) =>
-                setEspeciesSeleccionadas(
-                  Array.from(e.target.selectedOptions, (option) =>
-                    Number(option.value)
-                  )
-                )
-              }
-              style={styles.select}
-            >
-              {especies.map((especie: Especie) => (
-                <option key={especie.id} value={especie.id}>
+            <div style={styles.selectContainer} onClick={toggleDropdown}>
+              <div style={styles.dropdownArrow}>▼</div>
+            </div>
+            {dropdownVisible && (
+              <div style={styles.dropdown}>
+                {especies.map((especie) => (
+                  <div
+                    key={especie.id}
+                    style={styles.dropdownItem}
+                    onClick={() => handleSelectEspecie(especie)}
+                  >
+                    {especie.nombre}
+                  </div>
+                ))}
+              </div>
+            )}
+            <div style={styles.selectedItems}>
+              {especiesSeleccionadas.map((especie) => (
+                <div key={especie.id} style={styles.selectedItem}>
                   {especie.nombre}
-                </option>
+                  <button
+                    type="button"
+                    onClick={() => handleDeselectEspecie(especie.id)}
+                    style={styles.removeButton}
+                  >
+                    x
+                  </button>
+                </div>
               ))}
-            </select>
+            </div>
           </div>
           <div style={styles.formGroup}>
             <label style={styles.label}>Horarios</label>
@@ -180,14 +222,12 @@ const RegisterVeterinario: React.FC = () => {
               <div key={index} style={styles.horarioGroup}>
                 <select
                   value={horario.dia}
-                  onChange={(e) => {
-                    const newHorarios = [...horarios];
-                    newHorarios[index].dia = e.target.value;
-                    setHorarios(newHorarios);
-                  }}
+                  onChange={(e) =>
+                    handleHorarioChange(index, 'dia', e.target.value)
+                  }
                   style={styles.select}
                 >
-                  <option value="">Selecciona un día</option>
+                  <option value="">Día</option>
                   {[
                     'Lunes',
                     'Martes',
@@ -204,35 +244,23 @@ const RegisterVeterinario: React.FC = () => {
                 </select>
                 <input
                   type="time"
-                  value={horario.inicio.toISOString().substring(11, 16)}
-                  onChange={(e) => {
-                    const newHorarios = [...horarios];
-                    const [hours, minutes] = e.target.value.split(':');
-                    const newDate = new Date(horario.inicio);
-                    newDate.setHours(Number(hours), Number(minutes));
-                    newHorarios[index].inicio = newDate;
-                    setHorarios(newHorarios);
-                  }}
+                  value={horario.inicio}
+                  onChange={(e) =>
+                    handleHorarioChange(index, 'inicio', e.target.value)
+                  }
                   style={styles.timeInput}
                 />
                 <input
                   type="time"
-                  value={horario.fin.toISOString().substring(11, 16)}
-                  onChange={(e) => {
-                    const newHorarios = [...horarios];
-                    const [hours, minutes] = e.target.value.split(':');
-                    const newDate = new Date(horario.fin);
-                    newDate.setHours(Number(hours), Number(minutes));
-                    newHorarios[index].fin = newDate;
-                    setHorarios(newHorarios);
-                  }}
+                  value={horario.fin}
+                  onChange={(e) =>
+                    handleHorarioChange(index, 'fin', e.target.value)
+                  }
                   style={styles.timeInput}
                 />
                 <button
                   type="button"
-                  onClick={() =>
-                    setHorarios(horarios.filter((_, i) => i !== index))
-                  }
+                  onClick={() => handleRemoveHorario(index)}
                   style={styles.deleteButton}
                 >
                   Eliminar
@@ -241,12 +269,7 @@ const RegisterVeterinario: React.FC = () => {
             ))}
             <button
               type="button"
-              onClick={() =>
-                setHorarios([
-                  ...horarios,
-                  { dia: '', inicio: new Date(), fin: new Date() },
-                ])
-              }
+              onClick={handleAddHorario}
               style={styles.button}
             >
               Agregar Horario
@@ -267,12 +290,12 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '200vh',
+    minHeight: '260vh',
     padding: '20px',
   },
   title: {
     marginBottom: '20px',
-    color: '#333',
+    color: '#dcedff',
   },
   error: {
     color: 'red',
@@ -284,7 +307,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     display: 'flex',
     flexDirection: 'column',
     width: '100%',
-    maxWidth: '400px',
+    maxWidth: '600px',
     padding: '20px',
     borderRadius: '8px',
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
@@ -293,7 +316,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     marginBottom: '15px',
   },
   label: {
-    color: '#333',
+    color: '#dcedff',
     marginBottom: '5px',
     fontWeight: 'bold',
   },
@@ -303,11 +326,47 @@ const styles: { [key: string]: React.CSSProperties } = {
     borderRadius: '4px',
     width: '100%',
   },
-  select: {
+  selectContainer: {
     padding: '10px',
     border: '1px solid #ccc',
     borderRadius: '4px',
     width: '100%',
+    cursor: 'pointer',
+    color: '#dcedff',
+  },
+  dropdown: {
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    position: 'sticky',
+    zIndex: 10,
+    backgroundColor: 'black',
+    width: '100%',
+  },
+  dropdownItem: {
+    padding: '10px',
+    cursor: 'pointer',
+    color: '#dcedff',
+  },
+  selectedItems: {
+    marginTop: '10px',
+    color: '#dcedff',
+  },
+  selectedItem: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '5px 10px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    marginBottom: '5px',
+    color: '#dcedff',
+  },
+  removeButton: {
+    marginLeft: '10px',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    color: 'red',
   },
   horarioGroup: {
     display: 'flex',
