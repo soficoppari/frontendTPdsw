@@ -12,7 +12,7 @@ interface Horario {
   inicio: string; // Cambiado a string para manejar el formato de tiempo
   fin: string; // Cambiado a string para manejar el formato de tiempo
 }
-
+//type
 const RegisterVeterinario: React.FC = () => {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
