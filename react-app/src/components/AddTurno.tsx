@@ -6,15 +6,13 @@ const AddTurno: React.FC = () => {
   const [horarios, setHorarios] = useState<
     { id: number; dia: string; horaFin: string; horaInicio: string }[]
   >([]);
+  const [diaSeleccionado, setDiaSeleccionado] = useState<string | null>(null);
   const [horariosFiltrados, setHorariosFiltrados] = useState<
     { id: number; horaInicio: string; horaFin: string }[]
   >([]);
   const [horarioSeleccionado, setHorarioSeleccionado] = useState<number | null>(
     null
   );
-  const [intervalos, setIntervalos] = useState<string[]>([]);
-  const [intervaloSeleccionado, setIntervaloSeleccionado] =
-    useState<string>('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
@@ -46,13 +44,14 @@ const AddTurno: React.FC = () => {
 
     if (selectedDate <= today) {
       setError('Seleccione una fecha posterior al día de hoy.');
+      setDiaSeleccionado(null);
       setHorariosFiltrados([]);
-      setIntervalos([]); // Limpiar intervalos
       return;
     }
 
     setError('');
 
+    // Extrae el día de la semana (por ejemplo, "lunes", "martes")
     const diasSemana = [
       'domingo',
       'lunes',
@@ -64,52 +63,13 @@ const AddTurno: React.FC = () => {
     ];
     const diaSemanaSeleccionado = diasSemana[selectedDate.getDay()];
 
+    setDiaSeleccionado(diaSemanaSeleccionado);
+
+    // Filtra los horarios según el día de la semana seleccionado
     const horariosDelDia = horarios.filter(
       (horario) => horario.dia.toLowerCase() === diaSemanaSeleccionado
     );
     setHorariosFiltrados(horariosDelDia);
-  };
-
-  const crearIntervalos = (horaInicio: string, horaFin: string) => {
-    const start = new Date(`1970-01-01T${horaInicio}:00`);
-    const end = new Date(`1970-01-01T${horaFin}:00`);
-    const intervalosGenerados: string[] = [];
-
-    let current = start;
-
-    while (current < end) {
-      const next = new Date(current);
-      next.setHours(current.getHours() + 1);
-      intervalosGenerados.push(
-        `${current.toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })} - ${next.toLocaleTimeString([], {
-          hour: '2-digit',
-          minute: '2-digit',
-        })}`
-      );
-      current = next;
-    }
-
-    return intervalosGenerados;
-  };
-
-  const handleHorarioChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedHorarioId = Number(e.target.value);
-    const horarioSeleccionado = horariosFiltrados.find(
-      (horario) => horario.id === selectedHorarioId
-    );
-
-    if (horarioSeleccionado) {
-      const intervalosGenerados = crearIntervalos(
-        horarioSeleccionado.horaInicio,
-        horarioSeleccionado.horaFin
-      );
-      setIntervalos(intervalosGenerados);
-      setHorarioSeleccionado(selectedHorarioId);
-      setIntervaloSeleccionado(''); // Limpiar el intervalo seleccionado al cambiar de horario
-    }
   };
 
   const handleAddTurno = async (e: React.FormEvent) => {
@@ -140,6 +100,14 @@ const AddTurno: React.FC = () => {
     }
   };
 
+  const formatHora = (timeString: string) => {
+    const date = new Date(`1970-01-01T${timeString}:00`);
+    return date.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   return (
     <div>
       <h2>Registrar Turno</h2>
@@ -154,39 +122,25 @@ const AddTurno: React.FC = () => {
           min={new Date().toISOString().split('T')[0]} // Restringe fechas pasadas
         />
 
-        {horariosFiltrados.length > 0 && (
+        {diaSeleccionado && (
           <>
             <label>Seleccione un horario disponible:</label>
-            <select onChange={handleHorarioChange} required>
+            <select
+              value={horarioSeleccionado || ''}
+              onChange={(e) => setHorarioSeleccionado(Number(e.target.value))}
+              required
+            >
               <option value="" disabled>
                 Seleccione un horario
               </option>
               {horariosFiltrados.map((horario) => (
                 <option key={horario.id} value={horario.id}>
-                  {`${horario.horaInicio} - ${horario.horaFin}`}
+                  {`${formatHora(horario.horaInicio)} - ${formatHora(
+                    horario.horaFin
+                  )}`}
                 </option>
               ))}
             </select>
-
-            {intervalos.length > 0 && (
-              <>
-                <label>Seleccione un intervalo:</label>
-                <select
-                  value={intervaloSeleccionado}
-                  onChange={(e) => setIntervaloSeleccionado(e.target.value)}
-                  required
-                >
-                  <option value="" disabled>
-                    Seleccione un intervalo
-                  </option>
-                  {intervalos.map((intervalo, index) => (
-                    <option key={index} value={intervalo}>
-                      {intervalo}
-                    </option>
-                  ))}
-                </select>
-              </>
-            )}
           </>
         )}
         <button type="submit">Registrar Turno</button>
