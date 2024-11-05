@@ -7,12 +7,14 @@ const AddTurno: React.FC = () => {
     { id: number; dia: string; horaFin: string; horaInicio: string }[]
   >([]);
   const [diaSeleccionado, setDiaSeleccionado] = useState<string | null>(null);
-  const [horariosFiltrados, setHorariosFiltrados] = useState<
-    { id: number; horaInicio: string; horaFin: string }[]
-  >([]);
-  const [horarioSeleccionado, setHorarioSeleccionado] = useState<number | null>(
+  const [horariosDisponibles, setHorariosDisponibles] = useState<string[]>([]);
+  const [horarioSeleccionado, setHorarioSeleccionado] = useState<string | null>(
     null
   );
+  const [fechaSeleccionada, setFechaSeleccionada] = useState<string | null>(
+    null
+  );
+  const [fechaHora, setFechaHora] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
@@ -45,13 +47,14 @@ const AddTurno: React.FC = () => {
     if (selectedDate <= today) {
       setError('Seleccione una fecha posterior al día de hoy.');
       setDiaSeleccionado(null);
-      setHorariosFiltrados([]);
+      setHorariosDisponibles([]);
+      setFechaSeleccionada(null);
       return;
     }
 
     setError('');
+    setFechaSeleccionada(e.target.value);
 
-    // Extrae el día de la semana (por ejemplo, "lunes", "martes")
     const diasSemana = [
       'domingo',
       'lunes',
@@ -65,11 +68,47 @@ const AddTurno: React.FC = () => {
 
     setDiaSeleccionado(diaSemanaSeleccionado);
 
-    // Filtra los horarios según el día de la semana seleccionado
     const horariosDelDia = horarios.filter(
       (horario) => horario.dia.toLowerCase() === diaSemanaSeleccionado
     );
-    setHorariosFiltrados(horariosDelDia);
+
+    const nuevosHorariosDisponibles = horariosDelDia.flatMap((horario) =>
+      generarHorariosPorHora(horario.horaInicio, horario.horaFin)
+    );
+    setHorariosDisponibles(nuevosHorariosDisponibles);
+  };
+
+  const generarHorariosPorHora = (horaInicio: string, horaFin: string) => {
+    const start = new Date(`1970-01-01T${horaInicio}:00`);
+    const end = new Date(`1970-01-01T${horaFin}:00`);
+    const slots = [];
+
+    while (start < end) {
+      const endSlot = new Date(start.getTime() + 60 * 60 * 1000);
+      slots.push(
+        `${start.toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })} - ${endSlot.toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })}`
+      );
+      start.setHours(start.getHours() + 1);
+    }
+
+    return slots;
+  };
+
+  const handleHorarioChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedHorario = e.target.value;
+    setHorarioSeleccionado(selectedHorario);
+
+    if (fechaSeleccionada && selectedHorario) {
+      // Combina la fecha seleccionada y el intervalo de horario inicial (ej. "10:00 AM - 11:00 AM" -> "10:00 AM")
+      const horaInicio = selectedHorario.split(' - ')[0];
+      setFechaHora(`${fechaSeleccionada}T${horaInicio}`);
+    }
   };
 
   const handleAddTurno = async (e: React.FormEvent) => {
@@ -79,8 +118,9 @@ const AddTurno: React.FC = () => {
       const token = localStorage.getItem('token');
       const mascotaId = localStorage.getItem('mascotaId');
       const veterinarioId = localStorage.getItem('veterinarioId');
+      const usuarioId = localStorage.getItem('usuarioId');
 
-      if (!token || !mascotaId || !veterinarioId || !horarioSeleccionado) {
+      if (!token || !mascotaId || !veterinarioId || !fechaHora || !usuarioId) {
         setError(
           'Información incompleta. Verifique que se haya seleccionado una mascota, un veterinario y un horario.'
         );
@@ -89,23 +129,15 @@ const AddTurno: React.FC = () => {
 
       await axios.post(
         'http://localhost:3000/api/turno',
-        { mascotaId, veterinarioId, horarioId: horarioSeleccionado },
+        { mascotaId, veterinarioId, fechaHora, usuarioId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setSuccess('Turno registrado con éxito');
-      navigate('/MisTurnos');
+      navigate('/Turnos');
     } catch (err) {
       setError('Error al conectar con el servidor');
     }
-  };
-
-  const formatHora = (timeString: string) => {
-    const date = new Date(`1970-01-01T${timeString}:00`);
-    return date.toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
   };
 
   return (
@@ -119,7 +151,7 @@ const AddTurno: React.FC = () => {
           type="date"
           onChange={handleDateChange}
           required
-          min={new Date().toISOString().split('T')[0]} // Restringe fechas pasadas
+          min={new Date().toISOString().split('T')[0]}
         />
 
         {diaSeleccionado && (
@@ -127,17 +159,15 @@ const AddTurno: React.FC = () => {
             <label>Seleccione un horario disponible:</label>
             <select
               value={horarioSeleccionado || ''}
-              onChange={(e) => setHorarioSeleccionado(Number(e.target.value))}
+              onChange={handleHorarioChange}
               required
             >
               <option value="" disabled>
                 Seleccione un horario
               </option>
-              {horariosFiltrados.map((horario) => (
-                <option key={horario.id} value={horario.id}>
-                  {`${formatHora(horario.horaInicio)} - ${formatHora(
-                    horario.horaFin
-                  )}`}
+              {horariosDisponibles.map((horario, index) => (
+                <option key={index} value={horario}>
+                  {horario}
                 </option>
               ))}
             </select>
