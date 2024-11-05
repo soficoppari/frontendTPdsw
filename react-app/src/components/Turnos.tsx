@@ -65,13 +65,32 @@ const Turnos: React.FC = () => {
   // Verifica el estado de los turnos
   console.log('Turnos en el estado:', turnos);
 
+  // Función para eliminar un turno
+  const deleteTurno = async (turnoId: number) => {
+    const token = localStorage.getItem('token');
+
+    try {
+      await axios.delete(`http://localhost:3000/api/turno/${turnoId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      // Actualizar el estado eliminando el turno borrado
+      setTurnos((prevTurnos) =>
+        prevTurnos.filter((turno) => turno.id !== turnoId)
+      );
+    } catch (err) {
+      console.error('Error al eliminar el turno:', err);
+      setError('No se pudo eliminar el turno');
+    }
+  };
+
   // Función para convertir la fecha a un formato que JavaScript entienda
   const formatDate = (dateStr: string) => {
     // Reemplazamos AM/PM por un formato adecuado para JavaScript
     // Ejemplo: '2024-11-06T02:00 PM' -> '2024-11-06T14:00:00'
     const formattedDate = dateStr.replace(
       /(\d{4}-\d{2}-\d{2}T)(\d{1,2}):(\d{2}) (\w{2})/,
-      (match, p1, p2, p3, p4) => {
+      (p1, p2, p3, p4) => {
         let hour = parseInt(p2);
         if (p4 === 'PM' && hour < 12) hour += 12; // Si es PM y la hora es menor a 12, sumamos 12
         if (p4 === 'AM' && hour === 12) hour = 0; // Si es AM y la hora es 12, cambiamos a 00
@@ -120,6 +139,17 @@ const Turnos: React.FC = () => {
                     {dayjs(formatDate(turno.fechaHora)).format(
                       'DD/MM/YYYY HH:mm'
                     )}
+                  </td>
+                  <td
+                    style={{
+                      border: '1px solid #ccc',
+                      padding: '8px',
+                      color: 'red',
+                    }}
+                  >
+                    <button onClick={() => deleteTurno(turno.id)}>
+                      Eliminar Turno
+                    </button>
                   </td>
                 </tr>
               ))}
