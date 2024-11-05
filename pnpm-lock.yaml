@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
       react-color:
         specifier: ^2.19.3
         version: 2.19.3(react@18.3.1)
@@ -28,6 +31,9 @@ packages:
 
   '@types/node@22.8.4':
     resolution: {integrity: sha512-SpNNxkftTJOPk0oN+y2bIqurEXHTA2AOZ3EJDDKeJ5VzkvvORSvmQXGQarcOzWV1ac7DCaPBEdMDxBsM+d8jWw==}
+
+  dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -88,6 +94,8 @@ snapshots:
   '@types/node@22.8.4':
     dependencies:
       undici-types: 6.19.8
+
+  dayjs@1.11.13: {}
 
   js-tokens@4.0.0: {}
 
