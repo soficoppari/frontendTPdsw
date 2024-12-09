@@ -21,12 +21,13 @@ const Register: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center', // Añadido para centrar verticalmente
-          height: '70vh', // Ajusta la altura al 100% de la ventana
+          justifyContent: 'center', // Centrar verticalmente
+          height: '70vh', // Ajusta la altura
           margin: '0', // Elimina márgenes
+          color: 'white', // Texto por defecto en blanco
         }}
       >
-        <h1 style={{ textAlign: 'center' }}>Bienvenido a Vetify</h1>
+        <h1 style={{ textAlign: 'center', color: 'white' }}>Bienvenido a Vetify</h1>
         <h3 style={{ textAlign: 'center', marginBottom: '30px' }}>
           Selecciona un tipo de registro
         </h3>

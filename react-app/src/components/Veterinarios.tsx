@@ -73,7 +73,7 @@ const VeterinariosList: React.FC = () => {
         <h1 style={styles.title}>Lista de Veterinarios</h1>
         {error && <p style={styles.error}>{error}</p>}
         {veterinarios.length === 0 ? (
-          <p>No hay veterinarios disponibles.</p>
+          <p style={styles.noVeterinarios}>No hay veterinarios disponibles.</p>
         ) : (
           <ul style={styles.veterinariosList}>
             {veterinarios.map((veterinario) => (
@@ -113,15 +113,24 @@ const styles: { [key: string]: React.CSSProperties } = {
   container: {
     maxWidth: '800px',
     margin: '0 auto',
-    padding: '20px',
+    padding: '100px',
     fontFamily: 'Arial, sans-serif',
+    color: 'white', // Texto blanco
   },
   title: {
     textAlign: 'center',
-    color: '#333',
+    color: '#fff', // Título en blanco
+    marginBottom: '20px', // Espaciado inferior
   },
   error: {
     color: 'red',
+  },
+  noVeterinarios: {
+    color: 'red',
+    textAlign: 'center',
+    fontSize: '18px',
+    fontWeight: 'bold',
+    marginTop: '20px',
   },
   veterinariosList: {
     listStyle: 'none',

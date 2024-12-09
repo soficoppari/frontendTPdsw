@@ -133,16 +133,22 @@ const RegisterVeterinario: React.FC = () => {
           </p>
         )}
         <form onSubmit={handleRegister} style={styles.form}>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Matrícula</label>
-            <input
-              type="number"
-              value={matricula || ''}
-              onChange={(e) => setMatricula(Number(e.target.value))}
-              style={styles.input}
-              required
-            />
-          </div>
+        <div style={styles.formGroup}>
+  <label style={styles.label}>Matrícula</label>
+  <input
+    type="number"
+    value={matricula || ''}
+    onChange={(e) => {
+      const value = e.target.value;
+      // Verificar si el valor es un número y no es negativo
+      if (value === '' || (Number(value) >= 0 && /^[0-9]*$/.test(value))) {
+        setMatricula(Number(value));
+      }
+    }}
+    style={styles.input}
+    required
+  />
+</div>
           <div style={styles.formGroup}>
             <label style={styles.label}>Nombre</label>
             <input
