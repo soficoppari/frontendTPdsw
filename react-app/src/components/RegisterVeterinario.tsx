@@ -19,6 +19,8 @@ const RegisterVeterinario: React.FC = () => {
   const [direccion, setDireccion] = useState('');
   const [matricula, setMatricula] = useState<number | null>(null);
   const [nroTelefono, setNroTelefono] = useState('');
+  const [email, setEmail] = useState('');
+  const [contrasenia, setContrasenia] = useState('');
   const [horarios, setHorarios] = useState<Horario[]>([
     { dia: '', inicio: '08:00', fin: '17:00' }, // Horarios iniciales
   ]);
@@ -85,6 +87,8 @@ const RegisterVeterinario: React.FC = () => {
           apellido,
           direccion,
           nroTelefono,
+          email,
+          contrasenia,
           horarios: formattedHorarios,
           especies: especiesSeleccionadas.map((e) => e.id),
         }),
@@ -179,6 +183,26 @@ const RegisterVeterinario: React.FC = () => {
               type="text"
               value={nroTelefono}
               onChange={(e) => setNroTelefono(e.target.value)}
+              style={styles.input}
+              required
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={styles.input}
+              required
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Contraseña</label>
+            <input
+              type="password"
+              value={contrasenia}
+              onChange={(e) => setContrasenia(e.target.value)}
               style={styles.input}
               required
             />
@@ -290,8 +314,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '260vh',
-    padding: '20px',
+    padding: '110px',
   },
   title: {
     marginBottom: '20px',

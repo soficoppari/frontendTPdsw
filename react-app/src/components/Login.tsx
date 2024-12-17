@@ -1,32 +1,49 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios'; // Importar AxiosError para tipos
 import { useNavigate } from 'react-router-dom';
 import Menu from './Menu';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [contraseniaUser, setContraseniaUser] = useState('');
+  const [contrasenia, setContrasenia] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
 
     try {
-      const response = await axios.post(
-        'http://localhost:3000/api/usuario/login',
-        { email, contraseniaUser }
-      );
+      const response = await axios.post('http://localhost:3000/api/login/', {
+        email,
+        contrasenia,
+      });
 
-      localStorage.setItem('token', response.data.data.token);
-      localStorage.setItem('email', response.data.data.email);
-      localStorage.setItem('usuarioId', response.data.data.usuarioId);
+      const { token, email: userEmail, role, id } = response.data;
 
-      setSuccess('Login exitoso');
-      navigate('/');
+      // Guardar los datos en localStorage
+      localStorage.setItem('token', token);
+      localStorage.setItem('email', userEmail);
+      localStorage.setItem('role', role);
+      localStorage.setItem('usuarioId', id);
+
+      setSuccess('Inicio de sesión exitoso.');
+
+      // Redirigir al home u otra página según el rol
+      if (role === 'veterinario') {
+        navigate('/veterinario/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (err) {
-      setError('Email o contraseña incorrectos');
+      // Especificar el tipo de error como AxiosError
+      if (err instanceof AxiosError && err.response) {
+        setError(err.response.data.message || 'Error al iniciar sesión.');
+      } else {
+        setError('Error desconocido.');
+      }
     }
   };
 
@@ -38,16 +55,14 @@ const Login: React.FC = () => {
     <>
       <Menu />
       <div
-        style={
-          {
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh',
-            padding: '20px',
-          } as React.CSSProperties
-        }
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '100vh',
+          padding: '20px',
+        }}
       >
         <h2 style={{ marginBottom: '20px', color: '#fff' }}>Iniciar Sesión</h2>
         {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -67,14 +82,14 @@ const Login: React.FC = () => {
             />
           </div>
           <div style={styles.formGroup}>
-            <label htmlFor="contraseniaUser" style={styles.label}>
+            <label htmlFor="contrasenia" style={styles.label}>
               Contraseña:
             </label>
             <input
-              type="password"
-              id="contraseniaUser"
-              value={contraseniaUser}
-              onChange={(e) => setContraseniaUser(e.target.value)}
+              type="contrasenia"
+              id="contrasenia"
+              value={contrasenia}
+              onChange={(e) => setContrasenia(e.target.value)}
               style={styles.input}
               required
             />

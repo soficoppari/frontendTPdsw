@@ -56,13 +56,13 @@ const AddTurno: React.FC = () => {
     setFechaSeleccionada(e.target.value);
 
     const diasSemana = [
-      'domingo',
       'lunes',
       'martes',
       'miércoles',
       'jueves',
       'viernes',
       'sábado',
+      'domingo',
     ];
     const diaSemanaSeleccionado = diasSemana[selectedDate.getDay()];
 

@@ -90,7 +90,7 @@ const Turnos: React.FC = () => {
     // Ejemplo: '2024-11-06T02:00 PM' -> '2024-11-06T14:00:00'
     const formattedDate = dateStr.replace(
       /(\d{4}-\d{2}-\d{2}T)(\d{1,2}):(\d{2}) (\w{2})/,
-      (p1, p2, p3, p4) => {
+      (match, p1, p2, p3, p4) => {
         let hour = parseInt(p2);
         if (p4 === 'PM' && hour < 12) hour += 12; // Si es PM y la hora es menor a 12, sumamos 12
         if (p4 === 'AM' && hour === 12) hour = 0; // Si es AM y la hora es 12, cambiamos a 00

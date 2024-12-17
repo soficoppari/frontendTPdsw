@@ -32,7 +32,7 @@ const RegisterUsuario: React.FC = () => {
           apellido,
           email,
           nroTelefono,
-          contraseniaUser: password,
+          contrasenia: password,
         }),
       });
 

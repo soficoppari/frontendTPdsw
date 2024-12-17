@@ -8,9 +8,13 @@ type Usuario = {
   nombre: string;
 };
 
-type Especie = {
+type Raza = {
   id: number;
   nombre: string;
+  especie: {
+    id: number;
+    nombre: string;
+  };
 };
 
 type Mascota = {
@@ -18,7 +22,7 @@ type Mascota = {
   nombre: string;
   fechaNacimiento: string;
   usuario: Usuario;
-  especie: Especie;
+  raza: Raza;
 };
 
 const Mascotas: React.FC = () => {
@@ -29,6 +33,7 @@ const Mascotas: React.FC = () => {
   useEffect(() => {
     const fetchMascotas = async () => {
       const token = localStorage.getItem('token');
+      console.log('Token:', token); // Verifica que el token no sea null o undefined
 
       try {
         const response = await axios.get('http://localhost:3000/api/mascota', {
@@ -37,6 +42,7 @@ const Mascotas: React.FC = () => {
 
         setMascotas(response.data.data);
       } catch (err) {
+        console.error('Error al obtener las mascotas:', err); // Imprime el error
         setError('Error al obtener las mascotas');
       }
     };
@@ -56,7 +62,7 @@ const Mascotas: React.FC = () => {
     // Navegar a la página de veterinarios
     navigate('/Veterinarios');
   };
-
+  //catch
   return (
     <>
       <Menu />
@@ -76,6 +82,9 @@ const Mascotas: React.FC = () => {
                   Fecha de Nacimiento
                 </th>
                 <th style={{ border: '1px solid #ccc', padding: '8px' }}>
+                  Raza
+                </th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>
                   Especie
                 </th>
                 <th style={{ border: '1px solid #ccc', padding: '8px' }}>
@@ -93,12 +102,15 @@ const Mascotas: React.FC = () => {
                     {mascota.fechaNacimiento}
                   </td>
                   <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                    {mascota.especie.nombre}
+                    {mascota.raza.nombre}
+                  </td>
+                  <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                    {mascota.raza.especie.nombre}
                   </td>
                   <td style={{ border: '1px solid #ccc', padding: '8px' }}>
                     <button
                       onClick={() =>
-                        handleAgendarTurno(mascota.id, mascota.especie.id)
+                        handleAgendarTurno(mascota.id, mascota.raza.id)
                       }
                     >
                       Agendar Turno

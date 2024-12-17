@@ -21,13 +21,18 @@ const Register: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center', // Añadido para centrar verticalmente
-          height: '70vh', // Ajusta la altura al 100% de la ventana
+          justifyContent: 'center', // Centra verticalmente
+          height: '90vh', // Ajusta la altura al 100% de la ventana
           margin: '0', // Elimina márgenes
+          color: 'white', // Color de texto blanco
         }}
       >
-        <h1 style={{ textAlign: 'center' }}>Bienvenido a Vetify</h1>
-        <h3 style={{ textAlign: 'center', marginBottom: '30px' }}>
+        <h1 style={{ textAlign: 'center', color: 'white' }}>
+          Bienvenido a Vetify
+        </h1>
+        <h3
+          style={{ textAlign: 'center', color: 'white', marginBottom: '30px' }}
+        >
           Selecciona un tipo de registro
         </h3>
 
@@ -36,12 +41,13 @@ const Register: React.FC = () => {
             onClick={handleUserRegister}
             style={{
               backgroundColor: '#007BFF',
-              color: 'white',
+              color: 'white', // Texto del botón en blanco
               border: 'none',
               padding: '10px 20px',
               fontSize: '16px',
               borderRadius: '5px',
               cursor: 'pointer',
+              width: '200px', // Ancho fijo para ambos botones
             }}
           >
             Usuario
@@ -51,12 +57,13 @@ const Register: React.FC = () => {
             onClick={handleVetRegister}
             style={{
               backgroundColor: '#007BFF',
-              color: 'white',
+              color: 'white', // Texto del botón en blanco
               border: 'none',
               padding: '10px 20px',
               fontSize: '16px',
               borderRadius: '5px',
               cursor: 'pointer',
+              width: '200px', // Ancho fijo para ambos botones
             }}
           >
             Veterinario
