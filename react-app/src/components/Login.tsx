@@ -64,7 +64,9 @@ const Login: React.FC = () => {
           padding: '20px',
         }}
       >
-        <h2 style={{ marginBottom: '20px', color: '#fff' }}>Iniciar Sesión</h2>
+        <h2 style={{ marginBottom: '10px', color: '#dcedff' }}>
+          Iniciar Sesión
+        </h2>
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {success && <p style={{ color: 'green' }}>{success}</p>}
         <form onSubmit={handleLogin} style={styles.form}>
@@ -124,7 +126,11 @@ const styles: { [key: string]: React.CSSProperties } = {
   formGroup: {
     marginBottom: '5px',
   },
+  tittle: {
+    color: '#dcedff',
+  },
   label: {
+    color: '#dcedff',
     marginBottom: '5px',
     fontWeight: 'bold',
   },
