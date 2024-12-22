@@ -27,13 +27,16 @@ const Login: React.FC = () => {
       localStorage.setItem('token', token);
       localStorage.setItem('email', userEmail);
       localStorage.setItem('role', role);
-      localStorage.setItem('usuarioId', id);
-
+      if (role === 'usuario') {
+        localStorage.setItem('usuarioId', id);
+      } else {
+        localStorage.setItem('veterinarioId', id);
+      }
       setSuccess('Inicio de sesión exitoso.');
 
       // Redirigir al home u otra página según el rol
       if (role === 'veterinario') {
-        navigate('/veterinario/dashboard');
+        navigate('/veterinario/');
       } else {
         navigate('/');
       }

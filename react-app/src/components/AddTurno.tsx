@@ -86,10 +86,10 @@ const AddTurno: React.FC = () => {
     while (start < end) {
       const endSlot = new Date(start.getTime() + 60 * 60 * 1000);
       slots.push(
-        `${start.toLocaleTimeString([], {
+        `${start.toLocaleTimeString('en-GB', {
           hour: '2-digit',
           minute: '2-digit',
-        })} - ${endSlot.toLocaleTimeString([], {
+        })} - ${endSlot.toLocaleTimeString('en-GB', {
           hour: '2-digit',
           minute: '2-digit',
         })}`
@@ -99,18 +99,19 @@ const AddTurno: React.FC = () => {
 
     return slots;
   };
-
   const handleHorarioChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedHorario = e.target.value;
     setHorarioSeleccionado(selectedHorario);
 
     if (fechaSeleccionada && selectedHorario) {
-      // Combina la fecha seleccionada y el intervalo de horario inicial (ej. "10:00 AM - 11:00 AM" -> "10:00 AM")
+      // Extraer solo la hora de inicio en formato de 24 horas
       const horaInicio = selectedHorario.split(' - ')[0];
-      setFechaHora(`${fechaSeleccionada}T${horaInicio}`);
+      const horaNormalizada = new Date(
+        `${fechaSeleccionada}T${horaInicio}`
+      ).toISOString(); // Genera una fecha en formato ISO
+      setFechaHora(horaNormalizada);
     }
   };
-
   const handleAddTurno = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -126,6 +127,7 @@ const AddTurno: React.FC = () => {
         );
         return;
       }
+      console.log('Token:', token);
 
       await axios.post(
         'http://localhost:3000/api/turno',
@@ -136,6 +138,7 @@ const AddTurno: React.FC = () => {
       setSuccess('Turno registrado con éxito');
       navigate('/Turnos');
     } catch (err) {
+      console.error(err); // Esto te dará más información sobre el problema
       setError('Error al conectar con el servidor');
     }
   };

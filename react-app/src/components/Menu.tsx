@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 const Menu: React.FC = () => {
   // Check if the user is logged in by checking for the presence of a token
   const isLoggedIn = localStorage.getItem('token') !== null;
+  const role = localStorage.getItem('role'); // Get the role from localStorage
 
   return (
     <div style={styles.menuContainer}>
@@ -18,20 +19,34 @@ const Menu: React.FC = () => {
         </Link>
       </div>
 
-      {/* Conditionally render the links based on the login status */}
+      {/* Conditionally render the links based on the login status and role */}
       <div style={styles.navLinks}>
         {isLoggedIn ? (
-          <>
-            <Link style={styles.link} to="/perfil">
-              Perfil
-            </Link>
-            <Link style={styles.link} to="/mascotas">
-              Mascotas
-            </Link>
-            <Link style={styles.link} to="/turnos">
-              Turnos
-            </Link>
-          </>
+          role === 'veterinario' ? (
+            <>
+              <Link style={styles.link} to="/PerfilVeterinario">
+                Perfil
+              </Link>
+              <Link style={styles.link} to="/TurnosVeterinario">
+                Turnos
+              </Link>
+              <Link style={styles.link} to="/CalificacionesVeterinario">
+                Calificaciones
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link style={styles.link} to="/perfil">
+                Perfil
+              </Link>
+              <Link style={styles.link} to="/mascotas">
+                Mascotas
+              </Link>
+              <Link style={styles.link} to="/turnos">
+                Turnos
+              </Link>
+            </>
+          )
         ) : (
           <Link style={{ ...styles.link, ...styles.loginButton }} to="/login">
             <span role="img" aria-label="user-icon">

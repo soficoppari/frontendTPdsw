@@ -1,0 +1,89 @@
+.perfil-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  text-align: left;
+  color: white;
+  max-height: 80vh;
+}
+
+.perfil-title {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.perfil-info {
+  font-size: 20px;
+  line-height: 1.8;
+}
+
+.perfil-label {
+  font-weight: bold;
+}
+
+.perfil-loading {
+  text-align: center;
+  font-size: 20px;
+  color: #ffffff88;
+}
+
+.turnos-container {
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 800px;
+  color: white;
+}
+
+.turnos-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.turnos-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.turnos-table th,
+.turnos-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.turnos-table th {
+  background-color: #2c3e50;
+  color: white;
+  font-weight: bold;
+}
+
+.turnos-table tr:nth-child(even) {
+  background-color: #34495e;
+}
+
+.turnos-table tr:hover {
+  background-color: #3b5998;
+}
+
+.no-turnos {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+}
+
+.error {
+  color: red;
+  text-align: center;
+  font-size: 18px;
+}

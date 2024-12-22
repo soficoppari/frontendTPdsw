@@ -11,6 +11,9 @@ import Perfil from './components/Perfil';
 import Register from './components/Register';
 import AddTurno from './components/AddTurno';
 import Turnos from './components/Turnos';
+import PerfilVeterinario from './components/PerfilVeterinario';
+import TurnosVeterinario from './components/TurnosVeterinario';
+import './App.css';
 
 const App: React.FC = () => {
   return (
@@ -31,6 +34,8 @@ const App: React.FC = () => {
           <Route path="/Turnos" element={<Turnos />} />
           <Route path="/Addmascota" element={<AddMascota />} />
           <Route path="/Veterinarios" element={<VeterinariosList />} />
+          <Route path="perfilVeterinario" element={<PerfilVeterinario />} />
+          <Route path="/TurnosVeterinario" element={<TurnosVeterinario />} />
         </Routes>
       </Layout>
     </Router>
