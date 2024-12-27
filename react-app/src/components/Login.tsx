@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios'; // Importar AxiosError para tipos
 import { useNavigate } from 'react-router-dom';
 import Menu from './Menu';
+import { useAuth } from '../context/AuthContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ const Login: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth(); // Usa la función login del contexto
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,16 +34,13 @@ const Login: React.FC = () => {
       } else {
         localStorage.setItem('veterinarioId', id);
       }
-      setSuccess('Inicio de sesión exitoso.');
 
-      // Redirigir al home u otra página según el rol
-      if (role === 'veterinario') {
-        navigate('/veterinario/');
-      } else {
-        navigate('/');
-      }
+      // Actualizar el estado en el contexto
+      login(token, role);
+
+      setSuccess('Inicio de sesión exitoso.');
+      navigate('/');
     } catch (err) {
-      // Especificar el tipo de error como AxiosError
       if (err instanceof AxiosError && err.response) {
         setError(err.response.data.message || 'Error al iniciar sesión.');
       } else {
@@ -91,7 +90,7 @@ const Login: React.FC = () => {
               Contraseña:
             </label>
             <input
-              type="contrasenia"
+              type="password"
               id="contrasenia"
               value={contrasenia}
               onChange={(e) => setContrasenia(e.target.value)}

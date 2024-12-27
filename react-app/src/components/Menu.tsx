@@ -1,10 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const Menu: React.FC = () => {
-  // Check if the user is logged in by checking for the presence of a token
-  const isLoggedIn = localStorage.getItem('token') !== null;
-  const role = localStorage.getItem('role'); // Get the role from localStorage
+  const { isLoggedIn, role } = useAuth();
+
+  if (isLoggedIn === null) {
+    return <div>Cargando...</div>;
+  }
 
   return (
     <div style={styles.menuContainer}>
@@ -19,7 +22,6 @@ const Menu: React.FC = () => {
         </Link>
       </div>
 
-      {/* Conditionally render the links based on the login status and role */}
       <div style={styles.navLinks}>
         {isLoggedIn ? (
           role === 'veterinario' ? (
@@ -49,10 +51,7 @@ const Menu: React.FC = () => {
           )
         ) : (
           <Link style={{ ...styles.link, ...styles.loginButton }} to="/login">
-            <span role="img" aria-label="user-icon">
-              👤
-            </span>{' '}
-            Login
+            👤 Login
           </Link>
         )}
       </div>

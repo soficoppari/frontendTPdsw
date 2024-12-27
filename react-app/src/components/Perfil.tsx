@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import Menu from './Menu';
+import { useAuth } from '../context/AuthContext';
 
 interface Usuario {
   nombre: string;
@@ -18,8 +19,8 @@ interface DecodedToken {
 const Perfil: React.FC = () => {
   const navigate = useNavigate();
   const [usuario, setUsuario] = useState<Usuario | null>(null);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { logout } = useAuth(); // Usar el método logout del contexto
 
   useEffect(() => {
     const fetchUsuario = async () => {
@@ -27,7 +28,6 @@ const Perfil: React.FC = () => {
 
       if (!token) {
         setError('No hay sesión activa');
-        setLoading(false);
         return;
       }
 
@@ -36,7 +36,6 @@ const Perfil: React.FC = () => {
 
       if (!decoded || !decoded.id) {
         setError('Token no válido');
-        setLoading(false);
         return;
       }
 
@@ -49,8 +48,6 @@ const Perfil: React.FC = () => {
         setUsuario(response.data.data); // Ajusta según la estructura de tu respuesta
       } catch (err) {
         setError('Error al cargar los datos del usuario');
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -58,13 +55,9 @@ const Perfil: React.FC = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
+    logout(); // Actualiza el estado del contexto y elimina los datos del localStorage
+    navigate('/'); // Redirige al usuario a la página principal
   };
-
-  if (loading) {
-    return <div>Cargando...</div>;
-  }
 
   if (error) {
     return <div>{error}</div>;

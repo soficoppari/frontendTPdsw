@@ -14,31 +14,46 @@ import Turnos from './components/Turnos';
 import PerfilVeterinario from './components/PerfilVeterinario';
 import TurnosVeterinario from './components/TurnosVeterinario';
 import './App.css';
+import { AuthProvider } from './context/AuthContext'; // Importa el proveedor
+import Menu from './components/Menu';
+import CalificarTurno from './components/CalificarTurno';
+import CalificacionesVeterinario from './components/CalificacionesVeterinario';
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/registerUsuario" element={<RegisterUsuario />} />
-          <Route
-            path="/registerVeterinario"
-            element={<RegisterVeterinario />}
-          />
-          <Route path="/Mascotas" element={<MascotasList />} />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/AddTurno/:id" element={<AddTurno />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/Turnos" element={<Turnos />} />
-          <Route path="/Addmascota" element={<AddMascota />} />
-          <Route path="/Veterinarios" element={<VeterinariosList />} />
-          <Route path="perfilVeterinario" element={<PerfilVeterinario />} />
-          <Route path="/TurnosVeterinario" element={<TurnosVeterinario />} />
-        </Routes>
-      </Layout>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Menu />
+        <Layout>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registerUsuario" element={<RegisterUsuario />} />
+            <Route
+              path="/registerVeterinario"
+              element={<RegisterVeterinario />}
+            />
+            <Route path="/Mascotas" element={<MascotasList />} />
+            <Route path="/perfil" element={<Perfil />} />
+            <Route path="/AddTurno/:id" element={<AddTurno />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/Turnos" element={<Turnos />} />
+            <Route
+              path="CalificacionesVeterinario"
+              element={<CalificacionesVeterinario />}
+            />
+            <Route path="/Addmascota" element={<AddMascota />} />
+            <Route path="/Veterinarios" element={<VeterinariosList />} />
+            <Route path="perfilVeterinario" element={<PerfilVeterinario />} />
+            <Route path="/TurnosVeterinario" element={<TurnosVeterinario />} />
+            <Route
+              path="CalificarTurno/:turnoId"
+              element={<CalificarTurno />}
+            />
+          </Routes>
+        </Layout>
+      </Router>
+    </AuthProvider>
   );
 };
 
