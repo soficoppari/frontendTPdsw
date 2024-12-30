@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Menu from './Menu';
+import Menu from './Menu/Menu';
 
 const RegisterUsuario: React.FC = () => {
   const [nombre, setNombre] = useState('');
@@ -57,7 +57,7 @@ const RegisterUsuario: React.FC = () => {
     <>
       <Menu />
       <div style={styles.container}>
-        <h2 style={styles.title}>Registrar Usuario</h2>
+        <h2 style={styles.title}>Registrate</h2>
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
         {success && (
@@ -74,6 +74,7 @@ const RegisterUsuario: React.FC = () => {
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               style={styles.input}
+              placeholder="Ingresa tu nombre"
             />
           </div>
           <div style={styles.formGroup}>
@@ -83,6 +84,7 @@ const RegisterUsuario: React.FC = () => {
               value={apellido}
               onChange={(e) => setApellido(e.target.value)}
               style={styles.input}
+              placeholder="Ingresa tu apellido"
             />
           </div>
           <div style={styles.formGroup}>
@@ -92,6 +94,7 @@ const RegisterUsuario: React.FC = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={styles.input}
+              placeholder="Ingresa tu email"
             />
           </div>
           <div style={styles.formGroup}>
@@ -101,6 +104,7 @@ const RegisterUsuario: React.FC = () => {
               value={nroTelefono}
               onChange={(e) => setNroTelefono(e.target.value)}
               style={styles.input}
+              placeholder="Ingresa tu número de teléfono"
             />
           </div>
           <div style={styles.formGroup}>
@@ -110,6 +114,7 @@ const RegisterUsuario: React.FC = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={styles.input}
+              placeholder="Crea una contraseña"
             />
           </div>
           <div style={styles.formGroup}>
@@ -119,6 +124,7 @@ const RegisterUsuario: React.FC = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               style={styles.input}
+              placeholder="Confirma tu contraseña"
             />
           </div>
 
@@ -146,12 +152,13 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '200vh',
+    height: '180vh',
     padding: '20px',
   },
   title: {
-    marginBottom: '20px',
+    marginBottom: '10px',
     color: '#dcedff',
+    fontSize: '1.5rem',
   },
   form: {
     display: 'flex',
@@ -169,12 +176,15 @@ const styles: { [key: string]: React.CSSProperties } = {
     color: '#dcedff',
     marginBottom: '5px',
     fontWeight: 'bold',
+    fontSize: '0.9rem',
   },
   input: {
     padding: '10px',
     border: '1px solid #ccc',
     borderRadius: '4px',
     width: '100%',
+    fontSize: '0.9rem',
+    maxHeight: '45px',
   },
   button: {
     padding: '10px',
@@ -184,6 +194,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     borderRadius: '4px',
     cursor: 'pointer',
     fontWeight: 'bold',
+    fontSize: '1rem',
     transition: 'background-color 0.3s',
   },
   link: {

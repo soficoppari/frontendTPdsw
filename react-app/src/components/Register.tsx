@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Menu from './Menu';
+import Menu from './Menu/Menu';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();

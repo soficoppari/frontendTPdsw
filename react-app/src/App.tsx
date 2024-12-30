@@ -5,7 +5,7 @@ import RegisterUsuario from './components/RegisterUsuario';
 import MascotasList from './components/Mascotas';
 import AddMascota from './components/AddMascota';
 import VeterinariosList from './components/Veterinarios';
-import RegisterVeterinario from './components/RegisterVeterinario';
+import RegisterVeterinario from './components/RegisterVeterinario/RegisterVeterinario';
 import Layout from './components/Layout'; // Asegúrate de que la ruta sea correcta
 import Perfil from './components/Perfil';
 import Register from './components/Register';
@@ -15,7 +15,7 @@ import PerfilVeterinario from './components/PerfilVeterinario';
 import TurnosVeterinario from './components/TurnosVeterinario';
 import './App.css';
 import { AuthProvider } from './context/AuthContext'; // Importa el proveedor
-import Menu from './components/Menu';
+import Menu from './components/Menu/Menu';
 import CalificarTurno from './components/CalificarTurno';
 import CalificacionesVeterinario from './components/CalificacionesVeterinario';
 

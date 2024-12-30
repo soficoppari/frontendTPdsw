@@ -1,0 +1,66 @@
+.menu-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  background-color: #17202a;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+.logo img {
+  height: 60px;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  color: #fff;
+}
+
+.nav-link {
+  position: relative;
+  text-decoration: none;
+  color: #000; /* Color original del texto */
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -5px;
+  right: -5px;
+  bottom: 0;
+  background-color: rgba(39, 90, 110, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  border-radius: 8px;
+}
+
+.nav-link:hover::after {
+  opacity: 1;
+}
+
+.nav-link.active {
+  color: #ffffff; /* Cambia el color del texto cuando está activo */
+  position: relative;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 8px;
+  background-color: rgba(
+    58,
+    106,
+    128,
+    0.7
+  ); /* Cambia el color de fondo si lo deseas */
+}
+
+.nav-link.active::after {
+  opacity: 0; /* Mantiene el fondo activo */
+}

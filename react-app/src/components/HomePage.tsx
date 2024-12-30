@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from './Menu'; // Asegúrate de que la ruta sea correcta
+import Menu from './Menu/Menu'; // Asegúrate de que la ruta sea correcta
 import { CSSProperties } from 'react';
 
 const HomePage: React.FC = () => {

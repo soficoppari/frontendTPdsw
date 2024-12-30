@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Menu from './Menu';
+import Menu from './Menu/Menu';
 import { useNavigate, useLocation } from 'react-router-dom'; // Importa useLocation
 import dayjs from 'dayjs';
 

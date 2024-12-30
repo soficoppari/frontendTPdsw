@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 //import { useNavigate } from 'react-router-dom';
-import Menu from './Menu'; // Asegúrate de tener este componente en tu proyecto
+import Menu from './Menu/Menu'; // Asegúrate de tener este componente en tu proyecto
 import '../App.css';
 import { jwtDecode } from 'jwt-decode';
 

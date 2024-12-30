@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu from './Menu';
+import Menu from './Menu/Menu';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (

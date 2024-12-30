@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import Menu from './Menu';
+import Menu from './Menu/Menu';
 import { useAuth } from '../context/AuthContext';
 
 interface Usuario {

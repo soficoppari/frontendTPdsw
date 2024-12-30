@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Menu from './Menu';
+import './RegisterVeterinario.css';
+import Menu from '../Menu/Menu';
 
 interface Especie {
   id: number;
@@ -12,7 +13,7 @@ interface Horario {
   inicio: string; // Cambiado a string para manejar el formato de tiempo
   fin: string; // Cambiado a string para manejar el formato de tiempo
 }
-//type
+
 const RegisterVeterinario: React.FC = () => {
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
@@ -128,96 +129,94 @@ const RegisterVeterinario: React.FC = () => {
   return (
     <>
       <Menu />
-      <div style={styles.container}>
-        <h2 style={styles.title}>Registro de Veterinario</h2>
-        {error && <p style={styles.error}>{error}</p>}
+      <div className="container">
+        <h2 className="title">Registro de Veterinario</h2>
+        {error && <p className="error">{error}</p>}
         {success && (
-          <p style={styles.success}>
-            ¡Registro exitoso! Redirigiendo al login...
-          </p>
+          <p className="success">¡Registro exitoso! Redirigiendo al login...</p>
         )}
-        <form onSubmit={handleRegister} style={styles.form}>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Matrícula</label>
+        <form onSubmit={handleRegister} className="form">
+          <div className="formGroup">
+            <label className="label">Matrícula</label>
             <input
               type="number"
               value={matricula || ''}
               onChange={(e) => setMatricula(Number(e.target.value))}
-              style={styles.input}
+              className="input"
               required
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Nombre</label>
+          <div className="formGroup">
+            <label className="label">Nombre</label>
             <input
               type="text"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              style={styles.input}
+              className="input"
               required
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Apellido</label>
+          <div className="formGroup">
+            <label className="label">Apellido</label>
             <input
               type="text"
               value={apellido}
               onChange={(e) => setApellido(e.target.value)}
-              style={styles.input}
+              className="input"
               required
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Dirección</label>
+          <div className="formGroup">
+            <label className="label">Dirección</label>
             <input
               type="text"
               value={direccion}
               onChange={(e) => setDireccion(e.target.value)}
-              style={styles.input}
+              className="input"
               required
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Número de Teléfono</label>
+          <div className="formGroup">
+            <label className="label">Número de Teléfono</label>
             <input
               type="text"
               value={nroTelefono}
               onChange={(e) => setNroTelefono(e.target.value)}
-              style={styles.input}
+              className="input"
               required
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Email</label>
+          <div className="formGroup">
+            <label className="label">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={styles.input}
+              className="input"
               required
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Contraseña</label>
+          <div className="formGroup">
+            <label className="label">Contraseña</label>
             <input
               type="password"
               value={contrasenia}
               onChange={(e) => setContrasenia(e.target.value)}
-              style={styles.input}
+              className="input"
               required
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Especies</label>
-            <div style={styles.selectContainer} onClick={toggleDropdown}>
-              <div style={styles.dropdownArrow}>▼</div>
+          <div className="formGroup">
+            <label className="label">Especies</label>
+            <div className="selectContainer" onClick={toggleDropdown}>
+              <div className="dropdownArrow">▼</div>
             </div>
             {dropdownVisible && (
-              <div style={styles.dropdown}>
+              <div className="dropdown">
                 {especies.map((especie) => (
                   <div
                     key={especie.id}
-                    style={styles.dropdownItem}
+                    className="dropdownItem"
                     onClick={() => handleSelectEspecie(especie)}
                   >
                     {especie.nombre}
@@ -225,14 +224,14 @@ const RegisterVeterinario: React.FC = () => {
                 ))}
               </div>
             )}
-            <div style={styles.selectedItems}>
+            <div className="selectedItems">
               {especiesSeleccionadas.map((especie) => (
-                <div key={especie.id} style={styles.selectedItem}>
+                <div key={especie.id} className="selectedItem">
                   {especie.nombre}
                   <button
                     type="button"
                     onClick={() => handleDeselectEspecie(especie.id)}
-                    style={styles.removeButton}
+                    className="removeButton"
                   >
                     x
                   </button>
@@ -240,16 +239,16 @@ const RegisterVeterinario: React.FC = () => {
               ))}
             </div>
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Horarios</label>
+          <div className="formGroup">
+            <label className="label">Horarios</label>
             {horarios.map((horario, index) => (
-              <div key={index} style={styles.horarioGroup}>
+              <div key={index} className="horarioGroup">
                 <select
                   value={horario.dia}
                   onChange={(e) =>
                     handleHorarioChange(index, 'dia', e.target.value)
                   }
-                  style={styles.select}
+                  className="select"
                 >
                   <option value="">Día</option>
                   {[
@@ -266,159 +265,48 @@ const RegisterVeterinario: React.FC = () => {
                     </option>
                   ))}
                 </select>
-                <input
-                  type="time"
-                  value={horario.inicio}
-                  onChange={(e) =>
-                    handleHorarioChange(index, 'inicio', e.target.value)
-                  }
-                  style={styles.timeInput}
-                />
-                <input
-                  type="time"
-                  value={horario.fin}
-                  onChange={(e) =>
-                    handleHorarioChange(index, 'fin', e.target.value)
-                  }
-                  style={styles.timeInput}
-                />
+                <label>
+                  Hora de Inicio
+                  <input
+                    type="time"
+                    value={horario.inicio}
+                    onChange={(e) =>
+                      handleHorarioChange(index, 'inicio', e.target.value)
+                    }
+                    className="timeInput"
+                  />
+                </label>
+                <label>
+                  Hora Fin
+                  <input
+                    type="time"
+                    value={horario.fin}
+                    onChange={(e) =>
+                      handleHorarioChange(index, 'fin', e.target.value)
+                    }
+                    className="timeInput"
+                  />
+                </label>
                 <button
                   type="button"
                   onClick={() => handleRemoveHorario(index)}
-                  style={styles.deleteButton}
+                  className="deleteButton"
                 >
                   Eliminar
                 </button>
               </div>
             ))}
-            <button
-              type="button"
-              onClick={handleAddHorario}
-              style={styles.button}
-            >
+            <button type="button" onClick={handleAddHorario} className="button">
               Agregar Horario
             </button>
           </div>
-          <button type="submit" style={styles.button}>
+          <button type="submit" className="button">
             Registrar Veterinario
           </button>
         </form>
       </div>
     </>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: '110px',
-  },
-  title: {
-    marginBottom: '20px',
-    color: '#dcedff',
-  },
-  error: {
-    color: 'red',
-  },
-  success: {
-    color: 'green',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    maxWidth: '600px',
-    padding: '20px',
-    borderRadius: '8px',
-    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-  },
-  formGroup: {
-    marginBottom: '15px',
-  },
-  label: {
-    color: '#dcedff',
-    marginBottom: '5px',
-    fontWeight: 'bold',
-  },
-  input: {
-    padding: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    width: '100%',
-  },
-  selectContainer: {
-    padding: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    width: '100%',
-    cursor: 'pointer',
-    color: '#dcedff',
-  },
-  dropdown: {
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    position: 'sticky',
-    zIndex: 10,
-    backgroundColor: 'black',
-    width: '100%',
-  },
-  dropdownItem: {
-    padding: '10px',
-    cursor: 'pointer',
-    color: '#dcedff',
-  },
-  selectedItems: {
-    marginTop: '10px',
-    color: '#dcedff',
-  },
-  selectedItem: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '5px 10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    marginBottom: '5px',
-    color: '#dcedff',
-  },
-  removeButton: {
-    marginLeft: '10px',
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    color: 'red',
-  },
-  horarioGroup: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '10px',
-  },
-  timeInput: {
-    padding: '5px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    marginLeft: '10px',
-  },
-  deleteButton: {
-    marginLeft: '10px',
-    padding: '5px 10px',
-    backgroundColor: 'red',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
-  button: {
-    padding: '10px',
-    backgroundColor: '#4CAF50',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-  },
 };
 
 export default RegisterVeterinario;
