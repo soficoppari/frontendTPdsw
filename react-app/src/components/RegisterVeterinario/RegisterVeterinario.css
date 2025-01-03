@@ -8,6 +8,7 @@ body {
 }
 
 .container {
+  max-width: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -60,7 +61,7 @@ body {
 }
 
 .formGroup {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   display: flex;
   flex-direction: column;
 }
@@ -70,21 +71,23 @@ body {
   margin-bottom: 4px;
   font-weight: bold;
   font-size: 0.9rem;
+  max-height: fit-content;
 }
 
 .input {
   padding: 6px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  width: 100%;
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
   outline: none;
-  transition: border 0.3s;
+  transition: border 0.1s;
+  max-width: 700px;
+  max-height: 45px;
 }
 
 .input:focus {
-  border: 1px solid #4caf50;
+  border: 2px solid #dcedff;
 }
 
 .selectContainer {
@@ -107,7 +110,7 @@ body {
   border-radius: 4px;
   position: absolute;
   z-index: 10;
-  background-color: black;
+  background-color: rgba(255, 255, 255, 0.158);
   width: 100%;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
@@ -117,6 +120,7 @@ body {
   cursor: pointer;
   color: #dcedff;
   transition: background 0.3s;
+  max-height: 40px;
 }
 
 .dropdownItem:hover {
@@ -139,32 +143,35 @@ body {
   color: #dcedff;
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-height: 45px;
 }
 
 .removeButton {
-  margin-left: 8px;
+  margin-left: 270px;
   background: none;
   border: none;
   cursor: pointer;
   color: red;
   font-weight: bold;
+  margin-top: 12px;
 }
 
 .horarioGroup {
-  display: flex;
   flex-direction: column;
   margin-bottom: 8px;
+  min-width: 200px;
 }
 
 .timeInput {
   padding: 4px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-top: 8px;
+  margin-top: 2px;
   width: 100%;
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
   outline: none;
+  max-height: 40px;
 }
 
 select {
@@ -174,15 +181,17 @@ select {
   border-radius: 4px;
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
+  max-height: 40px;
 }
 
 select option {
   background: rgba(40, 50, 60, 0.9); /* Mismo fondo que el select */
   color: #fff;
+  max-height: 40px;
 }
 
 .timeInput:focus {
-  border: 1px solid #4caf50;
+  border: 2px solid #dcedff;
 }
 
 .deleteButton {

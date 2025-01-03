@@ -10,8 +10,8 @@ interface Especie {
 
 interface Horario {
   dia: string;
-  inicio: string; // Cambiado a string para manejar el formato de tiempo
-  fin: string; // Cambiado a string para manejar el formato de tiempo
+  inicio: string;
+  fin: string;
 }
 
 const RegisterVeterinario: React.FC = () => {
@@ -23,7 +23,7 @@ const RegisterVeterinario: React.FC = () => {
   const [email, setEmail] = useState('');
   const [contrasenia, setContrasenia] = useState('');
   const [horarios, setHorarios] = useState<Horario[]>([
-    { dia: '', inicio: '08:00', fin: '17:00' }, // Horarios iniciales
+    { dia: '', inicio: '08:00', fin: '17:00' },
   ]);
   const [especiesSeleccionadas, setEspeciesSeleccionadas] = useState<Especie[]>(
     []
@@ -32,6 +32,7 @@ const RegisterVeterinario: React.FC = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [step, setStep] = useState(1); // Estado para controlar el paso actual
 
   const navigate = useNavigate();
 
@@ -108,6 +109,28 @@ const RegisterVeterinario: React.FC = () => {
     }
   };
 
+  const handleNextStep = () => {
+    if (step === 1) {
+      if (
+        !nombre ||
+        !apellido ||
+        !direccion ||
+        !nroTelefono ||
+        !email ||
+        !contrasenia
+      ) {
+        setError('Por favor, completa todos los campos del paso 1.');
+        return;
+      }
+    }
+    setError('');
+    setStep(step + 1);
+  };
+
+  const handlePreviousStep = () => {
+    setStep(step - 1);
+  };
+
   const handleAddHorario = () => {
     setHorarios([...horarios, { dia: '', inicio: '08:00', fin: '17:00' }]);
   };
@@ -135,175 +158,199 @@ const RegisterVeterinario: React.FC = () => {
         {success && (
           <p className="success">¡Registro exitoso! Redirigiendo al login...</p>
         )}
-        <form onSubmit={handleRegister} className="form">
-          <div className="formGroup">
-            <label className="label">Matrícula</label>
-            <input
-              type="number"
-              value={matricula || ''}
-              onChange={(e) => setMatricula(Number(e.target.value))}
-              className="input"
-              required
-            />
-          </div>
-          <div className="formGroup">
-            <label className="label">Nombre</label>
-            <input
-              type="text"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              className="input"
-              required
-            />
-          </div>
-          <div className="formGroup">
-            <label className="label">Apellido</label>
-            <input
-              type="text"
-              value={apellido}
-              onChange={(e) => setApellido(e.target.value)}
-              className="input"
-              required
-            />
-          </div>
-          <div className="formGroup">
-            <label className="label">Dirección</label>
-            <input
-              type="text"
-              value={direccion}
-              onChange={(e) => setDireccion(e.target.value)}
-              className="input"
-              required
-            />
-          </div>
-          <div className="formGroup">
-            <label className="label">Número de Teléfono</label>
-            <input
-              type="text"
-              value={nroTelefono}
-              onChange={(e) => setNroTelefono(e.target.value)}
-              className="input"
-              required
-            />
-          </div>
-          <div className="formGroup">
-            <label className="label">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="input"
-              required
-            />
-          </div>
-          <div className="formGroup">
-            <label className="label">Contraseña</label>
-            <input
-              type="password"
-              value={contrasenia}
-              onChange={(e) => setContrasenia(e.target.value)}
-              className="input"
-              required
-            />
-          </div>
-          <div className="formGroup">
-            <label className="label">Especies</label>
-            <div className="selectContainer" onClick={toggleDropdown}>
-              <div className="dropdownArrow">▼</div>
+
+        {step === 1 && (
+          <form className="form">
+            <div className="formGroup">
+              <label className="label">Matrícula</label>
+              <input
+                type="number"
+                value={matricula || ''}
+                onChange={(e) => setMatricula(Number(e.target.value))}
+                className="input"
+                required
+              />
             </div>
-            {dropdownVisible && (
-              <div className="dropdown">
-                {especies.map((especie) => (
-                  <div
-                    key={especie.id}
-                    className="dropdownItem"
-                    onClick={() => handleSelectEspecie(especie)}
-                  >
+            <div className="formGroup">
+              <label className="label">Nombre</label>
+              <input
+                type="text"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                className="input"
+                required
+              />
+            </div>
+            <div className="formGroup">
+              <label className="label">Apellido</label>
+              <input
+                type="text"
+                value={apellido}
+                onChange={(e) => setApellido(e.target.value)}
+                className="input"
+                required
+              />
+            </div>
+            <div className="formGroup">
+              <label className="label">Dirección</label>
+              <input
+                type="text"
+                value={direccion}
+                onChange={(e) => setDireccion(e.target.value)}
+                className="input"
+                required
+              />
+            </div>
+            <div className="formGroup">
+              <label className="label">Número de Teléfono</label>
+              <input
+                type="text"
+                value={nroTelefono}
+                onChange={(e) => setNroTelefono(e.target.value)}
+                className="input"
+                required
+              />
+            </div>
+            <div className="formGroup">
+              <label className="label">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="input"
+                required
+              />
+            </div>
+            <div className="formGroup">
+              <label className="label">Contraseña</label>
+              <input
+                type="password"
+                value={contrasenia}
+                onChange={(e) => setContrasenia(e.target.value)}
+                className="input"
+                required
+              />
+            </div>
+            <button type="button" onClick={handleNextStep} className="button">
+              Siguiente
+            </button>
+          </form>
+        )}
+
+        {step === 2 && (
+          <form onSubmit={handleRegister} className="form">
+            <div className="formGroup">
+              <label className="label">Especies</label>
+              <div className="selectContainer" onClick={toggleDropdown}>
+                <div className="dropdownArrow">▼</div>
+              </div>
+              {dropdownVisible && (
+                <div className="dropdown">
+                  {especies.map((especie) => (
+                    <div
+                      key={especie.id}
+                      className="dropdownItem"
+                      onClick={() => handleSelectEspecie(especie)}
+                    >
+                      {especie.nombre}
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="selectedItems">
+                {especiesSeleccionadas.map((especie) => (
+                  <div key={especie.id} className="selectedItem">
                     {especie.nombre}
+                    <button
+                      type="button"
+                      onClick={() => handleDeselectEspecie(especie.id)}
+                      className="removeButton"
+                    >
+                      x
+                    </button>
                   </div>
                 ))}
               </div>
-            )}
-            <div className="selectedItems">
-              {especiesSeleccionadas.map((especie) => (
-                <div key={especie.id} className="selectedItem">
-                  {especie.nombre}
+            </div>
+            <div className="formGroup">
+              <label className="label">Horarios</label>
+              {horarios.map((horario, index) => (
+                <div key={index} className="horarioGroup">
+                  <select
+                    value={horario.dia}
+                    onChange={(e) =>
+                      handleHorarioChange(index, 'dia', e.target.value)
+                    }
+                    className="select"
+                  >
+                    <option value="">Día</option>
+                    {[
+                      'Lunes',
+                      'Martes',
+                      'Miércoles',
+                      'Jueves',
+                      'Viernes',
+                      'Sábado',
+                      'Domingo',
+                    ].map((dia) => (
+                      <option key={dia} value={dia}>
+                        {dia}
+                      </option>
+                    ))}
+                  </select>
+                  <label>
+                    Hora de Inicio
+                    <input
+                      type="time"
+                      value={horario.inicio}
+                      onChange={(e) =>
+                        handleHorarioChange(index, 'inicio', e.target.value)
+                      }
+                      className="timeInput"
+                    />
+                  </label>
+                  <label>
+                    Hora Fin
+                    <input
+                      type="time"
+                      value={horario.fin}
+                      onChange={(e) =>
+                        handleHorarioChange(index, 'fin', e.target.value)
+                      }
+                      className="timeInput"
+                    />
+                  </label>
                   <button
                     type="button"
-                    onClick={() => handleDeselectEspecie(especie.id)}
-                    className="removeButton"
+                    onClick={() => handleRemoveHorario(index)}
+                    className="deleteButton"
                   >
-                    x
+                    Eliminar
                   </button>
                 </div>
               ))}
+              <button
+                type="button"
+                onClick={handleAddHorario}
+                className="button"
+              >
+                Agregar Horario
+              </button>
             </div>
-          </div>
-          <div className="formGroup">
-            <label className="label">Horarios</label>
-            {horarios.map((horario, index) => (
-              <div key={index} className="horarioGroup">
-                <select
-                  value={horario.dia}
-                  onChange={(e) =>
-                    handleHorarioChange(index, 'dia', e.target.value)
-                  }
-                  className="select"
-                >
-                  <option value="">Día</option>
-                  {[
-                    'Lunes',
-                    'Martes',
-                    'Miércoles',
-                    'Jueves',
-                    'Viernes',
-                    'Sábado',
-                    'Domingo',
-                  ].map((dia) => (
-                    <option key={dia} value={dia}>
-                      {dia}
-                    </option>
-                  ))}
-                </select>
-                <label>
-                  Hora de Inicio
-                  <input
-                    type="time"
-                    value={horario.inicio}
-                    onChange={(e) =>
-                      handleHorarioChange(index, 'inicio', e.target.value)
-                    }
-                    className="timeInput"
-                  />
-                </label>
-                <label>
-                  Hora Fin
-                  <input
-                    type="time"
-                    value={horario.fin}
-                    onChange={(e) =>
-                      handleHorarioChange(index, 'fin', e.target.value)
-                    }
-                    className="timeInput"
-                  />
-                </label>
-                <button
-                  type="button"
-                  onClick={() => handleRemoveHorario(index)}
-                  className="deleteButton"
-                >
-                  Eliminar
-                </button>
-              </div>
-            ))}
-            <button type="button" onClick={handleAddHorario} className="button">
-              Agregar Horario
-            </button>
-          </div>
-          <button type="submit" className="button">
-            Registrar Veterinario
-          </button>
-        </form>
+            <div className="buttonGroup">
+              <button
+                type="button"
+                onClick={handlePreviousStep}
+                className="button"
+              >
+                Anterior
+              </button>
+              <button type="submit" className="button">
+                Registrar Veterinario
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </>
   );
