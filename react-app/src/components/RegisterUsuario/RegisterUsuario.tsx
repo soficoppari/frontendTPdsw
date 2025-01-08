@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Menu from './Menu/Menu';
+import Menu from '../Menu/Menu';
+import './RegisterUsuario.css';
 
 const RegisterUsuario: React.FC = () => {
   const [nombre, setNombre] = useState('');
@@ -15,6 +16,19 @@ const RegisterUsuario: React.FC = () => {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Verificar si algún campo está vacío
+    if (
+      !nombre ||
+      !apellido ||
+      !email ||
+      !nroTelefono ||
+      !password ||
+      !confirmPassword
+    ) {
+      setError('Por favor, completa todos los campos.');
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Las contraseñas no coinciden');
@@ -43,6 +57,7 @@ const RegisterUsuario: React.FC = () => {
       }
 
       setSuccess(true);
+      setError('');
       setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError('Error al registrarse');
@@ -56,79 +71,77 @@ const RegisterUsuario: React.FC = () => {
   return (
     <>
       <Menu />
-      <div style={styles.container}>
-        <h2 style={styles.title}>Registrate</h2>
+      <div className="container">
+        <h2 className="title">Registrate</h2>
 
-        {error && <p style={{ color: 'red' }}>{error}</p>}
+        {error && <p className="error">{error}</p>}
         {success && (
-          <p style={{ color: 'green' }}>
-            ¡Registro exitoso! Redirigiendo al login...
-          </p>
+          <p className="success">¡Registro exitoso! Redirigiendo al login...</p>
         )}
 
-        <form onSubmit={handleRegister} style={styles.form}>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Nombre</label>
+        <form onSubmit={handleRegister} className="form">
+          <div className="form-group">
+            <label className="label">Nombre</label>
             <input
               type="text"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              style={styles.input}
+              className="input"
               placeholder="Ingresa tu nombre"
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Apellido</label>
+          <div className="form-group">
+            <label className="label">Apellido</label>
             <input
               type="text"
               value={apellido}
               onChange={(e) => setApellido(e.target.value)}
-              style={styles.input}
+              className="input"
               placeholder="Ingresa tu apellido"
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Email</label>
+          <div className="form-group">
+            <label className="label">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={styles.input}
+              className="input"
               placeholder="Ingresa tu email"
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Número de Teléfono</label>
+          <div className="form-group">
+            <label className="label">Número de Teléfono</label>
             <input
               type="text"
               value={nroTelefono}
               onChange={(e) => setNroTelefono(e.target.value)}
-              style={styles.input}
+              className="input"
               placeholder="Ingresa tu número de teléfono"
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Contraseña</label>
+          <div className="form-group">
+            <label className="label">Contraseña</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={styles.input}
+              className="input"
               placeholder="Crea una contraseña"
             />
           </div>
-          <div style={styles.formGroup}>
-            <label style={styles.label}>Confirmar Contraseña</label>
+          <div className="form-group">
+            <label className="label">Confirmar Contraseña</label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              style={styles.input}
+              className="input"
               placeholder="Confirma tu contraseña"
             />
           </div>
 
-          <button type="submit" style={styles.button}>
+          <button type="submit" className="button">
             Registrarse
           </button>
         </form>
@@ -136,7 +149,7 @@ const RegisterUsuario: React.FC = () => {
         <div style={{ marginTop: '15px' }}>
           <p>
             ¿Ya tienes una cuenta?{' '}
-            <a href="#" onClick={handleNavigateToLogin} style={styles.link}>
+            <a href="#" onClick={handleNavigateToLogin} className="link">
               Inicia sesión
             </a>
           </p>
@@ -144,63 +157,6 @@ const RegisterUsuario: React.FC = () => {
       </div>
     </>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '180vh',
-    padding: '20px',
-  },
-  title: {
-    marginBottom: '10px',
-    color: '#dcedff',
-    fontSize: '1.5rem',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    maxWidth: '400px',
-    padding: '15px',
-    borderRadius: '8px',
-    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-  },
-  formGroup: {
-    marginBottom: '15px',
-  },
-  label: {
-    color: '#dcedff',
-    marginBottom: '5px',
-    fontWeight: 'bold',
-    fontSize: '0.9rem',
-  },
-  input: {
-    padding: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    width: '100%',
-    fontSize: '0.9rem',
-    maxHeight: '45px',
-  },
-  button: {
-    padding: '10px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontWeight: 'bold',
-    fontSize: '1rem',
-    transition: 'background-color 0.3s',
-  },
-  link: {
-    color: '#007bff',
-    textDecoration: 'none',
-  },
 };
 
 export default RegisterUsuario;

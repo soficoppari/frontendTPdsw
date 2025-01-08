@@ -1,0 +1,28 @@
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  margin: 0;
+  color: white;
+}
+
+.title {
+  text-align: center;
+}
+
+.button-group {
+  display: flex;
+  gap: 20px;
+}
+
+.button {
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+}

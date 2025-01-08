@@ -14,9 +14,7 @@ body {
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   max-width: 500px;
   margin: auto;
 }
@@ -55,7 +53,7 @@ body {
   max-width: 400px;
   padding: 15px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.1);
+  background-color: #17202a;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(10px);
 }
@@ -72,18 +70,6 @@ body {
   font-weight: bold;
   font-size: 0.9rem;
   max-height: fit-content;
-}
-
-.input {
-  padding: 6px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  outline: none;
-  transition: border 0.1s;
-  max-width: 700px;
-  max-height: 45px;
 }
 
 .input:focus {
@@ -211,7 +197,7 @@ select option {
 
 .button {
   padding: 8px;
-  background-color: #4caf50;
+  background-color: #4c87af;
   color: white;
   border: none;
   border-radius: 8px;
@@ -222,7 +208,7 @@ select option {
 }
 
 .button:hover {
-  background-color: #45a049;
+  background-color: #53aeca;
   transform: scale(1.05);
 }
 

@@ -1,19 +1,21 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './components/HomePage';
-import Login from './components/Login';
-import RegisterUsuario from './components/RegisterUsuario';
+import Login from './components/Login/Login';
+import RegisterUsuario from './components/RegisterUsuario/RegisterUsuario';
 import MascotasList from './components/Mascotas';
 import AddMascota from './components/AddMascota';
 import VeterinariosList from './components/Veterinarios';
 import RegisterVeterinario from './components/RegisterVeterinario/RegisterVeterinario';
 import Layout from './components/Layout'; // Asegúrate de que la ruta sea correcta
 import Perfil from './components/Perfil';
-import Register from './components/Register';
+import Register from './components/Register/Register';
 import AddTurno from './components/AddTurno';
 import Turnos from './components/Turnos';
 import PerfilVeterinario from './components/PerfilVeterinario';
 import TurnosVeterinario from './components/TurnosVeterinario';
-import './App.css';
+import './Styles/App.css';
+import './Styles/Reset.css';
+import './Styles/Variables.css';
 import { AuthProvider } from './context/AuthContext'; // Importa el proveedor
 import Menu from './components/Menu/Menu';
 import CalificarTurno from './components/CalificarTurno';
