@@ -3,3 +3,8 @@
 import styles from './Register.module.css';
 
 return <form className={styles.form}>...</form>;
+
+Menu bien
+HomePage muy bien
+Login muy bien
+Register Ajustar Menu

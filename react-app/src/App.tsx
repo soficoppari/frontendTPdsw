@@ -3,7 +3,7 @@ import HomePage from './components/HomePage/HomePage';
 import Login from './components/Login/Login';
 import RegisterUsuario from './components/RegisterUsuario/RegisterUsuario';
 import MascotasList from './components/Mascotas';
-import AddMascota from './components/addMascota/AddMascota';
+import AddMascota from './components/AddMascota/AddMascota';
 import VeterinariosList from './components/Veterinarios';
 import RegisterVeterinario from './components/RegisterVeterinario/RegisterVeterinario';
 import Layout from './components/Layout'; // Asegúrate de que la ruta sea correcta

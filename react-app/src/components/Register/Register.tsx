@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Menu from '../Menu/Menu';
-import './Register.module.css'; // Si prefieres separar los estilos específicos del componente
+import styles from './Register.module.css';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
@@ -17,17 +17,17 @@ const Register: React.FC = () => {
   return (
     <>
       <Menu />
-      <div className="center-container">
-        <h1 className="title">Bienvenido a Vetify</h1>
-        <h3 className="title" style={{ marginBottom: '30px' }}>
+            <div className={styles.centerContainer}>
+        <h1 className={styles.title}>Bienvenido a Vetify</h1>
+        <h3 className={styles.title} style={{ marginBottom: '30px' }}>
           Selecciona un tipo de registro
         </h3>
 
-        <div className="button-group">
-          <button onClick={handleUserRegister} className="button">
+        <div className={styles.buttonGroup}>
+          <button onClick={handleUserRegister} className={styles.button}>
             Usuario
           </button>
-          <button onClick={handleVetRegister} className="button">
+          <button onClick={handleVetRegister} className={styles.button}>
             Veterinario
           </button>
         </div>
