@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Menu from '../Menu/Menu';
-import './Register.css'; // Si prefieres separar los estilos específicos del componente
+import './Register.module.css'; // Si prefieres separar los estilos específicos del componente
 
 const Register: React.FC = () => {
   const navigate = useNavigate();

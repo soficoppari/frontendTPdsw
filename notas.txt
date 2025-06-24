@@ -1,0 +1,5 @@
+//Para pedir que lo use en el archivo.tsx
+
+import styles from './Register.module.css';
+
+return <form className={styles.form}>...</form>;

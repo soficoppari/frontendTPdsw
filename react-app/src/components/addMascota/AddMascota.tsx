@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Menu from './Menu/Menu';
+import Menu from '../Menu/Menu';
 
 const AddMascota: React.FC = () => {
   const [nombre, setNombre] = useState('');

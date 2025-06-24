@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './RegisterVeterinario.css';
+import './RegisterVeterinario.module.css';
 import Menu from '../Menu/Menu';
 
 interface Especie {
@@ -152,7 +152,7 @@ const RegisterVeterinario: React.FC = () => {
   return (
     <>
       <Menu />
-      <div className="container">
+      <div className="registerContainer">
         <h2 className="title">Registro de Veterinario</h2>
         {error && <p className="error">{error}</p>}
         {success && (
@@ -160,7 +160,8 @@ const RegisterVeterinario: React.FC = () => {
         )}
 
         {step === 1 && (
-          <form className="form">
+          <form className="registerForm">
+          <div className="formColumn">
             <div className="formGroup">
               <label className="label">Matrícula</label>
               <input
@@ -201,6 +202,9 @@ const RegisterVeterinario: React.FC = () => {
                 required
               />
             </div>
+          </div>
+        
+          <div className="formColumn">
             <div className="formGroup">
               <label className="label">Número de Teléfono</label>
               <input
@@ -231,10 +235,11 @@ const RegisterVeterinario: React.FC = () => {
                 required
               />
             </div>
-            <button type="button" onClick={handleNextStep} className="button">
+            <button type="button" onClick={handleNextStep} className="registerButton">
               Siguiente
             </button>
-          </form>
+          </div>
+        </form>
         )}
 
         {step === 2 && (
