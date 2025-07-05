@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Menu from './Menu/Menu';
 
 const AddTurno: React.FC = () => {
   const [horarios, setHorarios] = useState<
@@ -146,7 +145,6 @@ const AddTurno: React.FC = () => {
 
   return (
     <>
-      <Menu />
       <div>
         <h2>Registrar Turno</h2>
         {error && <p style={{ color: 'red' }}>{error}</p>}

@@ -8,4 +8,9 @@ Menu bien
 HomePage muy bien
 Login muy bien
 Register muy bien
-
+register usuario bien
+register veterinario, el mas complicado sin dudas, falta bastante
+Perfil muy bien
+Mascotas bien
+Turnos bien, hay que arreglar el boton y la calificacion
+AddMascota flojo

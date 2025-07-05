@@ -1,14 +1,15 @@
 /* Contenedor principal */
 .registerContainer {
-  max-width: 480px;
-  margin: 2vh auto;
-  padding: 2.5rem 2rem;
+  max-width: 500px;
+  margin: 4vh auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.05);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
-  text-align: center;
   color: #dcedff;
+  text-align: center;
+  height: 100%;
 }
 
 /* Título */

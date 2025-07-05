@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Menu from './Menu/Menu';
 import { useNavigate, useLocation } from 'react-router-dom'; // Importa useLocation
 import dayjs from 'dayjs';
+import styles from './Turnos.module.css';
+
 
 type Veterinario = {
   id: number;
@@ -92,64 +93,47 @@ const Turnos: React.FC = () => {
   };
 
   return (
-    <>
-      <Menu />
-      <div>
-        <h2>Tus Turnos</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {turnos.length === 0 ? (
-          <p>No tienes turnos agendados.</p>
-        ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr>
-                <th style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  Nombre de la Mascota
-                </th>
-                <th style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  Veterinario
-                </th>
-                <th style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  Fecha y Hora
-                </th>
-                <th style={{ border: '1px solid #ccc', padding: '8px' }}>
-                  Calificación
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {turnos.map((turno) => (
-                <tr key={turno.id}>
-                  <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                    {turno.mascota.nombre}
-                  </td>
-                  <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                    {turno.veterinario.nombre} {turno.veterinario.apellido}
-                  </td>
-                  <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                    {dayjs(turno.fechaHora).format('DD/MM/YYYY HH:mm')}
-                  </td>
-                  <td style={{ border: '1px solid #ccc', padding: '8px' }}>
-                    {turno.calificacion ? (
-                      <span>{turno.calificacion.puntuacion}</span> // Muestra la puntuación
-                    ) : turno.estado === 'COMPLETADO' ? (
-                      <button onClick={() => handleCalificar(turno.id)}>
-                        Calificar Turno
-                      </button>
-                    ) : turno.estado === 'AGENDADO' ? (
-                      <button onClick={() => deleteTurno(turno.id)}>
-                        Cancelar Turno
-                      </button>
-                    ) : null}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-    </>
-  );
+  <div className={styles.container}>
+    <h2 className={styles.title}>Tus Turnos</h2>
+    {error && <p className={styles.error}>{error}</p>}
+    {turnos.length === 0 ? (
+      <p>No tienes turnos agendados.</p>
+    ) : (
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Nombre de la Mascota</th>
+            <th>Veterinario</th>
+            <th>Fecha y Hora</th>
+            <th>Calificación</th>
+          </tr>
+        </thead>
+        <tbody>
+          {turnos.map((turno) => (
+            <tr key={turno.id}>
+              <td>{turno.mascota.nombre}</td>
+              <td>{turno.veterinario.nombre} {turno.veterinario.apellido}</td>
+              <td>{dayjs(turno.fechaHora).format('DD/MM/YYYY HH:mm')}</td>
+              <td>
+                {turno.calificacion ? (
+                  <span>{turno.calificacion.puntuacion}</span>
+                ) : turno.estado === 'COMPLETADO' ? (
+                  <button className={styles.actionButton} onClick={() => handleCalificar(turno.id)}>
+                    Calificar Turno
+                  </button>
+                ) : turno.estado === 'AGENDADO' ? (
+                  <button className={styles.actionButton} onClick={() => deleteTurno(turno.id)}>
+                    Cancelar Turno
+                  </button>
+                ) : null}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+);
 };
 
 export default Turnos;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Menu from '../Menu/Menu';
+import styles from './AddMascota.module.css';
 
 const AddMascota: React.FC = () => {
   const [nombre, setNombre] = useState('');
@@ -79,76 +79,69 @@ const AddMascota: React.FC = () => {
   };
 
   return (
-    <>
-      <Menu />
-      <div>
-        <h2>Agregar Mascota</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {success && <p style={{ color: 'green' }}>{success}</p>}
-        <form onSubmit={handleAddMascota}>
-          <div>
-            <label>Nombre:</label>
-            <input
-              type="text"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Fecha de Nacimiento:</label>
-            <input
-              type="date"
-              value={fechaNacimiento}
-              onChange={(e) => setFechaNacimiento(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label>Especie:</label>
-            <select
-              value={especieId ?? ''}
-              onChange={(e) => {
-                const newEspecieId = Number(e.target.value);
-                console.log('Nuevo especieId seleccionado:', newEspecieId); // Log para depuración
-                setEspecieId(newEspecieId);
-              }}
-              required
-            >
-              <option value="" disabled>
-                Selecciona una Especie
-              </option>
-              {especies.map((especie) => (
-                <option key={especie.id} value={especie.id}>
-                  {especie.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label>Raza:</label>
-            <select
-              value={razaId ?? ''}
-              onChange={(e) => setRazaId(Number(e.target.value))}
-              required
-              disabled={!especieId} // Deshabilitar si no se ha seleccionado una especie.
-            >
-              <option value="" disabled>
-                Selecciona una Raza
-              </option>
-              {razas.map((raza) => (
-                <option key={raza.id} value={raza.id}>
-                  {raza.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
+  <div className={styles.container}>
+    <h2 className={styles.title}>Agregar Mascota</h2>
+    {error && <p className={styles.error}>{error}</p>}
+    {success && <p className={styles.success}>{success}</p>}
 
-          <button type="submit">Agregar Mascota</button>
-        </form>
+    <form className={styles.form} onSubmit={handleAddMascota}>
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Nombre:</label>
+        <input
+          type="text"
+          className={styles.input}
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          required
+        />
       </div>
-    </>
-  );
+
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Fecha de Nacimiento:</label>
+        <input
+          type="date"
+          className={styles.input}
+          value={fechaNacimiento}
+          onChange={(e) => setFechaNacimiento(e.target.value)}
+          required
+        />
+      </div>
+
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Especie:</label>
+        <select
+          className={styles.select}
+          value={especieId ?? ''}
+          onChange={(e) => setEspecieId(Number(e.target.value))}
+          required
+        >
+          <option value="" disabled>Selecciona una Especie</option>
+          {especies.map((especie) => (
+            <option key={especie.id} value={especie.id}>{especie.nombre}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className={styles.formGroup}>
+        <label className={styles.label}>Raza:</label>
+        <select
+          className={styles.select}
+          value={razaId ?? ''}
+          onChange={(e) => setRazaId(Number(e.target.value))}
+          required
+          disabled={!especieId}
+        >
+          <option value="" disabled>Selecciona una Raza</option>
+          {razas.map((raza) => (
+            <option key={raza.id} value={raza.id}>{raza.nombre}</option>
+          ))}
+        </select>
+      </div>
+
+      <button className={styles.submitButton} type="submit">Agregar Mascota</button>
+    </form>
+  </div>
+);
 };
 
 export default AddMascota;

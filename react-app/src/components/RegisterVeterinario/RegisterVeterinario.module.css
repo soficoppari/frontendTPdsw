@@ -1,0 +1,186 @@
+.registerContainer {
+  max-width: 900px;
+  width: 90%;
+  margin: 2vh auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  color: #dcedff;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Título */
+.title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Errores y mensajes */
+.error {
+  color: #ff6b6b;
+  font-weight: bold;
+  text-align: center;
+}
+
+.success {
+  color: #4caf50;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Formularios */
+.registerForm,
+.form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+
+.formColumn {
+  flex: 1;
+  min-width: 280px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #dcedff;
+}
+
+.input,
+.select,
+.timeInput {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #666;
+  border-radius: 8px;
+  background-color: rgba(56, 115, 163, 0.08);
+  color: #fff;
+  width: 100%;
+}
+
+.input:focus,
+.select:focus,
+.timeInput:focus {
+  outline: none;
+  border-color: #53aeca;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.registerButton,
+.button,
+.deleteButton {
+  background-color: #4c87af;
+  color: white;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.button:hover,
+.registerButton:hover,
+.deleteButton:hover {
+  background-color: #53aeca;
+  transform: scale(1.03);
+}
+
+.button:active,
+.registerButton:active,
+.deleteButton:active {
+  transform: scale(0.97);
+}
+
+.selectContainer {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid #666;
+  border-radius: 8px;
+  padding: 0.5rem;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dropdownArrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.dropdown {
+  background-color: #1e2a38;
+  border: 1px solid #444;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.dropdownItem {
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dropdownItem:hover {
+  background-color: #2c3e50;
+}
+
+.selectedItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.selectedItem {
+  background-color: #4c87af;
+  padding: 0.3rem 0.6rem;
+  border-radius: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.removeButton {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.horarioGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
