@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import styles from './TurnosVeterinario.module.css';
+
 
 interface Turno {
   id: number;
@@ -109,13 +111,14 @@ const TurnosVeterinario: React.FC = () => {
   console.log(turnosAtendidos);
 
   return (
-    <div className="turnos-container">
-      <h1 className="turnos-title">Turnos del Veterinario</h1>
-      <div className="turnos-grid">
-        <div className="turnos-column proximos">
-          <h2>Próximos Turnos</h2>
-          {turnosProximos.length > 0 ? (
-            <table className="turnos-table">
+  <div className={styles.turnosContainer}>
+    <h1 className={styles.turnosTitle}>Turnos del Veterinario</h1>
+    <div className={styles.turnosGrid}>
+      <div className={`${styles.turnosColumn} ${styles.proximos}`}>
+        <h2>Próximos Turnos</h2>
+        {turnosProximos.length > 0 ? (
+          <div className={styles.tableWrapper}>
+            <table className={styles.turnosTable}>
               <thead>
                 <tr>
                   <th>ID</th>
@@ -131,23 +134,23 @@ const TurnosVeterinario: React.FC = () => {
                     <td>{turno.id}</td>
                     <td>{turno.estado}</td>
                     <td>{turno.fechaHora}</td>
-                    <td>{turno.mascota?.nombre}</td>{' '}
-                    {/* Mostrar nombre de la mascota */}
-                    <td>{turno.usuario?.nombre}</td>{' '}
-                    {/* Mostrar nombre del usuario */}
+                    <td>{turno.mascota?.nombre}</td>
+                    <td>{turno.usuario?.nombre}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          ) : (
-            <p className="no-turnos">No hay turnos próximos.</p>
-          )}
-        </div>
+          </div>
+        ) : (
+          <p className={styles.noTurnos}>No hay turnos próximos.</p>
+        )}
+      </div>
 
-        <div className="turnos-column atendidos">
-          <h2>Turnos Atendidos</h2>
-          {turnosAtendidos.length > 0 ? (
-            <table className="turnos-table">
+      <div className={`${styles.turnosColumn} ${styles.atendidos}`}>
+        <h2>Turnos Atendidos</h2>
+        {turnosAtendidos.length > 0 ? (
+          <div className={styles.tableWrapper}>
+            <table className={styles.turnosTable}>
               <thead>
                 <tr>
                   <th>ID</th>
@@ -164,13 +167,11 @@ const TurnosVeterinario: React.FC = () => {
                     <td>{turno.id}</td>
                     <td>{turno.estado}</td>
                     <td>{turno.fechaHora}</td>
-                    <td>{turno.mascota?.nombre}</td>{' '}
-                    {/* Mostrar nombre de la mascota */}
-                    <td>{turno.usuario?.nombre}</td>{' '}
-                    {/* Mostrar nombre del usuario */}
+                    <td>{turno.mascota?.nombre}</td>
+                    <td>{turno.usuario?.nombre}</td>
                     <td>
                       <button
-                        className="completar-atencion-btn"
+                        className={styles.completarBtn}
                         onClick={() => completarAtencion(turno.id)}
                         disabled={turno.estado.includes('COMPLETADO')}
                       >
@@ -181,13 +182,14 @@ const TurnosVeterinario: React.FC = () => {
                 ))}
               </tbody>
             </table>
-          ) : (
-            <p className="no-turnos">No hay turnos atendidos.</p>
-          )}
-        </div>
+          </div>
+        ) : (
+          <p className={styles.noTurnos}>No hay turnos atendidos.</p>
+        )}
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default TurnosVeterinario;

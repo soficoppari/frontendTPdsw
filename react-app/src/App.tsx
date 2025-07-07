@@ -9,10 +9,10 @@ import RegisterVeterinario from './components/RegisterVeterinario/RegisterVeteri
 import Layout from './components/Layout'; // Asegúrate de que la ruta sea correcta
 import Perfil from './components/Perfil/Perfil';
 import Register from './components/Register/Register';
-import AddTurno from './components/AddTurno';
+import AddTurno from './components/AddTurno/AddTurno';
 import Turnos from './components/Turnos/Turnos';
-import PerfilVeterinario from './components/PerfilVeterinario';
-import TurnosVeterinario from './components/TurnosVeterinario';
+import PerfilVeterinario from './components/PerfilVeterinario/PerfilVeterinario';
+import TurnosVeterinario from './components/TurnosVeterinario/TurnosVeterinario';
 import './Styles/App.css';
 import './Styles/Reset.css';
 import './Styles/Variables.css';

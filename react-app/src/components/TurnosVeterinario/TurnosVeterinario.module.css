@@ -1,0 +1,98 @@
+.turnosContainer {
+  max-width: 1200px;
+  margin: 4vh auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  color: #dcedff;
+  backdrop-filter: blur(8px);
+}
+
+.turnosTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.turnosGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .turnosGrid {
+    flex-direction: row;
+  }
+}
+
+.turnosColumn {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.1);
+}
+
+.turnosColumn h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  border-bottom: 1px solid #555;
+  padding-bottom: 0.5rem;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.turnosTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  color: #fff;
+}
+
+.turnosTable th,
+.turnosTable td {
+  padding: 10px;
+  border: 1px solid #666;
+  text-align: left;
+}
+
+.turnosTable th {
+  background-color: rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+}
+
+.turnosTable td {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.noTurnos {
+  text-align: center;
+  margin-top: 1rem;
+  font-style: italic;
+  color: #ccc;
+}
+
+.completarBtn {
+  background-color: #28a745;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.completarBtn:hover {
+  background-color: #218838;
+}
+
+.completarBtn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+}

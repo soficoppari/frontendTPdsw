@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 //import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import styles from './PerfilVeterinario.module.css';
 
 interface Veterinario {
   id: number;
@@ -67,35 +68,36 @@ const PerfilVeterinario: React.FC = () => {
   }
 
   return (
-    <div className="perfil-container">
-      {veterinario ? (
-        <>
-          <h1 className="perfil-title">
-            {veterinario.nombre} {veterinario.apellido}
-          </h1>
-          <div className="perfil-info">
-            <p>
-              <span className="perfil-label">Matrícula:</span>{' '}
-              {veterinario.matricula}
-            </p>
-            <p>
-              <span className="perfil-label">Dirección:</span>{' '}
-              {veterinario.direccion}
-            </p>
-            <p>
-              <span className="perfil-label">Teléfono:</span>{' '}
-              {veterinario.nroTelefono}
-            </p>
-            <p>
-              <span className="perfil-label">Email:</span> {veterinario.email}
-            </p>
-          </div>
-        </>
-      ) : (
-        <p className="perfil-loading">Cargando datos...</p>
-      )}
-    </div>
-  );
+  <div className={styles.perfilContainer}>
+    {veterinario ? (
+      <>
+        <h1 className={styles.perfilTitle}>
+          {veterinario.nombre} {veterinario.apellido}
+        </h1>
+        <div className={styles.perfilInfo}>
+          <p>
+            <span className={styles.perfilLabel}>Matrícula:</span>{' '}
+            {veterinario.matricula}
+          </p>
+          <p>
+            <span className={styles.perfilLabel}>Dirección:</span>{' '}
+            {veterinario.direccion}
+          </p>
+          <p>
+            <span className={styles.perfilLabel}>Teléfono:</span>{' '}
+            {veterinario.nroTelefono}
+          </p>
+          <p>
+            <span className={styles.perfilLabel}>Email:</span>{' '}
+            {veterinario.email}
+          </p>
+        </div>
+      </>
+    ) : (
+      <p className={styles.perfilLoading}>Cargando datos...</p>
+    )}
+  </div>
+);
 };
 
 export default PerfilVeterinario;
