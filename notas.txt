@@ -16,5 +16,6 @@ Turnos bien, hay que arreglar el boton y la calificacion
 AddMascota flojo
 AddTurno bien
 PerfilVeterinario bien
-TurnosVeterinario bien
+TurnosVeterinario arreglar tablas
+
 

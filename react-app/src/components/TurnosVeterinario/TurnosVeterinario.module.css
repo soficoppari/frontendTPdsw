@@ -1,5 +1,5 @@
 .turnosContainer {
-  max-width: 1200px;
+  max-width: 12000px;
   margin: 4vh auto;
   padding: 2rem;
   border-radius: 12px;
@@ -59,7 +59,9 @@
   padding: 10px;
   border: 1px solid #666;
   text-align: left;
+  max-width: 120px;        /* 🔹 Limita el ancho de cada celda para que no desborde */
 }
+
 
 .turnosTable th {
   background-color: rgba(255, 255, 255, 0.08);

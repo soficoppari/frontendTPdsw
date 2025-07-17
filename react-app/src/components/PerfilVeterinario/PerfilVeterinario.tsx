@@ -3,6 +3,8 @@ import axios from 'axios';
 //import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import styles from './PerfilVeterinario.module.css';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 interface Veterinario {
   id: number;
@@ -19,9 +21,11 @@ interface DecodedToken {
 }
 
 const PerfilVeterinario: React.FC = () => {
+  const navigate = useNavigate();
   const [veterinario, setVeterinario] = useState<Veterinario | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { logout } = useAuth(); // Usar el método logout del contexto
 
   useEffect(() => {
     const fetchVeterinario = async () => {
@@ -59,6 +63,11 @@ const PerfilVeterinario: React.FC = () => {
     fetchVeterinario();
   }, []);
 
+  const handleLogout = () => {
+    logout(); // Actualiza el estado del contexto y elimina los datos del localStorage
+    navigate('/'); // Redirige al usuario a la página principal
+  };
+
   if (loading) {
     return <p>Cargando...</p>;
   }
@@ -91,6 +100,9 @@ const PerfilVeterinario: React.FC = () => {
             <span className={styles.perfilLabel}>Email:</span>{' '}
             {veterinario.email}
           </p>
+          <button className={styles.logoutButton} onClick={handleLogout}>
+          Cerrar Sesión
+        </button>
         </div>
       </>
     ) : (

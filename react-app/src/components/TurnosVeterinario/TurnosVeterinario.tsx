@@ -70,6 +70,8 @@ const TurnosVeterinario: React.FC = () => {
 
         const now = new Date();
 
+        
+
         const proximos = turnos.filter(
           (turno: Turno) =>
             !turno.estado.includes('COMPLETADO') &&
@@ -78,7 +80,7 @@ const TurnosVeterinario: React.FC = () => {
 
         const atendidos = turnos.filter(
           (turno: Turno) =>
-            turno.estado.includes('COMPLETADO') ||
+            turno.estado.includes('AGENDADO') &&
             new Date(turno.fechaHora) < now
         );
 
@@ -97,7 +99,7 @@ const TurnosVeterinario: React.FC = () => {
   }, []);
 
   const completarAtencion = (turnoId: number) => {
-    navigate(`/completar-atencion/${turnoId}`);
+    navigate(`/CompletarAtencion/${turnoId}`);
   };
 
   if (loading) {
@@ -112,83 +114,97 @@ const TurnosVeterinario: React.FC = () => {
 
   return (
   <div className={styles.turnosContainer}>
-    <h1 className={styles.turnosTitle}>Turnos del Veterinario</h1>
-    <div className={styles.turnosGrid}>
-      <div className={`${styles.turnosColumn} ${styles.proximos}`}>
-        <h2>Próximos Turnos</h2>
-        {turnosProximos.length > 0 ? (
-          <div className={styles.tableWrapper}>
-            <table className={styles.turnosTable}>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Estado</th>
-                  <th>Fecha y Hora</th>
-                  <th>Mascota</th>
-                  <th>Usuario</th>
+  <h1 className={styles.turnosTitle}>Turnos del Veterinario</h1>
+  <div className={styles.turnosGrid}>
+    <div className={`${styles.turnosColumn} ${styles.proximos}`}>
+      <h2>Próximos Turnos</h2>
+      {turnosProximos.length > 0 ? (
+        <div className={styles.tableWrapper}>
+          <table className={styles.turnosTable}>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Fecha y Hora</th>
+                <th>Mascota</th>
+                <th>Usuario</th>
+              </tr>
+            </thead>
+            <tbody>
+              {turnosProximos.map((turno) => (
+                <tr key={turno.id}>
+                  <td>{turno.id}</td>
+                  <td>
+                    {new Date(turno.fechaHora).toLocaleDateString('es-AR', {
+                      day: 'numeric',
+                      month: 'long',
+                    })},{' '}
+                    {new Date(turno.fechaHora).toLocaleTimeString('es-AR', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })} hs
+                  </td>
+                  <td>{turno.mascota?.nombre}</td>
+                  <td>{turno.usuario?.nombre}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {turnosProximos.map((turno) => (
-                  <tr key={turno.id}>
-                    <td>{turno.id}</td>
-                    <td>{turno.estado}</td>
-                    <td>{turno.fechaHora}</td>
-                    <td>{turno.mascota?.nombre}</td>
-                    <td>{turno.usuario?.nombre}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p className={styles.noTurnos}>No hay turnos próximos.</p>
-        )}
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className={styles.noTurnos}>No hay turnos próximos.</p>
+      )}
+    </div>
 
-      <div className={`${styles.turnosColumn} ${styles.atendidos}`}>
-        <h2>Turnos Atendidos</h2>
-        {turnosAtendidos.length > 0 ? (
-          <div className={styles.tableWrapper}>
-            <table className={styles.turnosTable}>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Estado</th>
-                  <th>Fecha y Hora</th>
-                  <th>Mascota</th>
-                  <th>Usuario</th>
-                  <th>Acción</th>
+    <div className={`${styles.turnosColumn} ${styles.atendidos}`}>
+      <h2>Turnos Atendidos</h2>
+      {turnosAtendidos.length > 0 ? (
+        <div className={styles.tableWrapper}>
+          <table className={styles.turnosTable}>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Fecha y Hora</th>
+                <th>Mascota</th>
+                <th>Usuario</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {turnosAtendidos.map((turno) => (
+                <tr key={turno.id}>
+                  <td>{turno.id}</td>
+                  <td>
+                    {new Date(turno.fechaHora).toLocaleDateString('es-AR', {
+                      day: 'numeric',
+                      month: 'long',
+                    })},{' '}
+                    {new Date(turno.fechaHora).toLocaleTimeString('es-AR', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })} hs
+                  </td>
+                  <td>{turno.mascota?.nombre}</td>
+                  <td>{turno.usuario?.nombre}</td>
+                  <td>
+                    <button
+                      className={styles.completarBtn}
+                      onClick={() => completarAtencion(turno.id)}
+                      disabled={turno.estado.includes('COMPLETADO')}
+                    >
+                      Completar Atención
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {turnosAtendidos.map((turno) => (
-                  <tr key={turno.id}>
-                    <td>{turno.id}</td>
-                    <td>{turno.estado}</td>
-                    <td>{turno.fechaHora}</td>
-                    <td>{turno.mascota?.nombre}</td>
-                    <td>{turno.usuario?.nombre}</td>
-                    <td>
-                      <button
-                        className={styles.completarBtn}
-                        onClick={() => completarAtencion(turno.id)}
-                        disabled={turno.estado.includes('COMPLETADO')}
-                      >
-                        Completar Atención
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p className={styles.noTurnos}>No hay turnos atendidos.</p>
-        )}
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <p className={styles.noTurnos}>No hay turnos atendidos.</p>
+      )}
     </div>
   </div>
+</div>
 );
 };
 

@@ -19,6 +19,7 @@ import './Styles/Variables.css';
 import { AuthProvider } from './context/AuthContext'; // Importa el proveedor
 import CalificarTurno from './components/CalificarTurno';
 import CalificacionesVeterinario from './components/CalificacionesVeterinario';
+import CompletarAtencion from './components/CompletarAtencion/CompletarAtencion';
 
 const App: React.FC = () => {
   return (
@@ -41,6 +42,7 @@ const App: React.FC = () => {
         <Route path="/TurnosVeterinario" element={<TurnosVeterinario />} />
         <Route path="/CalificacionesVeterinario" element={<CalificacionesVeterinario />} />
         <Route path="/CalificarTurno/:turnoId" element={<CalificarTurno />} />
+        <Route path="/CompletarAtencion/:turnoId" element={<CompletarAtencion />} />
       </Routes>
     </Layout>
   </Router>
