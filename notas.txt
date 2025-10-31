@@ -9,7 +9,7 @@ HomePage muy bien
 Login muy bien
 Register muy bien
 register usuario bien
-register veterinario, el mas complicado sin dudas, falta bastante
+register veterinario muy bien, validaciones menores
 Perfil muy bien
 Mascotas bien
 Turnos bien, hay que arreglar el boton y la calificacion
@@ -17,5 +17,9 @@ AddMascota flojo
 AddTurno bien
 PerfilVeterinario bien
 TurnosVeterinario arreglar tablas
+CalificacionesVeterinario excelente ; unir a PerfilVeterinario?
+Completar atencion bien
+CalificarTurno muy bien
 
+global: falta ajustar la altura de los componentes, queda mucho espacio en la parte inferior
 

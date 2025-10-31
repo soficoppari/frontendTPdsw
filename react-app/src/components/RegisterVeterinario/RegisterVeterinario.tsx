@@ -14,22 +14,28 @@ interface Horario {
 }
 
 const RegisterVeterinario: React.FC = () => {
+  const [matricula, setMatricula] = useState<number | null>(null);
   const [nombre, setNombre] = useState('');
   const [apellido, setApellido] = useState('');
   const [direccion, setDireccion] = useState('');
-  const [matricula, setMatricula] = useState<number | null>(null);
   const [nroTelefono, setNroTelefono] = useState('');
-  const [email, setEmail] = useState('');
-  const [contrasenia, setContrasenia] = useState('');
+
+  const [especies, setEspecies] = useState<Especie[]>([]);
+  const [especiesSeleccionadas, setEspeciesSeleccionadas] = useState<Especie[]>([]);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+
   const [horarios, setHorarios] = useState<Horario[]>([
     { dia: '', inicio: '08:00', fin: '17:00' },
   ]);
-  const [especiesSeleccionadas, setEspeciesSeleccionadas] = useState<Especie[]>([]);
-  const [especies, setEspecies] = useState<Especie[]>([]);
+  const [horariosEditados, setHorariosEditados] = useState<boolean[]>([true]); // true = editando, false = resumen
+
+  const [email, setEmail] = useState('');
+  const [contrasenia, setContrasenia] = useState('');
+  const [confirmarContrasenia, setConfirmarContrasenia] = useState('');
+
+  const [step, setStep] = useState(1);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [step, setStep] = useState(1);
 
   const navigate = useNavigate();
 
@@ -51,73 +57,29 @@ const RegisterVeterinario: React.FC = () => {
   const toggleDropdown = () => setDropdownVisible(!dropdownVisible);
 
   const handleSelectEspecie = (especie: Especie) => {
-    if (!especiesSeleccionadas.some((e) => e.id === especie.id)) {
-      setEspeciesSeleccionadas([...especiesSeleccionadas, especie]);
-    }
+    setEspeciesSeleccionadas((prev) => {
+      const nuevas = [...prev, especie];
+      // Si después de agregar, ya están todas seleccionadas, cerrar dropdown
+      if (nuevas.length === especies.length) {
+        setDropdownVisible(false);
+      }
+      return nuevas;
+    });
   };
 
   const handleDeselectEspecie = (id: number) => {
     setEspeciesSeleccionadas(especiesSeleccionadas.filter((e) => e.id !== id));
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formattedHorarios = horarios.map((h) => ({
-      dia: h.dia,
-      horaInicio: h.inicio,
-      horaFin: h.fin,
-    }));
-
-    try {
-      const response = await fetch('http://localhost:3000/api/veterinario', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          matricula,
-          nombre,
-          apellido,
-          direccion,
-          nroTelefono,
-          email,
-          contrasenia,
-          horarios: formattedHorarios,
-          especies: especiesSeleccionadas.map((e) => e.id),
-        }),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        setError(data.message || 'Error al registrarse');
-        return;
-      }
-
-      setSuccess(true);
-      navigate('/login');
-    } catch {
-      setError('Error al registrarse');
-    }
-  };
-
-  const handleNextStep = () => {
-    if (
-      !nombre ||
-      !apellido ||
-      !direccion ||
-      !nroTelefono ||
-      !email ||
-      !contrasenia
-    ) {
-      setError('Por favor, completa todos los campos del paso 1.');
-      return;
-    }
-    setError('');
-    setStep(step + 1);
-  };
-
-  const handlePreviousStep = () => setStep(step - 1);
-
   const handleAddHorario = () => {
     setHorarios([...horarios, { dia: '', inicio: '08:00', fin: '17:00' }]);
+    setHorariosEditados([...horariosEditados, true]);
+  };
+
+  const handleHorarioEdit = (index: number, editando: boolean) => {
+    const nuevosEditados = [...horariosEditados];
+    nuevosEditados[index] = editando;
+    setHorariosEditados(nuevosEditados);
   };
 
   const handleHorarioChange = (
@@ -132,187 +94,420 @@ const RegisterVeterinario: React.FC = () => {
 
   const handleRemoveHorario = (index: number) => {
     setHorarios(horarios.filter((_, i) => i !== index));
+    setHorariosEditados(horariosEditados.filter((_, i) => i !== index));
   };
+
+  const handleNextStep = () => {
+  if (step === 1) {
+    if (!matricula || !nombre || !apellido || !direccion || !nroTelefono) {
+      setError('Por favor, completa todos los campos del paso 1.');
+      return;
+    }
+  }
+  if (step === 2 && especiesSeleccionadas.length === 0) {
+    setError('Selecciona al menos una especie.');
+    return;
+  }
+  if (step === 3) {
+    // Validar que todos los horarios estén confirmados (no editando)
+    const todosConfirmados = horariosEditados.every((editando) => editando === false);
+    if (!todosConfirmados || horarios.length === 0) {
+      setError('Por favor completa y confirma todos los horarios antes de continuar.');
+      return;
+    }
+  }
+  setError('');
+  setStep((prev) => prev + 1);
+  if (step === 4) return;
+};
+
+  const handlePreviousStep = () => {
+    if (step > 1) setStep(step - 1);
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email || !contrasenia || !confirmarContrasenia) {
+      setError('Completa todos los campos del paso 4.');
+      return;
+    }
+    if (contrasenia !== confirmarContrasenia) {
+      setError('Las contraseñas no coinciden.');
+      return;
+    }
+
+      const diaSemanaMap: Record<string, number> = {
+      Domingo: 0,
+      Lunes: 1,
+      Martes: 2,
+      Miércoles: 3,
+      Jueves: 4,
+      Viernes: 5,
+      Sábado: 6,
+    };
+
+    const formattedHorarios = horarios.map((h) => ({
+      diaSemana: diaSemanaMap[h.dia],
+      horaInicio: h.inicio, // "08:00"
+      horaFin: h.fin,       // "17:00"
+  }));
+
+  try {
+    const response = await fetch('http://localhost:3000/api/veterinario', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        matricula,
+        nombre,
+        apellido,
+        direccion,
+        nroTelefono,
+        email,
+        contrasenia,
+        horarios: formattedHorarios,
+        especies: especiesSeleccionadas.map((e) => e.id),
+        }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      setError(data.message || 'Error al registrarse');
+      return;
+    }
+
+    setSuccess(true);
+    navigate('/login');
+  } catch {
+    setError('Error al registrarse');
+  }
+};
 
   return (
     <div className={styles.registerContainer}>
       <h2 className={styles.title}>Registro de Veterinario</h2>
 
+      {/* Progreso */}
+      <div className={styles.progressContainer}>
+        {[1, 2, 3, 4].map((s) => (
+          <div key={s} className={`${styles.step} ${step >= s ? styles.activeStep : ''}`}>
+            <div className={styles.circle}>{s}</div>
+            {s < 4 && <div className={styles.line}></div>}
+          </div>
+        ))}
+      </div>
+
       {error && <p className={styles.error}>{error}</p>}
       {success && <p className={styles.success}>¡Registro exitoso! Redirigiendo al login...</p>}
 
-      {step === 1 && (
-        <form className={styles.registerForm}>
-          <div className={styles.formColumn}>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Matrícula</label>
-              <input
-                type="number"
-                value={matricula || ''}
-                onChange={(e) => setMatricula(Number(e.target.value))}
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Nombre</label>
-              <input
-                type="text"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Apellido</label>
-              <input
-                type="text"
-                value={apellido}
-                onChange={(e) => setApellido(e.target.value)}
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Dirección</label>
-              <input
-                type="text"
-                value={direccion}
-                onChange={(e) => setDireccion(e.target.value)}
-                className={styles.input}
-              />
-            </div>
-          </div>
+      {/* Paso 1 */}
+{step === 1 && (
+  <form className={styles.registerForm}>
+    <div className={styles.formColumn}>
+      <div className={styles.formGroup}>
+        <input
+          type="text"
+          value={matricula || ''}
+          onChange={(e) => setMatricula(Number(e.target.value))}
+          className={styles.input}
+          placeholder="Matrícula"
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <input
+          type="text"
+          value={nombre}
+          onChange={(e) => setNombre(e.target.value)}
+          className={styles.input}
+          placeholder="Nombre"
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <input
+          type="text"
+          value={apellido}
+          onChange={(e) => setApellido(e.target.value)}
+          className={styles.input}
+          placeholder="Apellido"
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <input
+          type="text"
+          value={direccion}
+          onChange={(e) => setDireccion(e.target.value)}
+          className={styles.input}
+          placeholder="Dirección"
+        />
+      </div>
+      <div className={styles.formGroup}>
+        <input
+          type="text"
+          value={nroTelefono}
+          onChange={(e) => setNroTelefono(e.target.value)}
+          className={styles.input}
+          placeholder="Número de Teléfono"
+        />
+      </div>
+    </div>
+  </form>
+)}
 
-          <div className={styles.formColumn}>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Número de Teléfono</label>
-              <input
-                type="text"
-                value={nroTelefono}
-                onChange={(e) => setNroTelefono(e.target.value)}
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.input}
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Contraseña</label>
-              <input
-                type="password"
-                value={contrasenia}
-                onChange={(e) => setContrasenia(e.target.value)}
-                className={styles.input}
-              />
-            </div>
-            <button
-              type="button"
-              onClick={handleNextStep}
-              className={styles.registerButton}
-            >
-              Siguiente
-            </button>
-          </div>
-        </form>
+
+      {/* Paso 2 */}
+{step === 2 && (
+  <form className={styles.form}>
+    <div className={styles.formGroup}>
+      <label className={styles.label}>Especies</label>
+      
+      {/* Caja de selección */}
+      <div className={styles.selectContainer} onClick={toggleDropdown}>
+        {especiesSeleccionadas.length === 0
+          ? "Selecciona especie..."
+          : "Agregar otra especie"}
+        <div className={styles.dropdownArrow}>▼</div>
+      </div>
+
+      {/* Dropdown */}
+      {dropdownVisible && (
+        <div className={styles.dropdown}>
+          {especies
+            .filter((especie) => !especiesSeleccionadas.some((e) => e.id === especie.id))
+            .map((especie) => (
+              <div
+                key={especie.id}
+                className={styles.dropdownItem}
+                onClick={() => handleSelectEspecie(especie)}
+              >
+                {especie.nombre}
+              </div>
+            ))}
+        </div>
       )}
 
-      {step === 2 && (
-        <form onSubmit={handleRegister} className={styles.form}>
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Especies</label>
-            <div className={styles.selectContainer} onClick={toggleDropdown}>
-              <div className={styles.dropdownArrow}>▼</div>
-            </div>
-            {dropdownVisible && (
-              <div className={styles.dropdown}>
-                {especies.map((especie) => (
-                  <div
-                    key={especie.id}
-                    className={styles.dropdownItem}
-                    onClick={() => handleSelectEspecie(especie)}
-                  >
-                    {especie.nombre}
-                  </div>
-                ))}
-              </div>
-            )}
-            <div className={styles.selectedItems}>
-              {especiesSeleccionadas.map((especie) => (
-                <div key={especie.id} className={styles.selectedItem}>
-                  {especie.nombre}
-                  <button
-                    type="button"
-                    onClick={() => handleDeselectEspecie(especie.id)}
-                    className={styles.removeButton}
-                  >
-                    x
-                  </button>
-                </div>
-              ))}
-            </div>
+      {/* Seleccionados */}
+      <div className={styles.selectedItems}>
+        {especiesSeleccionadas.map((especie) => (
+          <div key={especie.id} className={styles.selectedItem}>
+            {especie.nombre}
+            <button
+              type="button"
+              className={styles.removeButton}
+              onClick={() => handleDeselectEspecie(especie.id)}
+              aria-label="Quitar especie"
+            >
+              ×
+            </button>
           </div>
+        ))}
+      </div>
+    </div>
+  </form>
+)}
 
-          <div className={styles.formGroup}>
-            <label className={styles.label}>Horarios</label>
-            {horarios.map((horario, index) => (
-              <div key={index} className={styles.horarioGroup}>
+      {/* Paso 3 */}
+{step === 3 && (
+  <form className={styles.form}>
+    <div className={styles.formGroup}>
+      <label className={styles.label}>Horarios</label>
+      {/* Solo mostrar el error aquí en el paso 3 */}
+      {horarios.map((horario, index) => {
+        // días disponibles quitando los ya seleccionados en otros horarios
+        const diasDisponibles = [
+          'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'
+        ].filter(
+          (dia) =>
+            dia === horario.dia ||
+            !horarios.some((h, i) => i !== index && h.dia === dia)
+        );
+
+        // Formato resumen: Lunes 8am-4pm
+        const resumenHorario = () => {
+          if (!horario.dia || !horario.inicio || !horario.fin) return '';
+          const formatHora = (h: string) => {
+            const [hh, mm] = h.split(':');
+            let hour = parseInt(hh, 10);
+            const ampm = hour >= 12 ? 'pm' : 'am';
+            hour = hour % 12 || 12;
+            return `${hour}${mm !== '00' ? ':' + mm : ''}${ampm}`;
+          };
+          return `${horario.dia} ${formatHora(horario.inicio)}-${formatHora(horario.fin)}`;
+        };
+
+        // Validar si el horario es válido para habilitar el botón verde
+        const isHorarioValido =
+          horario.dia !== '' &&
+          horario.inicio !== '' &&
+          horario.fin !== '' &&
+          horario.inicio < horario.fin;
+
+        return (
+          <div key={index} className={styles.horarioGroup}>
+            {horariosEditados[index] ? (
+              <>
+                {/* Dropdown Día */}
                 <select
                   value={horario.dia}
                   onChange={(e) => handleHorarioChange(index, 'dia', e.target.value)}
                   className={styles.select}
                 >
-                  <option value="">Día</option>
-                  {['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'].map((dia) => (
-                    <option key={dia} value={dia}>{dia}</option>
+                  <option value="" disabled>
+                    Día
+                  </option>
+                  {diasDisponibles.map((dia) => (
+                    <option key={dia} value={dia}>
+                      {dia}
+                    </option>
                   ))}
                 </select>
-                <label>
-                  Hora de Inicio
-                  <input
-                    type="time"
-                    value={horario.inicio}
-                    onChange={(e) => handleHorarioChange(index, 'inicio', e.target.value)}
-                    className={styles.timeInput}
-                  />
-                </label>
-                <label>
-                  Hora Fin
-                  <input
-                    type="time"
-                    value={horario.fin}
-                    onChange={(e) => handleHorarioChange(index, 'fin', e.target.value)}
-                    className={styles.timeInput}
-                  />
-                </label>
+
+                {/* Inputs de hora */}
+                <div className={styles.horariosFullRow}>
+                  <label className={styles.timeLabel}>
+                    Hora de Inicio
+                    <input
+                      type="time"
+                      value={horario.inicio}
+                      onChange={(e) => handleHorarioChange(index, 'inicio', e.target.value)}
+                      className={styles.timeInputFull}
+                    />
+                  </label>
+                  <label className={styles.timeLabel}>
+                    Hora Fin
+                    <input
+                      type="time"
+                      value={horario.fin}
+                      onChange={(e) => handleHorarioChange(index, 'fin', e.target.value)}
+                      className={styles.timeInputFull}
+                    />
+                  </label>
+                </div>
+              </>
+            ) : (
+              <div className={styles.horariosFullRow}>
+                <span className={styles.horarioResumen}>{resumenHorario()}</span>
+              </div>
+            )}
+            {/* Botones debajo */}
+            <div className={styles.deleteButtonRow} style={{ display: 'flex', gap: '0.5rem' }}>
+              <button
+                type="button"
+                onClick={() => handleRemoveHorario(index)}
+                className={styles.deleteIconButton}
+                aria-label="Eliminar horario"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M9 3a3 3 0 0 1 6 0h5a1 1 0 1 1 0 2h-1v15a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V5H4a1 1 0 1 1 0-2h5Zm8 2H7v15a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V5Zm-5 3a1 1 0 0 1 2 0v8a1 1 0 1 1-2 0V8Zm-2 0a1 1 0 0 1 2 0v8a1 1 0 1 1-2 0V8Z"/>
+                </svg>
+              </button>
+              {horariosEditados[index] ? (
                 <button
                   type="button"
-                  onClick={() => handleRemoveHorario(index)}
-                  className={styles.deleteButton}
+                  className={styles.confirmIconButton}
+                  style={{
+                    background: isHorarioValido ? '#28a745' : '#bdbdbd',
+                    borderRadius: '6px',
+                    border: 'none',
+                    padding: '0.3rem 0.7rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: isHorarioValido ? 'pointer' : 'not-allowed'
+                  }}
+                  onClick={() => isHorarioValido && handleHorarioEdit(index, false)}
+                  aria-label="Confirmar horario"
+                  disabled={!isHorarioValido}
                 >
-                  Eliminar
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fff" viewBox="0 0 24 24">
+                    <path d="M20.285 6.709a1 1 0 0 0-1.414-1.418l-9.192 9.192-4.243-4.242a1 1 0 1 0-1.414 1.414l4.95 4.95a1 1 0 0 0 1.414 0l9.899-9.896z"/>
+                  </svg>
                 </button>
-              </div>
-            ))}
-            <button type="button" onClick={handleAddHorario} className={styles.button}>
-              Agregar Horario
-            </button>
+              ) : (
+                <button
+                  type="button"
+                  className={styles.editIconButton}
+                  style={{ background: '#ffc107', borderRadius: '6px', border: 'none', padding: '0.3rem 0.7rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                  onClick={() => handleHorarioEdit(index, true)}
+                  aria-label="Editar horario"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#fff" viewBox="0 0 24 24">
+                    <path d="M3 17.25V21h3.75l11.06-11.06-3.75-3.75L3 17.25zm17.71-10.04a1.003 1.003 0 0 0 0-1.42l-2.54-2.54a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.62z"/>
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
+        );
+      })}
 
-          <div className={styles.buttonGroup}>
-            <button type="button" onClick={handlePreviousStep} className={styles.button}>
-              Anterior
-            </button>
-            <button type="submit" className={styles.button}>
-              Registrar Veterinario
-            </button>
-          </div>
-        </form>
-      )}
+      {/* Botón agregar */}
+      <button
+        type="button"
+        onClick={handleAddHorario}
+        className={styles.button}
+        disabled={horarios.length >= 7}
+        style={{
+          background: horarios.length >= 7 ? '#bdbdbd' : undefined,
+          cursor: horarios.length >= 7 ? 'not-allowed' : 'pointer'
+        }}
+      >
+        Agregar Horario
+      </button>
+    </div>
+  </form>
+)}
+
+      {/* Paso 4 */}
+{step === 4 && (
+  <form onSubmit={handleRegister} className={styles.form}>
+    <div className={styles.formGroup}>
+      <input
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        className={styles.input}
+        placeholder="Email"
+      />
+    </div>
+    <div className={styles.formGroup}>
+      <input
+        type="password"
+        value={contrasenia}
+        onChange={(e) => setContrasenia(e.target.value)}
+        className={styles.input}
+        placeholder="Contraseña"
+      />
+    </div>
+    <div className={styles.formGroup}>
+      <input
+        type="password"
+        value={confirmarContrasenia}
+        onChange={(e) => setConfirmarContrasenia(e.target.value)}
+        className={styles.input}
+        placeholder="Confirmar Contraseña"
+      />
+    </div>
+  </form>
+)}
+
+      {/* Botones siempre abajo */}
+      <div className={styles.buttonGroup}>
+        {step > 1 && (
+          <button type="button" onClick={handlePreviousStep} className={styles.button}>
+            Anterior
+          </button>
+        )}
+        {step < 4 && (
+          <button type="button" onClick={handleNextStep} className={styles.button}>
+            Siguiente
+          </button>
+        )}
+        {step === 4 && (
+          <button type="button" onClick={handleRegister} className={styles.button}>
+            Registrar Veterinario
+          </button>
+        )}
+      </div>
     </div>
   );
 };

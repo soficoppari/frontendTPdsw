@@ -1,7 +1,7 @@
 /* Contenedor principal */
 .registerContainer {
   max-width: 500px;
-  margin: 4vh auto;
+  margin: 16vh auto;
   padding: 2rem;
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
@@ -38,7 +38,6 @@
 /* Input */
 .input {
   width: 100%;
-  max-width: 260px;
   border: 1px solid #666;
   border-radius: 8px;
   background-color: rgba(56, 115, 163, 0.04);
@@ -63,8 +62,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s, transform 0.2s;
-  max-width: 260px;
-  margin: 0 auto;
+  margin: 12 auto;
   width: 100%;
 }
 

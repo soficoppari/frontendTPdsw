@@ -1,13 +1,13 @@
 .container {
   max-width: 600px;
-  margin: 8vh auto;
+  margin: 16vh auto;
   padding: 2rem;
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
   color: #dcedff;
-  text-align: center;
+  text-align: left; /* Cambiado de center a left */
   height: 100%;
 }
 
@@ -16,6 +16,7 @@
   font-weight: 600;
   margin-bottom: 2rem;
   color: #ffffff;
+  text-align: center; /* Mantener centrado solo el título */
 }
 
 .card {
@@ -43,6 +44,8 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
+  width: 100%;
+  margin-top: 2rem;
 }
 
 .logoutButton:hover {
@@ -52,4 +55,17 @@
 
 .logoutButton:active {
   transform: scale(0.95);
+}
+
+.perfilInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.perfilLabel {
+  font-weight: 600;
+  color: #ffffff;
 }

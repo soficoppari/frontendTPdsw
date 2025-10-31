@@ -46,7 +46,7 @@
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 
 .card:hover {
@@ -54,6 +54,11 @@
   background-color: rgba(255, 255, 255, 0.08);
 }
 
+.card[role="button"]:hover, .card[role="button"]:focus {
+  box-shadow: 0 0 0 3px #7fdcff;
+  transform: translateY(-2px) scale(1.01);
+  outline: none;
+}
 
 .cardHeader {
   margin-bottom: 1rem;
@@ -87,4 +92,11 @@
 
 .primaryButton:hover {
   background-color: #53aeca;
+}
+
+.rating {
+  font-size: 1.1rem;
+  color: #ffd700;
+  margin-left: 0.5rem;
+  font-weight: bold;
 }

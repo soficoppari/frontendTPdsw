@@ -3,6 +3,21 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styles from './Mascotas.module.css';
 
+// Puedes usar emojis o importar íconos según la especie
+const especieIcono = (especie: string) => {
+  switch (especie.toLowerCase()) {
+    case 'perro':
+      return '🐶';
+    case 'gato':
+      return '🐱';
+    case 'ave':
+      return '🐦';
+    case 'conejo':
+      return '🐰';
+    default:
+      return '🐾';
+  }
+};
 
 type Usuario = {
   id: number;
@@ -34,16 +49,12 @@ const Mascotas: React.FC = () => {
   useEffect(() => {
     const fetchMascotas = async () => {
       const token = localStorage.getItem('token');
-      console.log('Token:', token); // Verifica que el token no sea null o undefined
-
       try {
         const response = await axios.get('http://localhost:3000/api/mascota', {
           headers: { Authorization: `Bearer ${token}` },
         });
-
         setMascotas(response.data.data);
       } catch (err) {
-        console.error('Error al obtener las mascotas:', err); // Imprime el error
         setError('Error al obtener las mascotas');
       }
     };
@@ -56,63 +67,68 @@ const Mascotas: React.FC = () => {
   };
 
   const handleAgendarTurno = (mascotaId: number, especieId: number) => {
-    // Guardar el ID de la mascota en el localStorage
     localStorage.setItem('mascotaId', mascotaId.toString());
-    // Guardar el ID de la especie de la mascota en el localStorage
     localStorage.setItem('especieMascota', especieId.toString());
-    // Navegar a la página de veterinarios
     navigate('/Veterinarios');
   };
-  //catch
+
   return (
-  <>
     <div className={styles.container}>
       <h2 className={styles.title}>Tus Mascotas</h2>
-
+      <h3
+        style={{
+          color: '#7fdcff',
+          fontWeight: 500,
+          marginTop: '-0.5rem',
+          marginBottom: '1.5rem',
+          fontSize: '1.1rem',
+          textAlign: 'center'
+        }}
+      >
+        Haz click para agendar un turno para tu Mascota
+      </h3>
       {error && <p className={styles.error}>{error}</p>}
-
       {mascotas.length === 0 ? (
         <p>No has ingresado ninguna mascota aún.</p>
       ) : (
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Fecha de Nacimiento</th>
-              <th>Raza</th>
-              <th>Especie</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mascotas.map((mascota) => (
-              <tr key={mascota.id}>
-                <td>{mascota.nombre}</td>
-                <td>{mascota.fechaNacimiento}</td>
-                <td>{mascota.raza.nombre}</td>
-                <td>{mascota.raza.especie.nombre}</td>
-                <td>
-                  <button
-                    className={styles.actionButton}
-                    onClick={() =>
-                      handleAgendarTurno(mascota.id, mascota.raza.id)
-                    }
-                  >
-                    Agendar Turno
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <ul className={styles.mascotasList}>
+          {mascotas.map((mascota) => (
+            <li
+              key={mascota.id}
+              className={styles.card}
+              tabIndex={0}
+              role="button"
+              onClick={() =>
+                handleAgendarTurno(mascota.id, mascota.raza.especie.id)
+              }
+              onKeyDown={e => {
+                if (e.key === 'Enter' || e.key === ' ') handleAgendarTurno(mascota.id, mascota.raza.especie.id);
+              }}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className={styles.cardHeader}>
+                <span className={styles.especieIcon}>
+                  {especieIcono(mascota.raza.especie.nombre)}
+                </span>
+                <h3 className={styles.cardTitle}>{mascota.nombre}</h3>
+              </div>
+              <div className={styles.cardBody}>
+                <p>
+                  <span style={{ color: "#ff5e5e" }}>🧬</span> <strong>Raza:</strong> {mascota.raza.nombre}
+                </p>
+                <p>
+                  <span style={{ color: "#ffd700" }}>🎂</span> <strong></strong> {mascota.fechaNacimiento}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
-
       <button className={styles.addButton} onClick={handleAddMascota}>
         Agregar nueva mascota
       </button>
     </div>
-  </>
-);
+  );
 };
 
 export default Mascotas;

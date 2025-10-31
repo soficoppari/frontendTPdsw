@@ -1,0 +1,50 @@
+.resumen-container {
+  max-width: 700px;
+  margin: 14vh auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.resumen-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #357ABD; /* azul oscuro */
+  text-align: center;
+}
+
+.resumen-title span {
+  font-size: 2rem;
+  margin-left: 0.5rem;
+}
+
+.resumen-info {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  color: #ddd;
+}
+
+.resumen-info strong {
+  color: #4a90e2;
+}
+
+.resumen-button {
+  display: block;
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #357ABD;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: 1.5rem;
+}
+
+.resumen-button:hover {
+  background-color: #4a90e2;
+  transform: translateY(-2px);
+}

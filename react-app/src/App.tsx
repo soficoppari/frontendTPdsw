@@ -9,7 +9,7 @@ import RegisterVeterinario from './components/RegisterVeterinario/RegisterVeteri
 import Layout from './components/Layout'; // Asegúrate de que la ruta sea correcta
 import Perfil from './components/Perfil/Perfil';
 import Register from './components/Register/Register';
-import AddTurno from './components/AddTurno/AddTurno';
+import AgendarTurno from './components/AgendarTurno/AgendarTurno';
 import Turnos from './components/Turnos/Turnos';
 import PerfilVeterinario from './components/PerfilVeterinario/PerfilVeterinario';
 import TurnosVeterinario from './components/TurnosVeterinario/TurnosVeterinario';
@@ -17,9 +17,10 @@ import './Styles/App.css';
 import './Styles/Reset.css';
 import './Styles/Variables.css';
 import { AuthProvider } from './context/AuthContext'; // Importa el proveedor
-import CalificarTurno from './components/CalificarTurno';
-import CalificacionesVeterinario from './components/CalificacionesVeterinario';
+import CalificarTurno from './components/CalificarTurno/CalificarTurno';
+import CalificacionesVeterinario from './components/CalificacionesVeterinario/CalificacionesVeterinario';
 import CompletarAtencion from './components/CompletarAtencion/CompletarAtencion';
+import ResumenTurno from './components/ResumenTurno/ResumenTurno';
 
 const App: React.FC = () => {
   return (
@@ -33,7 +34,7 @@ const App: React.FC = () => {
         <Route path="/registerVeterinario" element={<RegisterVeterinario />} />
         <Route path="/Mascotas" element={<MascotasList />} />
         <Route path="/perfil" element={<Perfil />} />
-        <Route path="/AddTurno/:id" element={<AddTurno />} />
+        <Route path="/AgendarTurno/:id" element={<AgendarTurno />} />
         <Route path="/register" element={<Register />} />
         <Route path="/Turnos" element={<Turnos />} />
         <Route path="/Addmascota" element={<AddMascota />} />
@@ -43,6 +44,7 @@ const App: React.FC = () => {
         <Route path="/CalificacionesVeterinario" element={<CalificacionesVeterinario />} />
         <Route path="/CalificarTurno/:turnoId" element={<CalificarTurno />} />
         <Route path="/CompletarAtencion/:turnoId" element={<CompletarAtencion />} />
+        <Route path="/ResumenTurno/:id" element={<ResumenTurno />} />
       </Routes>
     </Layout>
   </Router>

@@ -79,69 +79,85 @@ const AddMascota: React.FC = () => {
   };
 
   return (
-  <div className={styles.container}>
-    <h2 className={styles.title}>Agregar Mascota</h2>
-    {error && <p className={styles.error}>{error}</p>}
-    {success && <p className={styles.success}>{success}</p>}
+    <div className={styles.container}>
+      <h2 className={styles.title}>Agregar Mascota</h2>
+      {error && <p className={styles.error}>{error}</p>}
+      {success && <p className={styles.success}>{success}</p>}
 
-    <form className={styles.form} onSubmit={handleAddMascota}>
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Nombre:</label>
-        <input
-          type="text"
-          className={styles.input}
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
-      </div>
+      <form className={styles.form} onSubmit={handleAddMascota}>
+        <div className={styles.formGroup}>
+          <label className={styles.label} style={{ alignSelf: 'flex-start' }}>Nombre:</label>
+          <input
+            type="text"
+            className={styles.input}
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+          />
+        </div>
 
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Fecha de Nacimiento:</label>
-        <input
-          type="date"
-          className={styles.input}
-          value={fechaNacimiento}
-          onChange={(e) => setFechaNacimiento(e.target.value)}
-          required
-        />
-      </div>
+        <div className={styles.formGroup}>
+          <label className={styles.label} style={{ alignSelf: 'flex-start' }}>Fecha de Nacimiento:</label>
+          <input
+            type="date"
+            className={styles.input}
+            value={fechaNacimiento}
+            onChange={(e) => setFechaNacimiento(e.target.value)}
+            required
+            max={new Date().toISOString().split('T')[0]}
+            // El input type="date" siempre muestra el formato local del navegador,
+            // pero para mostrarlo como dd/mm/aaaa debajo, puedes agregar esto:
+          />
+          {fechaNacimiento && (
+            <span className={styles.fechaFormateada}>
+              {(() => {
+                const meses = [
+                  'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+                ];
+                const [y, m, d] = fechaNacimiento.split('-');
+                const mesTexto = meses[parseInt(m, 10) - 1];
+                return `${parseInt(d, 10)} de ${mesTexto}, ${y}`;
+              })()}
+            </span>
+          )}
+        </div>
 
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Especie:</label>
-        <select
-          className={styles.select}
-          value={especieId ?? ''}
-          onChange={(e) => setEspecieId(Number(e.target.value))}
-          required
-        >
-          <option value="" disabled>Selecciona una Especie</option>
-          {especies.map((especie) => (
-            <option key={especie.id} value={especie.id}>{especie.nombre}</option>
-          ))}
-        </select>
-      </div>
+        <div className={styles.formGroup}>
+          <label className={styles.label} style={{ alignSelf: 'flex-start' }}>Especie:</label>
+          <select
+            className={styles.select}
+            value={especieId ?? ''}
+            onChange={(e) => setEspecieId(Number(e.target.value))}
+            required
+          >
+            <option value="" disabled>Selecciona una Especie</option>
+            {especies.map((especie) => (
+              <option key={especie.id} value={especie.id}>{especie.nombre}</option>
+            ))}
+          </select>
+        </div>
 
-      <div className={styles.formGroup}>
-        <label className={styles.label}>Raza:</label>
-        <select
-          className={styles.select}
-          value={razaId ?? ''}
-          onChange={(e) => setRazaId(Number(e.target.value))}
-          required
-          disabled={!especieId}
-        >
-          <option value="" disabled>Selecciona una Raza</option>
-          {razas.map((raza) => (
-            <option key={raza.id} value={raza.id}>{raza.nombre}</option>
-          ))}
-        </select>
-      </div>
+        <div className={styles.formGroup}>
+          <label className={styles.label} style={{ alignSelf: 'flex-start' }}>Raza:</label>
+          <select
+            className={styles.select}
+            value={razaId ?? ''}
+            onChange={(e) => setRazaId(Number(e.target.value))}
+            required
+            disabled={!especieId}
+          >
+            <option value="" disabled>Selecciona una Raza</option>
+            {razas.map((raza) => (
+              <option key={raza.id} value={raza.id}>{raza.nombre}</option>
+            ))}
+          </select>
+        </div>
 
-      <button className={styles.submitButton} type="submit">Agregar Mascota</button>
-    </form>
-  </div>
-);
+        <button className={styles.submitButton} type="submit">Agregar Mascota</button>
+      </form>
+    </div>
+  );
 };
 
 export default AddMascota;

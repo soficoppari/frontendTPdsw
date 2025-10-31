@@ -1,64 +1,78 @@
 .container {
   max-width: 500px;
-  margin: 4vh auto;
+  margin: 12vh auto;
   padding: 2rem;
-  border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  backdrop-filter: blur(6px);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
   color: #dcedff;
+  text-align: center;
+  height: 100%;
 }
 
 .title {
-  text-align: center;
   font-size: 1.8rem;
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 1.5rem;
+  color: #dcedff;
 }
 
 .error {
   color: #ff6b6b;
+  font-weight: bold;
   text-align: center;
-  margin-bottom: 1rem;
 }
 
 .success {
   color: #4caf50;
+  font-weight: bold;
   text-align: center;
-  margin-bottom: 1rem;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
+  margin-top: 1rem;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .label {
-  font-weight: 600;
-  margin-bottom: 0.3rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #dcedff;
+  text-align: left;
+  align-self: flex-start;
 }
 
 .input,
 .select {
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #888;
+  width: 100%;
+  border: 1px solid #666;
   border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-  font-size: 1rem;
+  background-color: rgba(56, 115, 163, 0.04);
+  color: #f0f0f0;
+  font-size: 0.95rem;
+  padding: 0.6rem 0.8rem;
+  transition: border-color 0.2s, background-color 0.3s;
+}
+
+select option {
+  background-color: #1e2a38; /* Fondo oscuro */
+  color: #dcedff;         
 }
 
 .input:focus,
 .select:focus {
   outline: none;
   border-color: #53aeca;
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .select:disabled {
@@ -67,17 +81,31 @@
 }
 
 .submitButton {
-  margin-top: 1rem;
   background-color: #28a745;
   color: white;
-  padding: 0.7rem 1.2rem;
+  padding: 0.75rem 1rem;
   font-size: 1rem;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s, transform 0.2s;
+  margin: 12px auto 0 auto;
+  width: 100%;
 }
 
 .submitButton:hover {
   background-color: #218838;
+  transform: scale(1.05);
+}
+
+.submitButton:active {
+  transform: scale(0.95);
+}
+
+.fechaFormateada {
+  color: #b0e0ff;
+  font-size: 0.95rem;
+  margin-top: 0.2rem;
+  text-align: left;
+  align-self: flex-start;
 }

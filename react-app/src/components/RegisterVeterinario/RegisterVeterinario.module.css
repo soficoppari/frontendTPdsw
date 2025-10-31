@@ -1,7 +1,7 @@
 .registerContainer {
-  max-width: 900px;
+  max-width: 700px;
   width: 90%;
-  margin: 2vh auto;
+  margin: 4vh auto;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 16px;
@@ -38,7 +38,7 @@
 .registerForm,
 .form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
@@ -62,15 +62,31 @@
 }
 
 .input,
-.select,
+.select {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #666;
+  border-radius: 8px;
+  background-color: rgba(56, 115, 163, 0.08);
+  color : #ffffff;
+  width: 100%;
+}
+
 .timeInput {
   padding: 0.6rem;
   font-size: 1rem;
   border: 1px solid #666;
   border-radius: 8px;
   background-color: rgba(56, 115, 163, 0.08);
-  color: #fff;
-  width: 100%;
+  color: #ffffff;
+  width: 150px;
+  max-width: 500px;
+}
+
+
+.select option {
+  background-color: #1e2a38; /* Fondo oscuro */
+  color: #dcedff;           /* Texto claro */
 }
 
 .input:focus,
@@ -109,34 +125,42 @@
   transform: scale(0.97);
 }
 
+/* Contenedor selector */
 .selectContainer {
   position: relative;
   background-color: rgba(255, 255, 255, 0.05);
   border: 1px solid #666;
   border-radius: 8px;
-  padding: 0.5rem;
+  padding: 0.8rem;
   cursor: pointer;
   text-align: left;
+  font-size: 1rem;
+  color: #dcedff;
 }
 
+/* Flecha */
 .dropdownArrow {
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
 }
 
+/* Dropdown */
 .dropdown {
   background-color: #1e2a38;
   border: 1px solid #444;
   border-radius: 8px;
   margin-top: 0.5rem;
-  max-height: 150px;
+  max-height: 200px;
   overflow-y: auto;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 10;
 }
 
 .dropdownItem {
-  padding: 0.5rem;
+  padding: 0.8rem;
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -145,37 +169,81 @@
   background-color: #2c3e50;
 }
 
+/* Chips seleccionados */
 .selectedItems {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 0.5rem;
+  margin-top: 0.7rem;
 }
 
 .selectedItem {
   background-color: #4c87af;
-  padding: 0.3rem 0.6rem;
+  padding: 0.4rem 0.8rem;
   border-radius: 16px;
   color: white;
   display: flex;
-  align-items: center;
-  gap: 0.4rem;
+  align-items: center; /* <-- Esto ya centra verticalmente */
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  line-height: 1.2; /* Asegura alineación */
 }
 
 .removeButton {
   background: none;
   border: none;
   color: white;
-  font-weight: bold;
+  font-size: 1.1rem;
+  line-height: 1; /* Ajusta la altura de línea */
   cursor: pointer;
+  display: flex;
+  align-items: center; /* Centra verticalmente */
+  justify-content: center;
+  padding: 0;
+  margin-left: 0.2rem;
+  height: 1.2em; /* Igual a la altura del texto */
 }
+
 
 .horarioGroup {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: stretch;
+  margin-bottom: 1.5rem;
+}
+
+.horariosFullRow {
+  display: flex;
+  flex-direction: row;
   gap: 1rem;
-  align-items: center;
-  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.timeLabel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: 1rem;
+  color: #dcedff;
+}
+
+.timeInputFull {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #666;
+  border-radius: 8px;
+  background-color: rgba(56, 115, 163, 0.08);
+  color: #ffffff;
+  margin-top: 0.3rem;
+}
+
+.deleteButtonRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
 }
 
 .buttonGroup {
@@ -183,4 +251,86 @@
   justify-content: space-between;
   gap: 1rem;
   margin-top: 1rem;
+}
+
+.progressContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem auto 2rem;
+  max-width: 500px;
+  position: relative;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  position: relative;
+}
+
+.circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #444;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  z-index: 2;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.activeStep .circle {
+  background-color: #4c87af;
+  transform: scale(1.1);
+}
+
+.line {
+  flex: 1;
+  height: 3px;
+  background-color: #666;
+  margin: 0 0.5rem;
+  z-index: 1;
+}
+
+.activeStep ~ .step .line {
+  background-color: #666;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+.deleteIconButton {
+  background-color: #e74c3c;
+  color: #fff;
+}
+
+.horarioResumen {
+  font-size: 1.1rem;
+  color: #dcedff;
+  font-weight: 500;
+  padding: 0.5rem 0;
+}
+
+.confirmIconButton:hover {
+  background: #218838;
+}
+
+.editIconButton:hover {
+  background: #e0a800;
+}
+
+.confirmIconButton:disabled {
+  background: #bdbdbd !important;
+  cursor: not-allowed !important;
+}
+.button:disabled {
+  background: #bdbdbd !important;
+  cursor: not-allowed !important;
 }

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { useAuth } from '../../context/AuthContext';
+import { FaUserCircle } from 'react-icons/fa';
 import styles from './Perfil.module.css';
 
 interface Usuario {
@@ -68,28 +69,45 @@ const Perfil: React.FC = () => {
   }
 
   return (
-    <>
-      <div className={styles.container}>
-        <h1 className={styles.title}>Perfil del Usuario</h1>
-        <div className={styles.card}>
-          <div className={styles.cardItem}>
-            <strong>Nombre:</strong> {usuario.nombre}
-          </div>
-          <div className={styles.cardItem}>
-            <strong>Apellido:</strong> {usuario.apellido}
-          </div>
-          <div className={styles.cardItem}>
-            <strong>Email:</strong> {usuario.email}
-          </div>
-          <div className={styles.cardItem}>
-            <strong>Número de Teléfono:</strong> {usuario.nroTelefono}
-          </div>
-        </div>
-        <button className={styles.logoutButton} onClick={handleLogout}>
-          Cerrar Sesión
-        </button>
+    <div className={styles.container}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.7rem',
+          marginBottom: '2rem',
+        }}
+      >
+        <FaUserCircle size={38} color="#7fdcff" />
+        <span
+          style={{
+            fontSize: '2rem',
+            fontWeight: 600,
+            color: '#ffffff',
+          }}
+        >
+          {usuario.nombre} {usuario.apellido}
+        </span>
       </div>
-    </>
+      <div className={styles.perfilInfo}>
+        <p>
+          <span className={styles.perfilLabel}>Email:</span>{' '}
+          {usuario.email}
+        </p>
+        <p>
+          <span className={styles.perfilLabel}>Número de Teléfono:</span>{' '}
+          {usuario.nroTelefono}
+        </p>
+      </div>
+      <button
+        className={styles.logoutButton}
+        style={{ width: '100%', marginTop: '2rem' }}
+        onClick={handleLogout}
+      >
+        Cerrar Sesión
+      </button>
+    </div>
   );
 };
 

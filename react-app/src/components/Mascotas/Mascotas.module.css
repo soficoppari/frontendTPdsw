@@ -1,6 +1,6 @@
 .container {
   max-width: 900px;
-  margin: 4vh auto;
+  margin: 8vh auto;
   padding: 2rem;
   border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.05);
@@ -59,6 +59,61 @@
   background-color: #53aeca;
 }
 
+.mascotasList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid #444;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.card[role="button"]:hover,
+.card[role="button"]:focus {
+  box-shadow: 0 0 0 3px #7fdcff;
+  transform: translateY(-2px) scale(1.01);
+  outline: none;
+}
+
+.cardHeader {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.cardTitle {
+  margin-bottom: 0.1rem;
+  font-size: 1.3rem;
+  color: #ffffff;
+}
+
+.especieIcon {
+  font-size: 2rem;
+}
+
+.cardBody p {
+  margin: 0.2rem 0;
+  color: #dcedff;
+}
+
 .addButton {
   background-color: #28a745;
   color: white;
@@ -69,9 +124,10 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
   display: block;
-  margin: 0 auto;
+  margin: 2rem auto 0 auto;
 }
 
 .addButton:hover {
   background-color: #218838;
+  transform: scale(1.05);
 }

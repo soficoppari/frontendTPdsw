@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import styles from './CalificarTurno.module.css';
 
 // Definimos los tipos de datos esperados
 type Veterinario = {
@@ -49,7 +50,9 @@ const CalificarTurno: React.FC = () => {
     }
   }, [turnoId]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault(); // <-- Esto previene el refresh del form
+
     if (puntuacion < 1 || puntuacion > 5) {
       setError('La puntuación debe estar entre 1 y 5.');
       return;
@@ -63,21 +66,18 @@ const CalificarTurno: React.FC = () => {
         return;
       }
 
-      // Verificar que el turno está completo
       if (!turno) {
         setError('Turno no encontrado.');
         return;
       }
 
-      // Verificar que turnoId está definido y convertirlo a número
       if (turnoId) {
-        // Enviar la calificación al backend
         await axios.post(
           'http://localhost:3000/api/calificacion',
           {
-            veterinarioId: turno.veterinario.id, // Asegurarse de que estamos enviando el ID del veterinario
-            usuarioId,
-            turnoId: parseInt(turnoId, 10), // Aquí aseguramos que turnoId es un string y lo convertimos a entero
+            veterinarioId: turno.veterinario.id,
+            usuarioId: usuarioId,
+            turnoId: parseInt(turnoId, 10),
             puntuacion,
             comentario,
           },
@@ -86,7 +86,7 @@ const CalificarTurno: React.FC = () => {
           }
         );
 
-        navigate('/Turnos'); // Navegar a la lista de turnos después de calificar
+        navigate('/Turnos');
       } else {
         setError('ID de turno no válido.');
       }
@@ -96,41 +96,37 @@ const CalificarTurno: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Calificar Turno</h2>
-      {error && <p className="error">{error}</p>}
-      {turno ? (
-        <div>
-          <p>Veterinario: {turno.veterinario.nombre}</p>
-          <p>Fecha y Hora: {turno.fechaHora}</p>
-
-          <div>
-            <label>Puntuación (1-5):</label>
-            <input
-              type="number"
-              value={puntuacion}
-              onChange={(e) => setPuntuacion(Number(e.target.value))}
-              min="1"
-              max="5"
-            />
-          </div>
-
-          <div>
-            <label>Comentario:</label>
-            <textarea
-              value={comentario}
-              onChange={(e) => setComentario(e.target.value)}
-              placeholder="Deja un comentario opcional"
-            />
-          </div>
-
-          <button onClick={handleSubmit}>Enviar Calificación</button>
-        </div>
-      ) : (
-        <p>Cargando detalles del turno...</p>
-      )}
+  <div className={styles.calificarContainer}>
+  <h2>Calificar Turno</h2>
+  {error && <p className={styles.errorMessage}>{error}</p>}
+  <form onSubmit={handleSubmit}>
+    <label>Calificación</label>
+    <div className={styles.starRating}>
+      {[...Array(5)].map((_, index) => {
+        const value = index + 1; // estrellas enteras
+        return (
+          <span
+            key={index}
+            className={`${styles.star} ${puntuacion >= value ? styles.filled : ""}`}
+            onClick={() => setPuntuacion(value)}
+          >
+            ★
+          </span>
+        );
+      })}
     </div>
-  );
+    <label>Comentario</label>
+    <textarea
+      value={comentario}
+      onChange={(e) => setComentario(e.target.value)}
+      rows={4}
+      placeholder="Escribe un comentario sobre tu turno..."
+    />
+
+    <button type="submit">Enviar Calificación</button>
+  </form>
+</div>
+);
 };
 
 export default CalificarTurno;

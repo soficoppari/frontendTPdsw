@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import styles from './PerfilVeterinario.module.css';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { FaUserMd } from 'react-icons/fa'; // Agrega este import
 
 interface Veterinario {
   id: number;
@@ -80,9 +81,12 @@ const PerfilVeterinario: React.FC = () => {
   <div className={styles.perfilContainer}>
     {veterinario ? (
       <>
-        <h1 className={styles.perfilTitle}>
-          {veterinario.nombre} {veterinario.apellido}
-        </h1>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.7rem', marginBottom: '2rem' }}>
+          <FaUserMd size={38} color="#7fdcff" />
+          <span style={{ fontSize: '2rem', fontWeight: 600, color: '#ffffff' }}>
+            {veterinario.nombre} {veterinario.apellido}
+          </span>
+        </div>
         <div className={styles.perfilInfo}>
           <p>
             <span className={styles.perfilLabel}>Matrícula:</span>{' '}
@@ -101,8 +105,8 @@ const PerfilVeterinario: React.FC = () => {
             {veterinario.email}
           </p>
           <button className={styles.logoutButton} onClick={handleLogout}>
-          Cerrar Sesión
-        </button>
+            Cerrar Sesión
+          </button>
         </div>
       </>
     ) : (

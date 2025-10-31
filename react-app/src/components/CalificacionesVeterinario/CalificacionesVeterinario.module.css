@@ -1,0 +1,77 @@
+.perfilContainer {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.perfilTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #dcedff;
+}
+
+
+.promedio {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #27ae60; /* verde para destacar el promedio */
+  text-align: center;
+}
+
+.perfilList {
+  list-style-type: none;   /* quita cualquier tipo de marcador */
+  list-style: none;
+  padding-left: 0;         /* elimina sangría del ul */
+  margin: 0;
+}
+
+.perfilListItem {
+  list-style-type: none;   /* asegura que cada li no tenga marcador */
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.perfilListItem:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
+  border-color: #4a90e2; /* azul principal al hover */
+}
+
+.perfilLabel {
+  font-weight: bold;
+  color: #4a90e2; /* azul principal */
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.starFull {
+  color: #f1c40f; /* amarillo dorado */
+  font-size: 1.4rem;
+  margin: 0 2px;
+}
+
+.starHalf {
+  color: #f1c40f;
+  font-size: 1.4rem;
+  margin: 0 2px;
+}
+
+.starEmpty {
+  color: #ccc; /* gris claro */
+  font-size: 1.4rem;
+  margin: 0 2px;
+}

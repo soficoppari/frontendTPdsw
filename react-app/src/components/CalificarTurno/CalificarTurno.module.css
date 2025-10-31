@@ -1,0 +1,90 @@
+.calificarContainer {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #fff;
+}
+
+.calificarContainer h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #357ABD; /* azul oscuro */
+  text-align: center;
+}
+
+.calificarContainer label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #4a90e2; /* azul */
+}
+
+.calificarContainer textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.calificarContainer textarea:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 6px rgba(74, 144, 226, 0.4);
+  outline: none;
+}
+
+.calificarContainer button {
+  display: block;
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #357ABD;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.calificarContainer button:hover {
+  background-color: #4a90e2;
+  transform: translateY(-2px);
+}
+
+/* Mensaje de error */
+.errorMessage {
+  color: #ff4d4f;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* ⭐ Estrellas */
+.starRating {
+  display: flex;
+  gap: 5px;
+  font-size: 2rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.star {
+  color: #555;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.filled {
+  color: #FFD700; /* dorado */
+}

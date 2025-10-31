@@ -1,6 +1,6 @@
 .perfilContainer {
   max-width: 600px;
-  margin: 4vh auto;
+  margin: 16vh auto;
   padding: 2rem;
   border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.05);
@@ -44,4 +44,13 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
+}
+
+.logoutButton:hover {
+  background-color: #c9302c;
+  transform: scale(1.05);
+}
+
+.logoutButton:active {
+  transform: scale(0.95);
 }
