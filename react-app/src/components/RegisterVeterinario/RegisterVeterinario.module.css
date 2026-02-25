@@ -68,7 +68,7 @@
   border: 1px solid #666;
   border-radius: 8px;
   background-color: rgba(56, 115, 163, 0.08);
-  color : #ffffff;
+  color: #ffffff;
   width: 100%;
 }
 
@@ -85,8 +85,10 @@
 
 
 .select option {
-  background-color: #1e2a38; /* Fondo oscuro */
-  color: #dcedff;           /* Texto claro */
+  background-color: #1e2a38;
+  /* Fondo oscuro */
+  color: #dcedff;
+  /* Texto claro */
 }
 
 .input:focus,
@@ -155,7 +157,7 @@
   max-height: 200px;
   overflow-y: auto;
   width: 100%;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 10;
 }
 
@@ -183,11 +185,13 @@
   border-radius: 16px;
   color: white;
   display: flex;
-  align-items: center; /* <-- Esto ya centra verticalmente */
+  align-items: center;
+  /* <-- Esto ya centra verticalmente */
   justify-content: space-between;
   gap: 0.5rem;
   font-size: 0.95rem;
-  line-height: 1.2; /* Asegura alineación */
+  line-height: 1.2;
+  /* Asegura alineación */
 }
 
 .removeButton {
@@ -195,14 +199,17 @@
   border: none;
   color: white;
   font-size: 1.1rem;
-  line-height: 1; /* Ajusta la altura de línea */
+  line-height: 1;
+  /* Ajusta la altura de línea */
   cursor: pointer;
   display: flex;
-  align-items: center; /* Centra verticalmente */
+  align-items: center;
+  /* Centra verticalmente */
   justify-content: center;
   padding: 0;
   margin-left: 0.2rem;
-  height: 1.2em; /* Igual a la altura del texto */
+  height: 1.2em;
+  /* Igual a la altura del texto */
 }
 
 
@@ -296,7 +303,7 @@
   z-index: 1;
 }
 
-.activeStep ~ .step .line {
+.activeStep~.step .line {
   background-color: #666;
 }
 
@@ -330,7 +337,33 @@
   background: #bdbdbd !important;
   cursor: not-allowed !important;
 }
+
 .button:disabled {
   background: #bdbdbd !important;
   cursor: not-allowed !important;
+}
+
+/* Validación de matrícula en tiempo real */
+.inputError {
+  border-color: #ff6b6b !important;
+  background-color: rgba(255, 107, 107, 0.08) !important;
+}
+
+.inputOk {
+  border-color: #4caf50 !important;
+  background-color: rgba(76, 175, 80, 0.08) !important;
+}
+
+.fieldError {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0;
+}
+
+.fieldOk {
+  color: #4caf50;
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
+  margin-bottom: 0;
 }

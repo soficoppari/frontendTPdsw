@@ -48,6 +48,7 @@ type Turno = {
 const Turnos: React.FC = () => {
   const [turnos, setTurnos] = useState<Turno[]>([]);
   const [error, setError] = useState<string>('');
+  const [turnoAEliminar, setTurnoAEliminar] = useState<number | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -92,6 +93,13 @@ const Turnos: React.FC = () => {
       await fetchTurnos();
     } catch (err) {
       setError('No se pudo cancelar el turno');
+    }
+  };
+
+  const confirmarCancelacion = async () => {
+    if (turnoAEliminar !== null) {
+      await deleteTurno(turnoAEliminar);
+      setTurnoAEliminar(null);
     }
   };
 
@@ -158,7 +166,7 @@ const formatFechaHoraBonitaUTC = (fechaHora: string) => {
                       <td>
                         <button
                           className={styles.cancelarBtn}
-                          onClick={() => deleteTurno(turno.id)}
+                          onClick={() => setTurnoAEliminar(turno.id)}
                         >
                           Cancelar Turno
                         </button>
@@ -224,6 +232,23 @@ const formatFechaHoraBonitaUTC = (fechaHora: string) => {
           )}
         </div>
       </div>
+
+      {/* Modal de confirmación */}
+      {turnoAEliminar !== null && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalBox}>
+            <p className={styles.modalTexto}>¿Está seguro de que desea cancelar el turno?</p>
+            <div className={styles.modalBotones}>
+              <button className={styles.modalConfirmar} onClick={confirmarCancelacion}>
+                Sí, cancelar
+              </button>
+              <button className={styles.modalVolver} onClick={() => setTurnoAEliminar(null)}>
+                Volver
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

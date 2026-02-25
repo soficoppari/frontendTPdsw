@@ -101,3 +101,71 @@
 .calificarBtn:hover {
   background: rgb(224, 181, 9);
 }
+
+/* Modal de confirmación */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(3px);
+}
+
+.modalBox {
+  background: #1e2a3a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 2rem 2.5rem;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  max-width: 380px;
+  width: 90%;
+}
+
+.modalTexto {
+  font-size: 1.1rem;
+  color: #dcedff;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.modalBotones {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modalConfirmar {
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modalConfirmar:hover {
+  background: #c9302c;
+}
+
+.modalVolver {
+  background: rgba(255, 255, 255, 0.1);
+  color: #dcedff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.55rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modalVolver:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
