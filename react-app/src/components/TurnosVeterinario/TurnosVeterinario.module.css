@@ -59,7 +59,8 @@
   padding: 10px;
   border: 1px solid #666;
   text-align: left;
-  max-width: 120px;        /* 🔹 Limita el ancho de cada celda para que no desborde */
+  max-width: 120px;
+  /* 🔹 Limita el ancho de cada celda para que no desborde */
 }
 
 
@@ -80,7 +81,8 @@
 }
 
 .completarBtn {
-  background-color: #357ABD; /* azul oscuro */
+  background-color: #357ABD;
+  /* azul oscuro */
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -97,4 +99,16 @@
 .completarBtn:disabled {
   background-color: #555;
   cursor: not-allowed;
+}
+
+.idBadge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 0.15rem 0.55rem;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
 }

@@ -1,77 +1,291 @@
-.perfilContainer {
-  max-width: 800px;
-  margin: 2rem auto;
+.container {
+  max-width: 760px;
+  margin: 90px auto 3rem;
   padding: 2rem;
-  background-color: rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.perfilTitle {
-  font-size: 2rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 2rem;
   color: #dcedff;
 }
 
-
-.promedio {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-  color: #27ae60; /* verde para destacar el promedio */
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
   text-align: center;
+  margin-bottom: 2rem;
 }
 
-.perfilList {
-  list-style-type: none;   /* quita cualquier tipo de marcador */
-  list-style: none;
-  padding-left: 0;         /* elimina sangría del ul */
-  margin: 0;
+/* ---- Error ---- */
+.errorBox {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  color: #fca5a5;
+  margin-bottom: 1.5rem;
 }
 
-.perfilListItem {
-  list-style-type: none;   /* asegura que cada li no tenga marcador */
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.perfilListItem:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-  border-color: #4a90e2; /* azul principal al hover */
-}
-
-.perfilLabel {
-  font-weight: bold;
-  color: #4a90e2; /* azul principal */
-}
-
-.stars {
+/* ---- Promedio card ---- */
+.promedioCard {
   display: flex;
-  justify-content: center;
-  margin-top: 0.5rem;
+  gap: 2.5rem;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(127, 220, 255, 0.12);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
 }
 
-.starFull {
-  color: #f1c40f; /* amarillo dorado */
-  font-size: 1.4rem;
-  margin: 0 2px;
+@media (max-width: 600px) {
+  .promedioCard {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
 }
 
-.starHalf {
-  color: #f1c40f;
-  font-size: 1.4rem;
-  margin: 0 2px;
+.promedioLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.promedioNum {
+  font-size: 4.5rem;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.starsRow {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.star {
+  color: #fbbf24;
 }
 
 .starEmpty {
-  color: #ccc; /* gris claro */
-  font-size: 1.4rem;
-  margin: 0 2px;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.star_sm {
+  font-size: 0.95rem;
+}
+
+.star_md {
+  font-size: 1.25rem;
+}
+
+.star_lg {
+  font-size: 1.75rem;
+}
+
+.totalReviews {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 0.25rem;
+}
+
+/* ---- Distribución de estrellas ---- */
+.promedioRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.distRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.distNum {
+  color: rgba(255, 255, 255, 0.6);
+  width: 10px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.distStar {
+  color: #fbbf24;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.distBar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.distFill {
+  height: 100%;
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.distCount {
+  width: 16px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+/* ---- Empty state ---- */
+.emptyPromedio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.45);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  margin-bottom: 2rem;
+}
+
+.emptyPromedio span {
+  font-size: 2.5rem;
+}
+
+.emptyPromedio p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.emptyHint {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* ---- Reviews section ---- */
+.reviewsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.reviewsTitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+}
+
+.reviewsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+/* ---- Review card ---- */
+.reviewCard {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.reviewCard:hover {
+  border-color: rgba(127, 220, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.reviewAvatar {
+  font-size: 2rem;
+  color: rgba(255, 255, 255, 0.25);
+  flex-shrink: 0;
+}
+
+.reviewMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.reviewFecha {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.reviewComentario {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+  font-style: italic;
+  margin: 0;
+  padding-left: 2.85rem;
+  border-left: 2px solid rgba(127, 220, 255, 0.2);
+}
+
+/* ---- Skeleton ---- */
+.promedioSkeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.skeletonNum {
+  width: 80px;
+  height: 72px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.reviewSkeleton {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.skeletonLine {
+  height: 14px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.07);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
 }
