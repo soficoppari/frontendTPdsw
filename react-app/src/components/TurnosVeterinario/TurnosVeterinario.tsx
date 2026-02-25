@@ -83,11 +83,6 @@ const TurnosVeterinario: React.FC = () => {
           })
         );
 
-        // Filtrar turnos completados
-        const turnosSinCompletados = turnos.filter(
-          (turno: Turno) => turno.estado !== 'COMPLETADO'
-        );
-
         const now = new Date();
         const nowUTC = Date.UTC(
           now.getUTCFullYear(),
@@ -99,8 +94,8 @@ const TurnosVeterinario: React.FC = () => {
           now.getUTCMilliseconds()
         );
 
-        // Próximos: solo AGENDADO y fecha futura, orden ascendente (más próximo primero)
-        const proximos = turnosSinCompletados
+        // Próximos: AGENDADO + fecha futura, orden ascendente (más próximo primero)
+        const proximos = turnos
           .filter(
             (turno: Turno) =>
               turno.estado === 'AGENDADO' &&
@@ -108,20 +103,20 @@ const TurnosVeterinario: React.FC = () => {
           )
           .sort(
             (a: Turno, b: Turno) => Date.parse(a.fechaHora) - Date.parse(b.fechaHora)
-          ); // Este sort ya deja los más cercanos primero
+          );
 
-        // Atendidos: solo AGENDADO y fecha pasada, orden descendente (más reciente primero)
-        const atendidos = turnosSinCompletados
+        // Atendidos: COMPLETADO, O AGENDADO con fecha pasada (ya ocurrió pero sin marcar)
+        const atendidos = turnos
           .filter(
             (turno: Turno) =>
-              turno.estado === 'AGENDADO' &&
-              Date.parse(turno.fechaHora) < nowUTC
+              turno.estado === 'COMPLETADO' ||
+              (turno.estado === 'AGENDADO' && Date.parse(turno.fechaHora) < nowUTC)
           )
           .sort(
             (a: Turno, b: Turno) => Date.parse(b.fechaHora) - Date.parse(a.fechaHora)
           );
 
-        setTurnosProximos(proximos); 
+        setTurnosProximos(proximos);
         setTurnosAtendidos(atendidos);
       } catch (err) {
         setError(
@@ -164,85 +159,93 @@ const TurnosVeterinario: React.FC = () => {
   console.log(turnosAtendidos);
 
   return (
-  <div className={styles.turnosContainer}>
-  <h1 className={styles.turnosTitle}>Tus Turnos</h1>
-  <div className={styles.turnosGrid}>
-    <div className={`${styles.turnosColumn} ${styles.proximos}`}>
-      <h2>Próximos Turnos</h2>
-      {turnosProximos.length > 0 ? (
-        <div className={styles.tableWrapper}>
-          <table className={styles.turnosTable}>
-            <thead>
-              <tr>
-                <th>Fecha y Hora</th>
-                <th>Mascota</th>
-                <th>Dueño</th>
-              </tr>
-            </thead>
-            <tbody>
-              {turnosProximos.map((turno) => (
-                <tr key={turno.id}>
-                  <td>
-                    {formatFechaHoraBonitaUTC(turno.fechaHora)}
-                  </td>
-                  <td>{turno.mascota?.nombre}</td>
-                  <td>{turno.usuario?.nombre}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+    <div className={styles.turnosContainer}>
+      <h1 className={styles.turnosTitle}>Tus Turnos</h1>
+      <div className={styles.turnosGrid}>
+        <div className={`${styles.turnosColumn} ${styles.proximos}`}>
+          <h2>Próximos Turnos</h2>
+          {turnosProximos.length > 0 ? (
+            <div className={styles.tableWrapper}>
+              <table className={styles.turnosTable}>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Fecha y Hora</th>
+                    <th>Mascota</th>
+                    <th>Dueño</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {turnosProximos.map((turno) => (
+                    <tr key={turno.id}>
+                      <td>
+                        <span className={styles.idBadge}>#{turno.id}</span>
+                      </td>
+                      <td>
+                        {formatFechaHoraBonitaUTC(turno.fechaHora)}
+                      </td>
+                      <td>{turno.mascota?.nombre}</td>
+                      <td>{turno.usuario?.nombre}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className={styles.noTurnos}>No hay turnos próximos.</p>
+          )}
         </div>
-      ) : (
-        <p className={styles.noTurnos}>No hay turnos próximos.</p>
-      )}
-    </div>
 
-    <div className={`${styles.turnosColumn} ${styles.atendidos}`}>
-      <h2>Turnos Atendidos</h2>
-      {turnosAtendidos.length > 0 ? (
-        <div className={styles.tableWrapper}>
-          <table className={styles.turnosTable}>
-            <thead>
-              <tr>
-                <th>Fecha y Hora</th>
-                <th>Mascota</th>
-                <th>Dueño</th>
-                <th>Acción</th>
-              </tr>
-            </thead>
-            <tbody>
-              {turnosAtendidos.map((turno) => (
-                <tr key={turno.id}>
-                  <td>
-                    {formatFechaHoraBonitaUTC(turno.fechaHora)}
-                  </td>
-                  <td>{turno.mascota?.nombre}</td>
-                  <td>
-                    {turno.usuario
-                      ? `${turno.usuario.nombre} ${turno.usuario.apellido}`
-                      : 'Sin usuario'}
-                  </td>
-                  <td>
-                    <button
-                      className={styles.completarBtn}
-                      onClick={() => completarAtencion(turno.id)}
-                      disabled={turno.estado.includes('COMPLETADO')}
-                    >
-                      Completar Atención
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className={`${styles.turnosColumn} ${styles.atendidos}`}>
+          <h2>Turnos Atendidos</h2>
+          {turnosAtendidos.length > 0 ? (
+            <div className={styles.tableWrapper}>
+              <table className={styles.turnosTable}>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Fecha y Hora</th>
+                    <th>Mascota</th>
+                    <th>Dueño</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {turnosAtendidos.map((turno) => (
+                    <tr key={turno.id}>
+                      <td>
+                        <span className={styles.idBadge}>#{turno.id}</span>
+                      </td>
+                      <td>
+                        {formatFechaHoraBonitaUTC(turno.fechaHora)}
+                      </td>
+                      <td>{turno.mascota?.nombre}</td>
+                      <td>
+                        {turno.usuario
+                          ? `${turno.usuario.nombre} ${turno.usuario.apellido}`
+                          : 'Sin usuario'}
+                      </td>
+                      <td>
+                        <button
+                          className={styles.completarBtn}
+                          onClick={() => completarAtencion(turno.id)}
+                          disabled={turno.estado.includes('COMPLETADO')}
+                        >
+                          Completar Atención
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className={styles.noTurnos}>No hay turnos atendidos.</p>
+          )}
         </div>
-      ) : (
-        <p className={styles.noTurnos}>No hay turnos atendidos.</p>
-      )}
+      </div>
     </div>
-  </div>
-</div>
-);
+  );
 };
 
 export default TurnosVeterinario;

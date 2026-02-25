@@ -1,90 +1,261 @@
-.calificarContainer {
-  max-width: 700px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: rgba(255, 255, 255, 0.03);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  color: #fff;
+.container {
+  max-width: 520px;
+  margin: 90px auto 3rem;
+  padding: 2.5rem 2rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(127, 220, 255, 0.1);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  color: #dcedff;
 }
 
-.calificarContainer h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  color: #357ABD; /* azul oscuro */
-  text-align: center;
-}
-
-.calificarContainer label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  color: #4a90e2; /* azul */
-}
-
-.calificarContainer textarea {
-  width: 100%;
-  padding: 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #fff;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.calificarContainer textarea:focus {
-  border-color: #4a90e2;
-  box-shadow: 0 0 6px rgba(74, 144, 226, 0.4);
-  outline: none;
-}
-
-.calificarContainer button {
-  display: block;
-  width: 100%;
-  padding: 0.9rem;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #fff;
-  background-color: #357ABD;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-}
-
-.calificarContainer button:hover {
-  background-color: #4a90e2;
-  transform: translateY(-2px);
-}
-
-/* Mensaje de error */
-.errorMessage {
-  color: #ff4d4f;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-/* ⭐ Estrellas */
-.starRating {
+/* ---- Header ---- */
+.header {
   display: flex;
-  gap: 5px;
-  font-size: 2rem;
-  cursor: pointer;
-  margin-bottom: 1rem;
+  align-items: center;
   justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.75rem;
 }
 
-.star {
-  color: #555;
-  transition: color 0.2s, transform 0.2s;
+.headerIcon {
+  font-size: 2rem;
 }
 
-.star:hover {
-  transform: scale(1.2);
+.title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
 }
 
-.filled {
-  color: #FFD700; /* dorado */
+/* ---- Turno info ---- */
+.turnoInfo {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.turnoRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.turnoLabel {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.turnoValue {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* ---- Error ---- */
+.errorBox {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  color: #fca5a5;
+  font-size: 0.9rem;
+  margin-bottom: 1.25rem;
+}
+
+/* ---- Form ---- */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.6rem;
+}
+
+.optional {
+  font-weight: 400;
+  text-transform: none;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 0.8rem;
+}
+
+/* ---- Estrellas ---- */
+.starsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.starRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.starBtn {
+  background: none;
+  border: none;
+  font-size: 2.5rem;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.2);
+  transition: color 0.15s, transform 0.15s;
+  padding: 0.1rem;
+  line-height: 1;
+}
+
+.starBtn:hover,
+.starActive {
+  color: #fbbf24;
+  transform: scale(1.15);
+  background: none;
+}
+
+.starLabel {
+  font-size: 0.9rem;
+  color: #fbbf24;
+  font-weight: 600;
+  min-height: 1.3rem;
+  transition: opacity 0.2s;
+}
+
+/* ---- Textarea ---- */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 0.95rem;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.textarea::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: rgba(127, 220, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(127, 220, 255, 0.08);
+}
+
+.charCount {
+  text-align: right;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.3);
+  margin-top: 0.35rem;
+}
+
+/* ---- Buttons ---- */
+.submitBtn {
+  padding: 0.85rem;
+  background: linear-gradient(135deg, #4c87af, #53aeca);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  box-shadow: 0 4px 16px rgba(76, 135, 175, 0.35);
+}
+
+.submitBtn:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #4c87af, #53aeca);
+}
+
+.submitBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cancelBtn {
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: none;
+}
+
+/* ---- Skeleton ---- */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeletonTitle {
+  height: 28px;
+  width: 50%;
+  margin: 0 auto;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.skeletonStars {
+  height: 56px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.skeletonLine {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
 }
