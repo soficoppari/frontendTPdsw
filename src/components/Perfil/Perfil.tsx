@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { useAuth } from '../../context/AuthContext';
+
 import { FaUserCircle } from 'react-icons/fa';
 import styles from './Perfil.module.css';
 
@@ -18,10 +17,8 @@ interface DecodedToken {
 }
 
 const Perfil: React.FC = () => {
-  const navigate = useNavigate();
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { logout } = useAuth(); // Usar el método logout del contexto
 
   useEffect(() => {
     const fetchUsuario = async () => {
@@ -55,10 +52,6 @@ const Perfil: React.FC = () => {
     fetchUsuario();
   }, []);
 
-  const handleLogout = () => {
-    logout(); // Actualiza el estado del contexto y elimina los datos del localStorage
-    navigate('/'); // Redirige al usuario a la página principal
-  };
 
   if (error) {
     return <div>{error}</div>;
@@ -100,13 +93,6 @@ const Perfil: React.FC = () => {
           {usuario.nroTelefono}
         </p>
       </div>
-      <button
-        className={styles.logoutButton}
-        style={{ width: '100%', marginTop: '2rem' }}
-        onClick={handleLogout}
-      >
-        Cerrar Sesión
-      </button>
     </div>
   );
 };

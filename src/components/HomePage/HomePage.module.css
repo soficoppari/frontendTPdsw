@@ -1,0 +1,334 @@
+/* ============================================
+   HOMEPAGE — hero a pantalla completa
+   ============================================ */
+
+/* ============================================
+   DASHBOARD — vista loggeada
+   ============================================ */
+
+.dashboardWrapper {
+  min-height: 100vh;
+  margin-top: 0;
+  padding: 100px 1.5rem 3rem;
+  color: #dcedff;
+  animation: fadeInUp 0.6s ease both;
+  position: relative;
+  background-image: url('/images/perros-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Overlay oscuro encima de la imagen */
+.dashboardWrapper::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 14, 32, 0.82);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Todo el contenido por encima del overlay */
+.dashboardWrapper>* {
+  position: relative;
+  z-index: 1;
+}
+
+/* Contenedor centrado del contenido */
+.dashboardInner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.dashboardHero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+.dashLogo {
+  width: 64px;
+  height: auto;
+  filter: drop-shadow(0 0 12px rgba(127, 220, 255, 0.45));
+}
+
+.dashTitle {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.dashSubtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+/* Grid de dos secciones */
+.sectionsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 700px) {
+  .sectionsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Card de info */
+.infoCard {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(127, 220, 255, 0.1);
+  border-radius: 18px;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.infoCard:hover {
+  background: rgba(127, 220, 255, 0.04);
+  border-color: rgba(127, 220, 255, 0.22);
+}
+
+.infoCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.infoIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.infoCardTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.infoCardText {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.infoCardText strong {
+  color: #7fdcff;
+}
+
+/* Mapa */
+.mapWrapper {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.mapIframe {
+  width: 100%;
+  height: 220px;
+  border: none;
+  display: block;
+  pointer-events: none;
+  /* el click lo maneja el <a> padre */
+}
+
+.mapOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 0.75rem;
+  transition: background 0.25s;
+}
+
+.mapWrapper:hover .mapOverlay {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.mapOverlayText {
+  background: rgba(4, 14, 32, 0.88);
+  color: #7fdcff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s, transform 0.25s;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(127, 220, 255, 0.2);
+}
+
+.mapWrapper:hover .mapOverlayText {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.pageWrapper {
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Imagen hero */
+.heroImageWrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Overlay oscuro para que el texto se lea bien */
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.35) 0%,
+      rgba(0, 0, 0, 0.65) 100%);
+}
+
+/* Contenido encima */
+.heroContent {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  animation: fadeInUp 0.8s ease both;
+}
+
+/* Logo + nombre en fila */
+.logoRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.logoImage {
+  width: 70px;
+  height: auto;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.5));
+}
+
+.brand {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 1.25rem;
+  color: #e8f4ff;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
+  max-width: 420px;
+  line-height: 1.5;
+}
+
+/* Botones */
+.ctaButtons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btnPrimary {
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  border: none;
+  background: #4c87af;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.15s;
+  box-shadow: 0 4px 14px rgba(76, 135, 175, 0.5);
+}
+
+.btnPrimary:hover {
+  background: #53aeca;
+  transform: translateY(-2px);
+}
+
+.btnSecondary {
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.15s;
+  backdrop-filter: blur(4px);
+}
+
+.btnSecondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+}
+
+/* Animación de entrada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .brand {
+    font-size: 2.4rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .logoImage {
+    width: 50px;
+  }
+}

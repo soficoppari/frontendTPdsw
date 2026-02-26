@@ -1,0 +1,173 @@
+.resumen-container {
+  max-width: 580px;
+  margin: 90px auto 3rem;
+  padding: 2.5rem 2rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(127, 220, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  color: #dcedff;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.mascotaIcon {
+  font-size: 2.8rem;
+}
+
+.resumen-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-align: center;
+  margin: 0;
+}
+
+/* ---- Info cards ---- */
+.infoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.infoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.9rem 1.1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+}
+
+.infoLabel {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.infoValue {
+  font-size: 0.97rem;
+  color: #ffffff;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* ---- Calificación ---- */
+.calificacionSection {
+  background: rgba(251, 191, 36, 0.05);
+  border: 1px solid rgba(251, 191, 36, 0.15);
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.calificacionTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.stars {
+  display: flex;
+  gap: 0.15rem;
+}
+
+.comentario {
+  font-size: 0.97rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+  line-height: 1.6;
+  margin: 0;
+  padding-left: 0.85rem;
+  border-left: 2px solid rgba(251, 191, 36, 0.35);
+}
+
+.sinDatos {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ---- Error ---- */
+.errorBox {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  color: #fca5a5;
+  margin-bottom: 1.5rem;
+}
+
+/* ---- Botón volver ---- */
+.resumen-button {
+  display: block;
+  width: 100%;
+  padding: 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.resumen-button:hover {
+  background: rgba(255, 255, 255, 0.13);
+  transform: translateY(-1px);
+}
+
+/* ---- Skeleton ---- */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeletonTitle {
+  height: 28px;
+  width: 55%;
+  margin: 0 auto;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.skeletonLine {
+  height: 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
