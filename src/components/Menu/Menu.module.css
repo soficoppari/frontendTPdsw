@@ -1,0 +1,266 @@
+/* =============================================
+   NAVBAR — Glassmorphism elegante
+   ============================================= */
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  height: 64px;
+  background: rgba(4, 14, 32, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(127, 220, 255, 0.1);
+  box-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Logo + nombre */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoImg {
+  height: 36px;
+  width: auto;
+  filter: drop-shadow(0 0 6px rgba(127, 220, 255, 0.5));
+  transition: filter 0.3s;
+}
+
+.brand:hover .logoImg {
+  filter: drop-shadow(0 0 12px rgba(127, 220, 255, 0.85));
+}
+
+.brandName {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 1px;
+  font-family: 'barkentina', sans-serif;
+}
+
+/* Nav links */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.link:hover {
+  background: rgba(127, 220, 255, 0.1);
+  color: #7fdcff;
+}
+
+.link.active {
+  background: rgba(127, 220, 255, 0.15);
+  color: #7fdcff;
+  font-weight: 700;
+}
+
+.linkIcon {
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: rgba(255, 120, 120, 0.85);
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+
+.logoutBtn:hover {
+  background: rgba(255, 80, 80, 0.12);
+  color: #ff6b6b;
+}
+
+/* Burger */
+.burger {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+  z-index: 1001;
+  flex-shrink: 0;
+}
+
+.burger:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: none;
+}
+
+/* Mobile backdrop */
+.backdrop {
+  display: none;
+}
+
+/* ================ RESPONSIVE ================ */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 1.25rem;
+  }
+
+  .burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav {
+    position: fixed;
+    top: 64px;
+    right: 0;
+    width: 220px;
+    height: calc(100vh - 64px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+    background: rgba(4, 14, 32, 0.97);
+    backdrop-filter: blur(14px);
+    padding: 1.25rem 1rem;
+    border-left: 1px solid rgba(127, 220, 255, 0.12);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+
+  .nav.open {
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  .link {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 999;
+  }
+}
+
+/* ================ LOGOUT POPOVER ================ */
+.logoutWrapper {
+  position: relative;
+}
+
+.logoutPopover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 200px;
+  background: rgba(8, 20, 45, 0.98);
+  border: 1px solid rgba(127, 220, 255, 0.15);
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  animation: popoverIn 0.15s ease;
+}
+
+@keyframes popoverIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.popoverText {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.75);
+  text-align: center;
+  margin: 0 0 0.8rem;
+}
+
+.popoverActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+}
+
+.popoverCancel {
+  width: 100%;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  font-family: inherit;
+  text-align: center;
+}
+
+.popoverCancel:hover {
+  background: rgba(255, 255, 255, 0.13);
+  color: #fff;
+}
+
+.popoverConfirm {
+  width: 100%;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background: rgba(220, 60, 60, 0.88);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+  text-align: center;
+}
+
+.popoverConfirm:hover {
+  background: #e63030;
+}

@@ -34,6 +34,11 @@ const RegisterUsuario: React.FC = () => {
       return;
     }
 
+    if (!email.endsWith('.com')) {
+      setError('El email debe ser válido y terminar en .com');
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError('Las contraseñas no coinciden.');
       return;
@@ -102,7 +107,7 @@ const RegisterUsuario: React.FC = () => {
               <input
                 type="text"
                 value={nroTelefono}
-                onChange={(e) => setNroTelefono(e.target.value)}
+                onChange={(e) => setNroTelefono(e.target.value.replace(/\D/g, ''))}
                 className={styles.input}
                 placeholder="Teléfono"
               />
