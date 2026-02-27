@@ -54,7 +54,7 @@ const TurnosVeterinario: React.FC = () => {
           return;
         }
 
-        const response = await axios.get('http://localhost:3000/api/turno', {
+        const response = await axios.get('https://backendtpdswproduction7bb3.up.railway.app/api/turno', {
           headers: { Authorization: `Bearer ${token}` },
           params: { veterinarioId },
         });

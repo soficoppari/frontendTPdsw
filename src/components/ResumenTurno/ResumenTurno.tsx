@@ -46,7 +46,7 @@ const ResumenTurno: React.FC = () => {
     const fetchTurno = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get(`http://localhost:3000/api/turno/${id}`, {
+        const response = await axios.get(`https://backendtpdswproduction7bb3.up.railway.app/api/turno/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTurno(response.data.data);

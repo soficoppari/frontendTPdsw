@@ -45,7 +45,7 @@ const RegisterUsuario: React.FC = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/usuario', {
+      const response = await fetch('https://backendtpdswproduction7bb3.up.railway.app/api/usuario', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

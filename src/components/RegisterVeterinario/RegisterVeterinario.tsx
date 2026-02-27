@@ -48,7 +48,7 @@ const RegisterVeterinario: React.FC = () => {
   useEffect(() => {
     const fetchEspecies = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/especie');
+        const response = await fetch('https://backendtpdswproduction7bb3.up.railway.app/api/especie');
         const data = await response.json();
         if (Array.isArray(data.data)) {
           setEspecies(data.data);
@@ -72,7 +72,7 @@ const RegisterVeterinario: React.FC = () => {
 
     debounceRef.current = setTimeout(async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/veterinario/check-matricula/${num}`);
+        const res = await fetch(`https://backendtpdswproduction7bb3.up.railway.app/api/veterinario/check-matricula/${num}`);
         const data = await res.json();
         if (data.disponible) {
           setMatriculaOk(true);
@@ -197,7 +197,7 @@ const RegisterVeterinario: React.FC = () => {
     }));
 
     try {
-      const response = await fetch('http://localhost:3000/api/veterinario', {
+      const response = await fetch('https://backendtpdswproduction7bb3.up.railway.app/api/veterinario', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

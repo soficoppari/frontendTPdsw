@@ -46,7 +46,7 @@ const PerfilVeterinario: React.FC = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/veterinario/${decoded.id}`
+          `https://backendtpdswproduction7bb3.up.railway.app/api/veterinario/${decoded.id}`
         );
         setVeterinario(response.data.data);
       } catch (err) {
