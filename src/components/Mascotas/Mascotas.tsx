@@ -50,7 +50,7 @@ const Mascotas: React.FC = () => {
     const fetchMascotas = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('https://backendtpdswproduction7bb3.up.railway.app/api/mascota', {
+        const response = await axios.get('https://backendtpdsw-production-c234.up.railway.app/api/mascota', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMascotas(response.data.data);

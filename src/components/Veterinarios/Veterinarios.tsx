@@ -68,7 +68,7 @@ const VeterinariosList: React.FC = () => {
 
     const fetchVeterinarios = async () => {
       try {
-        const response = await axios.get('https://backendtpdswproduction7bb3.up.railway.app/api/veterinario', {
+        const response = await axios.get('https://backendtpdsw-production-c234.up.railway.app/api/veterinario', {
           params: { especie: especieMascotaId },
         });
 

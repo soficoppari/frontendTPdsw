@@ -18,7 +18,7 @@ const Login: React.FC = () => {
     setSuccess('');
 
     try {
-      const response = await axios.post('https://backendtpdswproduction7bb3.up.railway.app/api/login/', {
+      const response = await axios.post('https://backendtpdsw-production-c234.up.railway.app/api/login/', {
         email,
         contrasenia,
       });

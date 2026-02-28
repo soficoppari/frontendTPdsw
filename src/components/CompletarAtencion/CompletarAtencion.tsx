@@ -37,7 +37,7 @@ const CompletarAtencion: React.FC = () => {
       try {
         const token = localStorage.getItem('token');
         const { data } = await axios.get(
-          `https://backendtpdswproduction7bb3.up.railway.app/api/turno/${turnoId}`,
+          `https://backendtpdsw-production-c234.up.railway.app/api/turno/${turnoId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -65,7 +65,7 @@ const CompletarAtencion: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.patch(
-        `https://backendtpdswproduction7bb3.up.railway.app/api/turno/${turnoId}/completar`,
+        `https://backendtpdsw-production-c234.up.railway.app/api/turno/${turnoId}/completar`,
         { observaciones },
         { headers: { Authorization: `Bearer ${token}` } }
       );

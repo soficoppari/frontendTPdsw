@@ -62,7 +62,7 @@ const CalificacionesVeterinario: React.FC = () => {
         }
 
         const response = await axios.get(
-          `https://backendtpdswproduction7bb3.up.railway.app/api/veterinario/${decoded.id}/calificaciones`
+          `https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${decoded.id}/calificaciones`
         );
 
         setCalificaciones(response.data.calificaciones);

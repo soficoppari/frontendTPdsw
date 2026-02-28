@@ -28,7 +28,7 @@ useEffect(() => {
         return;
       }
 
-      const response = await axios.get(`https://backendtpdswproduction7bb3.up.railway.app/api/veterinario/${veterinarioId}`);
+      const response = await axios.get(`https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${veterinarioId}`);
       const horariosBackend = response.data.data.horariosDisponibles; // <-- aquí según tu backend
       console.log('Horarios cargados del backend:', horariosBackend); // log aquí
 
@@ -55,7 +55,7 @@ useEffect(() => {
 
   try {
     const response = await axios.get(
-      `https://backendtpdswproduction7bb3.up.railway.app/api/veterinario/${veterinarioId}/horarios-disponibles?fecha=${fecha}`
+      `https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${veterinarioId}/horarios-disponibles?fecha=${fecha}`
     );
     console.log('Respuesta cruda del backend:', response.data.horariosDisponibles);
     const disponibles = response.data.horariosDisponibles.map((h: HorarioDisponible) => ({
@@ -100,7 +100,7 @@ useEffect(() => {
       }
 
       await axios.post(
-        'https://backendtpdswproduction7bb3.up.railway.app/api/turno',
+        'https://backendtpdsw-production-c234.up.railway.app/api/turno',
         { mascotaId, veterinarioId, fecha: fechaSeleccionada, horarioId: horarioSeleccionado.id },
         { headers: { Authorization: `Bearer ${token}` } }
       );

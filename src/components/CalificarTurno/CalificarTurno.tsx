@@ -35,7 +35,7 @@ const CalificarTurno: React.FC = () => {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(
-          `https://backendtpdswproduction7bb3.up.railway.app/api/turno/${turnoId}`,
+          `https://backendtpdsw-production-c234.up.railway.app/api/turno/${turnoId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setTurno(response.data.data);
@@ -70,7 +70,7 @@ const CalificarTurno: React.FC = () => {
 
     try {
       await axios.post(
-        'https://backendtpdswproduction7bb3.up.railway.app/api/calificacion',
+        'https://backendtpdsw-production-c234.up.railway.app/api/calificacion',
         {
           veterinarioId: turno.veterinario.id,
           usuarioId,

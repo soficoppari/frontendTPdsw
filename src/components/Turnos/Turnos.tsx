@@ -88,7 +88,7 @@ const Turnos: React.FC = () => {
     }
 
     try {
-      const response = await axios.get('https://backendtpdswproduction7bb3.up.railway.app/api/turno', {
+      const response = await axios.get('https://backendtpdsw-production-c234.up.railway.app/api/turno', {
         headers: { Authorization: `Bearer ${token}` },
         params: { usuarioId: usuarioId },
       });
@@ -112,7 +112,7 @@ const Turnos: React.FC = () => {
   const deleteTurno = async (turnoId: number) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`https://backendtpdswproduction7bb3.up.railway.app/api/turno/${turnoId}`, {
+      await axios.delete(`https://backendtpdsw-production-c234.up.railway.app/api/turno/${turnoId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await fetchTurnos();
