@@ -117,8 +117,10 @@ const Turnos: React.FC = () => {
       });
       await fetchTurnos();
       addToast('Turno cancelado correctamente', 'success');
-    } catch (err) {
-      addToast('No se pudo cancelar el turno. Intentá de nuevo.', 'error');
+    } catch (err: any) {
+      const errorMsg =
+        err.response?.data?.message || 'No se pudo cancelar el turno. Intentá de nuevo.';
+      addToast(errorMsg, 'error');
     }
   };
 
@@ -135,8 +137,10 @@ const Turnos: React.FC = () => {
     now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()
   );
 
+  // Mostramos todos los turnos agendados en la sección "Próximos", 
+  // incluso si ya pasaron (hasta que pasen a la sección de completados)
   const turnosProximos = turnos.filter(
-    (t) => t.estado === 'AGENDADO' && Date.parse(t.fechaHora) >= nowUTC
+    (t) => t.estado === 'AGENDADO'
   );
   const turnosCompletados = turnos.filter((t) => t.estado === 'COMPLETADO');
 
@@ -163,32 +167,40 @@ const Turnos: React.FC = () => {
               <>{[1, 2].map((i) => <SkeletonCard key={i} />)}</>
             ) : turnosProximos.length > 0 ? (
               <div className={styles.cards}>
-                {turnosProximos.map((turno) => (
-                  <div key={turno.id} className={styles.card}>
-                    <div className={styles.cardTopRow}>
-                      <div className={styles.cardDate}>
-                        📅 {formatFechaHoraBonitaUTC(turno.fechaHora)}
+                {turnosProximos.map((turno) => {
+                  const diffMs = Date.parse(turno.fechaHora) - nowUTC;
+                  const diffHoras = diffMs / (1000 * 60 * 60);
+                  const noSePuedeCancelar = diffHoras < 5;
+
+                  return (
+                    <div key={turno.id} className={styles.card}>
+                      <div className={styles.cardTopRow}>
+                        <div className={styles.cardDate}>
+                          📅 {formatFechaHoraBonitaUTC(turno.fechaHora)}
+                        </div>
+                        <span className={styles.idBadge}>#{turno.id}</span>
                       </div>
-                      <span className={styles.idBadge}>#{turno.id}</span>
+                      <div className={styles.cardRow}>
+                        <span className={styles.cardLabel}>Mascota</span>
+                        <span className={styles.cardValue}>🐾 {turno.mascota.nombre}</span>
+                      </div>
+                      <div className={styles.cardRow}>
+                        <span className={styles.cardLabel}>Veterinario</span>
+                        <span className={styles.cardValue}>
+                          Dr. {turno.veterinario.nombre} {turno.veterinario.apellido}
+                        </span>
+                      </div>
+                      <button
+                        className={styles.cancelarBtn}
+                        onClick={() => setTurnoAEliminar(turno.id)}
+                        disabled={noSePuedeCancelar}
+                        title={noSePuedeCancelar ? "No se puede cancelar con menos de 5 horas de anticipación" : ""}
+                      >
+                        Cancelar turno
+                      </button>
                     </div>
-                    <div className={styles.cardRow}>
-                      <span className={styles.cardLabel}>Mascota</span>
-                      <span className={styles.cardValue}>🐾 {turno.mascota.nombre}</span>
-                    </div>
-                    <div className={styles.cardRow}>
-                      <span className={styles.cardLabel}>Veterinario</span>
-                      <span className={styles.cardValue}>
-                        Dr. {turno.veterinario.nombre} {turno.veterinario.apellido}
-                      </span>
-                    </div>
-                    <button
-                      className={styles.cancelarBtn}
-                      onClick={() => setTurnoAEliminar(turno.id)}
-                    >
-                      Cancelar turno
-                    </button>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <div className={styles.emptyState}>

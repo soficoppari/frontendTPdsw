@@ -183,10 +183,18 @@
   margin-top: 0.2rem;
 }
 
-.cancelarBtn:hover {
+.cancelarBtn:hover:not(:disabled) {
   background: rgba(217, 83, 79, 0.3);
   border-color: rgba(217, 83, 79, 0.5);
   transform: none;
+}
+
+.cancelarBtn:disabled {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.1);
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .calificarBtn {
