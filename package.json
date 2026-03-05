@@ -10,14 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/react-datepicker": "^7.0.0",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-color": "^2.19.3",
+    "react-datepicker": "^9.1.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^6.27.0"
@@ -36,5 +39,6 @@
     "eslint-plugin-react-refresh": "^0.4.6",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
-  }
+  },
+  "packageManager": "pnpm@9.0.0+sha256.bdfc9a7b372b5c462176993e586492603e20da5864d2f8881edc2462482c76fa"
 }

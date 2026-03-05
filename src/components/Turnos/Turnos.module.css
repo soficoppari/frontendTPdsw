@@ -197,6 +197,25 @@
   opacity: 0.6;
 }
 
+.pagarBtn {
+  width: 100%;
+  padding: 0.55rem;
+  background: rgba(34, 197, 94, 0.15);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: background 0.2s, border-color 0.2s;
+  margin-top: 0.2rem;
+}
+
+.pagarBtn:hover:not(:disabled) {
+  background: rgba(34, 197, 94, 0.3);
+  border-color: rgba(34, 197, 94, 0.5);
+}
+
 .calificarBtn {
   padding: 0.4rem 0.85rem;
   background: rgba(251, 191, 36, 0.15);
@@ -388,4 +407,81 @@
 .modalVolver:hover {
   background: rgba(255, 255, 255, 0.12);
   transform: none;
+}
+/* Políticas Modal */
+.modalList {
+  text-align: left;
+  margin: 1.5rem 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.modalListItem {
+  font-size: 0.95rem;
+  color: #dcedff;
+  display: flex;
+  gap: 0.85rem;
+  line-height: 1.5;
+  align-items: flex-start;
+}
+
+.itemNumber {
+  background: rgba(127, 220, 255, 0.2);
+  color: #7fdcff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(127, 220, 255, 0.3);
+}
+
+.modalAceptar {
+  background: linear-gradient(135deg, #4c87af, #297fb8);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modalAceptar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 135, 175, 0.4);
+  filter: brightness(1.1);
+}
+
+.modalAceptar:active {
+  transform: translateY(0);
+}
+
+.pagadoBtn {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  margin-top: 0.75rem;
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }

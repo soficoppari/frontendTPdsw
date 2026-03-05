@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import DatePicker, { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { es } from 'date-fns/locale';
 import styles from './AgendarTurno.module.css';
+
+registerLocale('es', es);
 
 type HorarioDisponible = {
   id: number;
@@ -13,67 +18,79 @@ type HorarioDisponible = {
 
 const AddTurno: React.FC = () => {
   const [horariosDelDia, setHorariosDelDia] = useState<HorarioDisponible[]>([]);
-  const [fechaSeleccionada, setFechaSeleccionada] = useState<string>('');
+  const [fechaSeleccionada, setFechaSeleccionada] = useState<Date | null>(null);
+  const [workingDays, setWorkingDays] = useState<number[]>([]);
   const [horarioSeleccionado, setHorarioSeleccionado] = useState<HorarioDisponible | null>(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
-useEffect(() => {
-  const fetchHorarios = async () => {
-    try {
-      const veterinarioId = localStorage.getItem('veterinarioId');
-      if (!veterinarioId) {
-        setError('No se encontró un veterinario seleccionado.');
-        return;
+  useEffect(() => {
+    const fetchHorarios = async () => {
+      try {
+        const veterinarioId = localStorage.getItem('veterinarioId');
+        if (!veterinarioId) {
+          setError('No se encontró un veterinario seleccionado.');
+          return;
+        }
+
+        const response = await axios.get(`http://localhost:3000/api/veterinario/${veterinarioId}`);
+        const horariosBackend = response.data.data.horariosDisponibles;
+
+        // Extraemos los días de la semana en los que el veterinario tiene horarios cargados
+        const diasQueAtiende = Array.from(new Set(horariosBackend.map((h: any) => h.diaSemana))) as number[];
+        setWorkingDays(diasQueAtiende);
+
+        console.log('Días que atiende el veterinario (0=Dom, 1=Lun...):', diasQueAtiende);
+
+      } catch (err) {
+        setError('Error al cargar la información del veterinario.');
       }
+    };
 
-      const response = await axios.get(`https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${veterinarioId}`);
-      const horariosBackend = response.data.data.horariosDisponibles; // <-- aquí según tu backend
-      console.log('Horarios cargados del backend:', horariosBackend); // log aquí
+    fetchHorarios();
+  }, []);
 
-    } catch (err) {
-      setError('Error al cargar los horarios del veterinario.');
+  const handleDateChange = async (date: Date | null) => {
+    setFechaSeleccionada(date);
+    setHorarioSeleccionado(null);
+    setHorariosDelDia([]);
+
+    if (!date) return;
+
+    const veterinarioId = localStorage.getItem('veterinarioId');
+    if (!veterinarioId) {
+      setError('No se encontró un veterinario seleccionado.');
+      return;
+    }
+
+    try {
+      // Ajustamos la fecha para que no tenga problemas de zona horaria al enviarla al backend
+      const yyyy = date.getFullYear();
+      const mm = String(date.getMonth() + 1).padStart(2, '0');
+      const dd = String(date.getDate()).padStart(2, '0');
+      const fechaFormateada = `${yyyy}-${mm}-${dd}`;
+
+      const response = await axios.get(
+        `http://localhost:3000/api/veterinario/${veterinarioId}/horarios-disponibles?fecha=${fechaFormateada}`
+      );
+
+      const disponibles = response.data.horariosDisponibles.map((h: HorarioDisponible) => ({
+        id: h.id,
+        inicio: h.inicio,
+        fin: h.fin,
+        diaSemana: h.diaSemana,
+      }));
+
+      setHorariosDelDia(disponibles);
+
+      if (disponibles.length === 0) setError('No hay horarios disponibles para esta fecha.');
+      else setError('');
+    } catch {
+      setError('Error al consultar horarios disponibles.');
+      setHorariosDelDia([]);
     }
   };
-
-  fetchHorarios();
-}, []);
-
-  const handleDateChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  const fecha = e.target.value;
-  setFechaSeleccionada(fecha);
-  setHorarioSeleccionado(null);
-
-  if (!fecha) return;
-
-  const veterinarioId = localStorage.getItem('veterinarioId');
-  if (!veterinarioId) {
-    setError('No se encontró un veterinario seleccionado.');
-    return;
-  }
-
-  try {
-    const response = await axios.get(
-      `https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${veterinarioId}/horarios-disponibles?fecha=${fecha}`
-    );
-    console.log('Respuesta cruda del backend:', response.data.horariosDisponibles);
-    const disponibles = response.data.horariosDisponibles.map((h: HorarioDisponible) => ({
-      id: h.id,
-      inicio: h.inicio,
-      fin: h.fin,
-      diaSemana: h.diaSemana,
-    }));
-    console.log('Horarios mapeados para el frontend:', disponibles);
-    setHorariosDelDia(disponibles);
-
-    if (disponibles.length === 0) setError('No hay horarios disponibles para esta fecha.');
-    else setError('');
-  } catch {
-    setError('Error al consultar horarios disponibles.');
-    setHorariosDelDia([]);
-  }
-};
 
   const handleHorarioChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const id = Number(e.target.value);
@@ -99,9 +116,14 @@ useEffect(() => {
         return;
       }
 
+      const yyyy = fechaSeleccionada.getFullYear();
+      const mm = String(fechaSeleccionada.getMonth() + 1).padStart(2, '0');
+      const dd = String(fechaSeleccionada.getDate()).padStart(2, '0');
+      const fechaFormateada = `${yyyy}-${mm}-${dd}`;
+
       await axios.post(
-        'https://backendtpdsw-production-c234.up.railway.app/api/turno',
-        { mascotaId, veterinarioId, fecha: fechaSeleccionada, horarioId: horarioSeleccionado.id },
+        'http://localhost:3000/api/turno',
+        { mascotaId, veterinarioId, fecha: fechaFormateada, horarioId: horarioSeleccionado.id },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -116,12 +138,6 @@ useEffect(() => {
     }
   };
 
-  // Calcula la fecha de mañana en formato YYYY-MM-DD
-  const getTomorrow = () => {
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    return tomorrow.toISOString().split('T')[0];
-  };
 
   return (
     <div className={styles.container}>
@@ -132,13 +148,17 @@ useEffect(() => {
       <form className={styles.form} onSubmit={handleAddTurno}>
         <div className={styles.formGroup}>
           <label className={styles.label}>Seleccione una fecha:</label>
-          <input
-            type="date"
-            className={styles.input}
-            value={fechaSeleccionada}
+          <DatePicker
+            selected={fechaSeleccionada}
             onChange={handleDateChange}
+            dateFormat="dd/MM/yyyy"
+            minDate={new Date(new Date().setDate(new Date().getDate() + 1))} // Mañana
+            filterDate={(date) => workingDays.includes(date.getDay())}
+            placeholderText="Haga click para elegir fecha"
+            className={styles.input}
+            locale="es"
             required
-            min={getTomorrow()} // <-- Solo permite fechas posteriores a hoy
+            autoComplete="off"
           />
         </div>
 

@@ -42,9 +42,10 @@ type Turno = {
   id: number;
   estado: 'AGENDADO' | 'COMPLETADO' | string;
   fechaHora: string;
-  mascota: Mascota;
+  mascota: Mascota & { raza: { especie: { nombre: string } } };
   veterinario: Veterinario;
   calificacion?: Calificacion | null;
+  pagado?: boolean;
 };
 
 const formatFechaHoraBonitaUTC = (fechaHora: string) => {
@@ -76,6 +77,7 @@ const Turnos: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toasts, addToast, removeToast } = useToast();
+  const [showPoliticas, setShowPoliticas] = useState(true);
 
   const fetchTurnos = async () => {
     const token = localStorage.getItem('token');
@@ -88,7 +90,7 @@ const Turnos: React.FC = () => {
     }
 
     try {
-      const response = await axios.get('https://backendtpdsw-production-c234.up.railway.app/api/turno', {
+      const response = await axios.get('http://localhost:3000/api/turno', {
         headers: { Authorization: `Bearer ${token}` },
         params: { usuarioId: usuarioId },
       });
@@ -106,13 +108,35 @@ const Turnos: React.FC = () => {
   };
 
   useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const success = query.get('success');
+    const turnoId = query.get('turnoId');
+
+    if (success && turnoId) {
+      const token = localStorage.getItem('token');
+      axios
+        .post(
+          'http://localhost:3000/api/payment/confirm-payment',
+          { turnoId },
+          { headers: { Authorization: `Bearer ${token}` } }
+        )
+        .then(() => {
+          addToast('Pago realizado con éxito', 'success');
+          // Limpiar la URL sin recargar
+          navigate('/Turnos', { replace: true });
+        })
+        .catch(() => {
+          addToast('Error al confirmar el pago', 'error');
+        });
+    }
+
     fetchTurnos();
   }, [location]);
 
   const deleteTurno = async (turnoId: number) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`https://backendtpdsw-production-c234.up.railway.app/api/turno/${turnoId}`, {
+      await axios.delete(`http://localhost:3000/api/turno/${turnoId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await fetchTurnos();
@@ -121,6 +145,21 @@ const Turnos: React.FC = () => {
       const errorMsg =
         err.response?.data?.message || 'No se pudo cancelar el turno. Intentá de nuevo.';
       addToast(errorMsg, 'error');
+    }
+  };
+
+  const payTurno = async (turnoId: number) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await axios.post('http://localhost:3000/api/payment/create-checkout-session',
+        { turnoId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      if (response.data.url) {
+        window.location.href = response.data.url;
+      }
+    } catch (err: any) {
+      addToast('Error al procesar el pago', 'error');
     }
   };
 
@@ -190,6 +229,18 @@ const Turnos: React.FC = () => {
                           Dr. {turno.veterinario.nombre} {turno.veterinario.apellido}
                         </span>
                       </div>
+                      {turno.pagado ? (
+                        <button className={styles.pagadoBtn} disabled>
+                          ✅ Turno pagado
+                        </button>
+                      ) : (
+                        <button
+                          className={styles.pagarBtn}
+                          onClick={() => payTurno(turno.id)}
+                        >
+                          💳 Pagar turno
+                        </button>
+                      )}
                       <button
                         className={styles.cancelarBtn}
                         onClick={() => setTurnoAEliminar(turno.id)}
@@ -287,6 +338,33 @@ const Turnos: React.FC = () => {
                   Volver
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+        {/* Modal de políticas de Vetify */}
+        {showPoliticas && (
+          <div className={styles.modalOverlay}>
+            <div className={styles.modalBox}>
+              <div className={styles.modalIcon}>📜</div>
+              <h2 className={styles.modalTexto}>Políticas de Vetify</h2>
+
+              <ul className={styles.modalList}>
+                <li className={styles.modalListItem}>
+                  <span className={styles.itemNumber}>1</span>
+                  Los turnos se pueden cancelar hasta 5 horas antes de la cita.
+                </li>
+                <li className={styles.modalListItem}>
+                  <span className={styles.itemNumber}>2</span>
+                  Si el pago del turno no se realiza antes de las 5 horas previas al turno, el mismo se cancelará automáticamente.
+                </li>
+              </ul>
+
+              <button
+                className={styles.modalAceptar}
+                onClick={() => setShowPoliticas(false)}
+              >
+                Entendido
+              </button>
             </div>
           </div>
         )}
