@@ -34,7 +34,7 @@ const AddTurno: React.FC = () => {
           return;
         }
 
-        const response = await axios.get(`http://localhost:3000/api/veterinario/${veterinarioId}`);
+        const response = await axios.get(`https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${veterinarioId}`);
         const horariosBackend = response.data.data.horariosDisponibles;
 
         // Extraemos los días de la semana en los que el veterinario tiene horarios cargados
@@ -72,7 +72,7 @@ const AddTurno: React.FC = () => {
       const fechaFormateada = `${yyyy}-${mm}-${dd}`;
 
       const response = await axios.get(
-        `http://localhost:3000/api/veterinario/${veterinarioId}/horarios-disponibles?fecha=${fechaFormateada}`
+        `https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${veterinarioId}/horarios-disponibles?fecha=${fechaFormateada}`
       );
 
       const disponibles = response.data.horariosDisponibles.map((h: HorarioDisponible) => ({
@@ -122,7 +122,7 @@ const AddTurno: React.FC = () => {
       const fechaFormateada = `${yyyy}-${mm}-${dd}`;
 
       await axios.post(
-        'http://localhost:3000/api/turno',
+        'https://backendtpdsw-production-c234.up.railway.app/api/turno',
         { mascotaId, veterinarioId, fecha: fechaFormateada, horarioId: horarioSeleccionado.id },
         { headers: { Authorization: `Bearer ${token}` } }
       );

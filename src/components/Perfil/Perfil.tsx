@@ -41,7 +41,7 @@ const Perfil: React.FC = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/usuario/${userId}`
+          `https://backendtpdsw-production-c234.up.railway.app/api/usuario/${userId}`
         );
         setUsuario(response.data.data); // Ajusta según la estructura de tu respuesta
       } catch (err) {

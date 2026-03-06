@@ -90,7 +90,7 @@ const Turnos: React.FC = () => {
     }
 
     try {
-      const response = await axios.get('http://localhost:3000/api/turno', {
+      const response = await axios.get('https://backendtpdsw-production-c234.up.railway.app/api/turno', {
         headers: { Authorization: `Bearer ${token}` },
         params: { usuarioId: usuarioId },
       });
@@ -116,7 +116,7 @@ const Turnos: React.FC = () => {
       const token = localStorage.getItem('token');
       axios
         .post(
-          'http://localhost:3000/api/payment/confirm-payment',
+          'https://backendtpdsw-production-c234.up.railway.app/api/payment/confirm-payment',
           { turnoId },
           { headers: { Authorization: `Bearer ${token}` } }
         )
@@ -136,7 +136,7 @@ const Turnos: React.FC = () => {
   const deleteTurno = async (turnoId: number) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`http://localhost:3000/api/turno/${turnoId}`, {
+      await axios.delete(`https://backendtpdsw-production-c234.up.railway.app/api/turno/${turnoId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await fetchTurnos();
@@ -151,7 +151,7 @@ const Turnos: React.FC = () => {
   const payTurno = async (turnoId: number) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.post('http://localhost:3000/api/payment/create-checkout-session',
+      const response = await axios.post('https://backendtpdsw-production-c234.up.railway.app/api/payment/create-checkout-session',
         { turnoId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
