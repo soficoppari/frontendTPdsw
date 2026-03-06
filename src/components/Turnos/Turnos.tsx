@@ -108,30 +108,44 @@ const Turnos: React.FC = () => {
   };
 
   useEffect(() => {
+    let isMounted = true;
     const query = new URLSearchParams(location.search);
     const success = query.get('success');
     const turnoId = query.get('turnoId');
 
-    if (success && turnoId) {
-      const token = localStorage.getItem('token');
-      axios
-        .post(
-          'https://backendtpdsw-production-c234.up.railway.app/api/payment/confirm-payment',
-          { turnoId },
-          { headers: { Authorization: `Bearer ${token}` } }
-        )
-        .then(() => {
-          addToast('Pago realizado con éxito', 'success');
-          // Limpiar la URL sin recargar
-          navigate('/Turnos', { replace: true });
-        })
-        .catch(() => {
-          addToast('Error al confirmar el pago', 'error');
-        });
-    }
+    const initialize = async () => {
+      if (success && turnoId) {
+        const token = localStorage.getItem('token');
+        try {
+          await axios.post(
+            'https://backendtpdsw-production-c234.up.railway.app/api/payment/confirm-payment',
+            { turnoId },
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+          if (isMounted) {
+            addToast('Pago realizado con éxito', 'success');
+            // Al navegar sin query params, este mismo useEffect se volverá a ejecutar
+            // pero entrará por el "else" (solo fetchTurnos).
+            navigate('/Turnos', { replace: true });
+            return;
+          }
+        } catch (err) {
+          if (isMounted) addToast('Error al confirmar el pago', 'error');
+        }
+      }
 
-    fetchTurnos();
-  }, [location]);
+      // Si no hay pago pendiente o ya terminamos la navegación:
+      if (isMounted) {
+        fetchTurnos();
+      }
+    };
+
+    initialize();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [location.search, navigate]); // Solo dependemos de search para reaccionas al success
 
   const deleteTurno = async (turnoId: number) => {
     const token = localStorage.getItem('token');
@@ -178,10 +192,13 @@ const Turnos: React.FC = () => {
 
   // Mostramos todos los turnos agendados en la sección "Próximos", 
   // incluso si ya pasaron (hasta que pasen a la sección de completados)
-  const turnosProximos = turnos.filter(
-    (t) => t.estado === 'AGENDADO'
-  );
-  const turnosCompletados = turnos.filter((t) => t.estado === 'COMPLETADO');
+  const turnosProximos = [...turnos]
+    .filter((t) => t.estado === 'AGENDADO')
+    .sort((a, b) => (a.fechaHora || '').localeCompare(b.fechaHora || ''));
+
+  const turnosCompletados = [...turnos]
+    .filter((t) => t.estado === 'COMPLETADO')
+    .sort((a, b) => (b.fechaHora || '').localeCompare(a.fechaHora || ''));
 
   return (
     <>

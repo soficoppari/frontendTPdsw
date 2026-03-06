@@ -101,9 +101,7 @@ const TurnosVeterinario: React.FC = () => {
               turno.estado === 'AGENDADO' &&
               Date.parse(turno.fechaHora) >= nowUTC
           )
-          .sort(
-            (a: Turno, b: Turno) => Date.parse(a.fechaHora) - Date.parse(b.fechaHora)
-          );
+          .sort((a: Turno, b: Turno) => (a.fechaHora || '').localeCompare(b.fechaHora || ''));
 
         // Atendidos: COMPLETADO, O AGENDADO con fecha pasada (ya ocurrió pero sin marcar)
         const atendidos = turnos
@@ -112,9 +110,7 @@ const TurnosVeterinario: React.FC = () => {
               turno.estado === 'COMPLETADO' ||
               (turno.estado === 'AGENDADO' && Date.parse(turno.fechaHora) < nowUTC)
           )
-          .sort(
-            (a: Turno, b: Turno) => Date.parse(b.fechaHora) - Date.parse(a.fechaHora)
-          );
+          .sort((a: Turno, b: Turno) => (b.fechaHora || '').localeCompare(a.fechaHora || ''));
 
         setTurnosProximos(proximos);
         setTurnosAtendidos(atendidos);
