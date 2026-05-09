@@ -46,7 +46,8 @@ const PerfilVeterinario: React.FC = () => {
 
       try {
         const response = await axios.get(
-          `https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${decoded.id}`
+          `https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${decoded.id}`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         setVeterinario(response.data.data);
       } catch (err) {

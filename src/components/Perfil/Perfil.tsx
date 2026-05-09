@@ -41,7 +41,8 @@ const Perfil: React.FC = () => {
 
       try {
         const response = await axios.get(
-          `https://backendtpdsw-production-c234.up.railway.app/api/usuario/${userId}`
+          `https://backendtpdsw-production-c234.up.railway.app/api/usuario/${userId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         setUsuario(response.data.data); // Ajusta según la estructura de tu respuesta
       } catch (err) {
