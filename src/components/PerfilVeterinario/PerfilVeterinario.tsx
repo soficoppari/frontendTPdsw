@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import apiClient from '../../apiClient';
 import styles from './PerfilVeterinario.module.css';
 
 import { FaUserMd, FaIdCard, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
@@ -45,8 +45,8 @@ const PerfilVeterinario: React.FC = () => {
       }
 
       try {
-        const response = await axios.get(
-          `https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${decoded.id}`,
+        const response = await apiClient.get(
+          `/veterinario/${decoded.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setVeterinario(response.data.data);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import apiClient from '../../apiClient';
 import styles from './Mascotas.module.css';
 
 // Puedes usar emojis o importar íconos según la especie
@@ -50,7 +50,7 @@ const Mascotas: React.FC = () => {
     const fetchMascotas = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get('https://backendtpdsw-production-c234.up.railway.app/api/mascota', {
+        const response = await apiClient.get('/mascota', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setMascotas(response.data.data);

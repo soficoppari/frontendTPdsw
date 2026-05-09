@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import apiClient from '../../apiClient';
 import styles from './CompletarAtencion.module.css';
 
 const especieIcono = (especie: string) => {
@@ -36,8 +37,8 @@ const CompletarAtencion: React.FC = () => {
     const fetchTurnoInfo = async () => {
       try {
         const token = localStorage.getItem('token');
-        const { data } = await axios.get(
-          `https://backendtpdsw-production-c234.up.railway.app/api/turno/${turnoId}`,
+        const { data } = await apiClient.get(
+          `/turno/${turnoId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -64,8 +65,8 @@ const CompletarAtencion: React.FC = () => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.patch(
-        `https://backendtpdsw-production-c234.up.railway.app/api/turno/${turnoId}/completar`,
+      await apiClient.patch(
+        `/turno/${turnoId}/completar`,
         { observaciones },
         { headers: { Authorization: `Bearer ${token}` } }
       );

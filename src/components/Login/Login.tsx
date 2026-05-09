@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import apiClient from '../../apiClient';
 import styles from './Login.module.css';
 
 const Login: React.FC = () => {
@@ -18,7 +19,7 @@ const Login: React.FC = () => {
     setSuccess('');
 
     try {
-      const response = await axios.post('https://backendtpdsw-production-c234.up.railway.app/api/login/', {
+      const response = await apiClient.post('/login/', {
         email,
         contrasenia,
       });

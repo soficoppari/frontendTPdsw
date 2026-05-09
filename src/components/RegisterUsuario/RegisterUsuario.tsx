@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from '../../api';
 import styles from './RegisterUsuario.module.css';
 
 const RegisterUsuario: React.FC = () => {
@@ -45,7 +46,7 @@ const RegisterUsuario: React.FC = () => {
     }
 
     try {
-      const response = await fetch('https://backendtpdsw-production-c234.up.railway.app/api/usuario', {
+      const response = await fetch(`${API_URL}/usuario`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

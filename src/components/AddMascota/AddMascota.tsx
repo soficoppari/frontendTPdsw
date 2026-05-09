@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import apiClient from '../../apiClient';
 import styles from './AddMascota.module.css';
 
 const AddMascota: React.FC = () => {
@@ -19,7 +19,7 @@ const AddMascota: React.FC = () => {
   useEffect(() => {
     const fetchEspecies = async () => {
       try {
-        const response = await axios.get('https://backendtpdsw-production-c234.up.railway.app/api/especie'); // Cambia esta URL según tu API
+        const response = await apiClient.get('/especie');
         setEspecies(response.data.data);
       } catch (err) {
         setError('Error al cargar las especies');
@@ -37,9 +37,7 @@ const AddMascota: React.FC = () => {
         return;
       }
       try {
-        const response = await axios.get(
-          `https://backendtpdsw-production-c234.up.railway.app/api/raza/especie/${especieId}`
-        );
+        const response = await apiClient.get(`/raza/especie/${especieId}`);
 
         console.log('Razas obtenidas del servidor:', response.data.data);
         setRazas(response.data.data);
@@ -64,8 +62,8 @@ const AddMascota: React.FC = () => {
       }
 
       // Hacer la petición al backend para agregar la mascota
-      await axios.post(
-        'https://backendtpdsw-production-c234.up.railway.app/api/mascota',
+      await apiClient.post(
+        '/mascota',
         { nombre, fechaNacimiento, usuarioId, razaId }, // Aquí agregamos el razaId
         { headers: { Authorization: `Bearer ${token}` } }
       );

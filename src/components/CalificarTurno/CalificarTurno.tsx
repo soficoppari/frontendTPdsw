@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../../apiClient';
 import styles from './CalificarTurno.module.css';
 import Toast, { useToast } from '../Toast/Toast';
 
@@ -34,8 +34,8 @@ const CalificarTurno: React.FC = () => {
     const fetchTurno = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(
-          `https://backendtpdsw-production-c234.up.railway.app/api/turno/${turnoId}`,
+        const response = await apiClient.get(
+          `/turno/${turnoId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setTurno(response.data.data);
@@ -69,8 +69,8 @@ const CalificarTurno: React.FC = () => {
     setError(null);
 
     try {
-      await axios.post(
-        'https://backendtpdsw-production-c234.up.railway.app/api/calificacion',
+      await apiClient.post(
+        '/calificacion',
         {
           veterinarioId: turno.veterinario.id,
           usuarioId,

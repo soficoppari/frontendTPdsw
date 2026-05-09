@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import apiClient from '../../apiClient';
 import styles from './CalificacionesVeterinario.module.css';
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import { FaUserCircle } from 'react-icons/fa';
@@ -61,8 +61,8 @@ const CalificacionesVeterinario: React.FC = () => {
           return;
         }
 
-        const response = await axios.get(
-          `https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${decoded.id}/calificaciones`
+        const response = await apiClient.get(
+          `/veterinario/${decoded.id}/calificaciones`
         );
 
         setCalificaciones(response.data.calificaciones);

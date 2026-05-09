@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../../apiClient';
 import styles from './TurnosVeterinario.module.css';
 
 
@@ -54,7 +54,7 @@ const TurnosVeterinario: React.FC = () => {
           return;
         }
 
-        const response = await axios.get('https://backendtpdsw-production-c234.up.railway.app/api/turno', {
+        const response = await apiClient.get('/turno', {
           headers: { Authorization: `Bearer ${token}` },
           params: { veterinarioId },
         });

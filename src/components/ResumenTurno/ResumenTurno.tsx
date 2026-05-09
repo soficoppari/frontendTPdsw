@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../../apiClient';
 import styles from './ResumenTurno.module.css';
 
 type Mascota = {
@@ -46,7 +46,7 @@ const ResumenTurno: React.FC = () => {
     const fetchTurno = async () => {
       const token = localStorage.getItem('token');
       try {
-        const response = await axios.get(`https://backendtpdsw-production-c234.up.railway.app/api/turno/${id}`, {
+        const response = await apiClient.get(`/turno/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         setTurno(response.data.data);

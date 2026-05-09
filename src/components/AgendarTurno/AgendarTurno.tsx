@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import DatePicker, { registerLocale } from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { es } from 'date-fns/locale';
+import apiClient from '../../apiClient';
 import styles from './AgendarTurno.module.css';
 
 registerLocale('es', es);
@@ -34,7 +35,7 @@ const AddTurno: React.FC = () => {
           return;
         }
 
-        const response = await axios.get(`https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${veterinarioId}`);
+        const response = await apiClient.get(`/veterinario/${veterinarioId}`);
         const horariosBackend = response.data.data.horariosDisponibles;
 
         // Extraemos los días de la semana en los que el veterinario tiene horarios cargados
@@ -71,8 +72,8 @@ const AddTurno: React.FC = () => {
       const dd = String(date.getDate()).padStart(2, '0');
       const fechaFormateada = `${yyyy}-${mm}-${dd}`;
 
-      const response = await axios.get(
-        `https://backendtpdsw-production-c234.up.railway.app/api/veterinario/${veterinarioId}/horarios-disponibles?fecha=${fechaFormateada}`
+      const response = await apiClient.get(
+        `/veterinario/${veterinarioId}/horarios-disponibles?fecha=${fechaFormateada}`
       );
 
       const disponibles = response.data.horariosDisponibles.map((h: HorarioDisponible) => ({
@@ -121,8 +122,8 @@ const AddTurno: React.FC = () => {
       const dd = String(fechaSeleccionada.getDate()).padStart(2, '0');
       const fechaFormateada = `${yyyy}-${mm}-${dd}`;
 
-      await axios.post(
-        'https://backendtpdsw-production-c234.up.railway.app/api/turno',
+      await apiClient.post(
+        '/turno',
         { mascotaId, veterinarioId, fecha: fechaFormateada, horarioId: horarioSeleccionado.id },
         { headers: { Authorization: `Bearer ${token}` } }
       );

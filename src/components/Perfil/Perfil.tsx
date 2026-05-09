@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
 import { FaUserCircle } from 'react-icons/fa';
+import apiClient from '../../apiClient';
 import styles from './Perfil.module.css';
 
 interface Usuario {
@@ -40,8 +40,8 @@ const Perfil: React.FC = () => {
       const userId = decoded.id;
 
       try {
-        const response = await axios.get(
-          `https://backendtpdsw-production-c234.up.railway.app/api/usuario/${userId}`,
+        const response = await apiClient.get(
+          `/usuario/${userId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setUsuario(response.data.data); // Ajusta según la estructura de tu respuesta

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
+import apiClient from '../../apiClient';
 import styles from './Turnos.module.css';
 import Toast, { useToast } from '../Toast/Toast';
 
@@ -90,7 +90,7 @@ const Turnos: React.FC = () => {
     }
 
     try {
-      const response = await axios.get('https://backendtpdsw-production-c234.up.railway.app/api/turno', {
+      const response = await apiClient.get('/turno', {
         headers: { Authorization: `Bearer ${token}` },
         params: { usuarioId: usuarioId },
       });
@@ -117,8 +117,8 @@ const Turnos: React.FC = () => {
       if (success && turnoId) {
         const token = localStorage.getItem('token');
         try {
-          await axios.post(
-            'https://backendtpdsw-production-c234.up.railway.app/api/payment/confirm-payment',
+          await apiClient.post(
+            '/payment/confirm-payment',
             { turnoId },
             { headers: { Authorization: `Bearer ${token}` } }
           );
@@ -150,7 +150,7 @@ const Turnos: React.FC = () => {
   const deleteTurno = async (turnoId: number) => {
     const token = localStorage.getItem('token');
     try {
-      await axios.delete(`https://backendtpdsw-production-c234.up.railway.app/api/turno/${turnoId}`, {
+      await apiClient.delete(`/turno/${turnoId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       await fetchTurnos();
@@ -165,7 +165,7 @@ const Turnos: React.FC = () => {
   const payTurno = async (turnoId: number) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.post('https://backendtpdsw-production-c234.up.railway.app/api/payment/create-checkout-session',
+      const response = await apiClient.post('/payment/create-checkout-session',
         { turnoId },
         { headers: { Authorization: `Bearer ${token}` } }
       );

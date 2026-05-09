@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import apiClient from '../../apiClient';
 import styles from './Veterinarios.module.css';
 
 type Horario = {
@@ -68,7 +68,7 @@ const VeterinariosList: React.FC = () => {
 
     const fetchVeterinarios = async () => {
       try {
-        const response = await axios.get('https://backendtpdsw-production-c234.up.railway.app/api/veterinario', {
+        const response = await apiClient.get('/veterinario', {
           params: { especie: especieMascotaId },
         });
 

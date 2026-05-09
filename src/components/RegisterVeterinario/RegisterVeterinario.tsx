@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_URL from '../../api';
 import styles from './RegisterVeterinario.module.css';
 
 interface Especie {
@@ -48,7 +49,7 @@ const RegisterVeterinario: React.FC = () => {
   useEffect(() => {
     const fetchEspecies = async () => {
       try {
-        const response = await fetch('https://backendtpdsw-production-c234.up.railway.app/api/especie');
+        const response = await fetch(`${API_URL}/especie`);
         const data = await response.json();
         if (Array.isArray(data.data)) {
           setEspecies(data.data);
@@ -72,7 +73,7 @@ const RegisterVeterinario: React.FC = () => {
 
     debounceRef.current = setTimeout(async () => {
       try {
-        const res = await fetch(`https://backendtpdsw-production-c234.up.railway.app/api/veterinario/check-matricula/${num}`);
+        const res = await fetch(`${API_URL}/veterinario/check-matricula/${num}`);
         const data = await res.json();
         if (data.disponible) {
           setMatriculaOk(true);
@@ -197,7 +198,7 @@ const RegisterVeterinario: React.FC = () => {
     }));
 
     try {
-      const response = await fetch('https://backendtpdsw-production-c234.up.railway.app/api/veterinario', {
+      const response = await fetch(`${API_URL}/veterinario`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
