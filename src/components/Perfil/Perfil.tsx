@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 import { FaUserCircle } from 'react-icons/fa';
 import apiClient from '../../apiClient';
+import { useAuth } from '../../context/AuthContext';
 import styles from './Perfil.module.css';
 
 interface Usuario {
@@ -19,6 +21,8 @@ interface DecodedToken {
 const Perfil: React.FC = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   useEffect(() => {
     const fetchUsuario = async () => {
@@ -29,29 +33,46 @@ const Perfil: React.FC = () => {
         return;
       }
 
-      // Decodificar el token para obtener el ID del usuario
-      const decoded = jwtDecode<DecodedToken>(token); // Usar jwtDecode
+      // Preferimos el id guardado en localStorage al loguearse;
+      // como fallback decodificamos el token.
+      let userId: number | null = null;
+      const storedId = localStorage.getItem('usuarioId');
+      if (storedId) {
+        userId = Number(storedId);
+      } else {
+        try {
+          const decoded = jwtDecode<DecodedToken>(token);
+          if (decoded?.id) userId = decoded.id;
+        } catch {
+          userId = null;
+        }
+      }
 
-      if (!decoded || !decoded.id) {
-        setError('Token no válido');
+      if (!userId) {
+        setError('No se pudo identificar al usuario. Iniciá sesión nuevamente.');
         return;
       }
 
-      const userId = decoded.id;
-
       try {
-        const response = await apiClient.get(
-          `/usuario/${userId}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
-        setUsuario(response.data.data); // Ajusta según la estructura de tu respuesta
-      } catch (err) {
-        setError('Error al cargar los datos del usuario');
+        const response = await apiClient.get(`/usuario/${userId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUsuario(response.data.data);
+      } catch (err: any) {
+        const status = err?.response?.status;
+        if (status === 401 || status === 403) {
+          // Token vencido o inválido: cerramos sesión y mandamos al login
+          logout();
+          navigate('/login');
+          return;
+        }
+        const backendMsg = err?.response?.data?.message;
+        setError(backendMsg || 'Error al cargar los datos del usuario');
       }
     };
 
     fetchUsuario();
-  }, []);
+  }, [logout, navigate]);
 
 
   if (error) {
