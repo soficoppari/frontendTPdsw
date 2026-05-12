@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
 
 import { FaUserCircle } from 'react-icons/fa';
 import apiClient from '../../apiClient';
@@ -14,12 +13,9 @@ interface Usuario {
   nroTelefono: number;
 }
 
-interface DecodedToken {
-  id: number; // Ajusta según sea necesario
-}
-
 const Perfil: React.FC = () => {
   const [usuario, setUsuario] = useState<Usuario | null>(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { logout } = useAuth();
@@ -29,51 +25,36 @@ const Perfil: React.FC = () => {
       const token = localStorage.getItem('token');
 
       if (!token) {
-        setError('No hay sesión activa');
-        return;
-      }
-
-      // Preferimos el id guardado en localStorage al loguearse;
-      // como fallback decodificamos el token.
-      let userId: number | null = null;
-      const storedId = localStorage.getItem('usuarioId');
-      if (storedId) {
-        userId = Number(storedId);
-      } else {
-        try {
-          const decoded = jwtDecode<DecodedToken>(token);
-          if (decoded?.id) userId = decoded.id;
-        } catch {
-          userId = null;
-        }
-      }
-
-      if (!userId) {
-        setError('No se pudo identificar al usuario. Iniciá sesión nuevamente.');
+        setError('No hay sesion activa');
+        setLoading(false);
         return;
       }
 
       try {
-        const response = await apiClient.get(`/usuario/${userId}`, {
+        const response = await apiClient.get('/usuario/me', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setUsuario(response.data.data);
       } catch (err: any) {
         const status = err?.response?.status;
         if (status === 401 || status === 403) {
-          // Token vencido o inválido: cerramos sesión y mandamos al login
           logout();
           navigate('/login');
           return;
         }
         const backendMsg = err?.response?.data?.message;
         setError(backendMsg || 'Error al cargar los datos del usuario');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUsuario();
   }, [logout, navigate]);
 
+  if (loading) {
+    return <div>Cargando perfil...</div>;
+  }
 
   if (error) {
     return <div>{error}</div>;
@@ -107,11 +88,10 @@ const Perfil: React.FC = () => {
       </div>
       <div className={styles.perfilInfo}>
         <p>
-          <span className={styles.perfilLabel}>Email:</span>{' '}
-          {usuario.email}
+          <span className={styles.perfilLabel}>Email:</span> {usuario.email}
         </p>
         <p>
-          <span className={styles.perfilLabel}>Número de Teléfono:</span>{' '}
+          <span className={styles.perfilLabel}>Numero de Telefono:</span>{' '}
           {usuario.nroTelefono}
         </p>
       </div>

@@ -46,6 +46,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('role');
+    localStorage.removeItem('email');
+    localStorage.removeItem('usuarioId');
+    localStorage.removeItem('veterinarioId');
     setIsLoggedIn(false);
     setRole(null);
   };
